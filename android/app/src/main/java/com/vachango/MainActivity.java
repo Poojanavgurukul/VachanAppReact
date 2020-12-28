@@ -1,4 +1,4 @@
-package com.bridgeconn.vachango;
+package com.bridgeconn.vachangotest;
 import android.os.Bundle;
 import android.content.Intent;
 import android.content.res.Configuration; // <--- 
@@ -47,7 +47,7 @@ public class MainActivity extends ReactActivity {
     }
     @Override
     protected String getMainComponentName() {
-        return "VachanGo";
+        return "VachanGoTest";
     }
     @Override
     protected ReactActivityDelegate createReactActivityDelegate() {

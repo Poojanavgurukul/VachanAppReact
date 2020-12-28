@@ -24,4 +24,4 @@ class RNRedux extends Component{
     }
 }
 
-AppRegistry.registerComponent('VachanGo', () => RNRedux ) ;
+AppRegistry.registerComponent('VachanGoTest', () => RNRedux ) ;
