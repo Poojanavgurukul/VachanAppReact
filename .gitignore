@@ -54,3 +54,4 @@ buck-out/
 
 
 *package-lock.json
+*securityVaraibles.js
