@@ -4,7 +4,7 @@ import firebase from 'react-native-firebase'
 import { userInfo } from '../../store/action'
 import { connect } from 'react-redux'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { GoogleSignin, GoogleSigninButton } from 'react-native-google-signin';
+//import { GoogleSignin, GoogleSigninButton } from 'react-native-google-signin';
 import { AccessToken, LoginManager, LoginButton } from 'react-native-fbsdk';
 import { styles } from './styles.js'
 import Color from '../../utils/colorConstants'
@@ -195,12 +195,14 @@ class Login extends Component {
               />
             </View>
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', marginVertical: 32 }}>
-              <GoogleSigninButton
-                style={{ width: 68, height: 68 }}
-                size={GoogleSigninButton.Size.Icon}
-                color={GoogleSigninButton.Color.Dark}
-                onPress={this._signInGoogle}
-              />
+              {/*
+		<GoogleSigninButton
+               		style={{ width: 68, height: 68 }}
+                	size={GoogleSigninButton.Size.Icon}
+                	color={GoogleSigninButton.Color.Dark}
+                	onPress={this._signInGoogle}
+              	/>
+		*/}
             </View>
             <Text
               style={this.styles.loginText}
