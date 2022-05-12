@@ -32,15 +32,15 @@ const Setting = (props) => {
   //     props.updateVerseInLine(!verseInLine);
   //   });
   // };
-  Setting.getDerivedStateFromProps = (nextProps) => {
-    return {
-      colorMode: nextProps.colorMode,
-      sizeMode: nextProps.sizeMode,
-      colorFile: nextProps.colorFile,
-      sizeFile: nextProps.sizeFile,
-      verseInLine: nextProps.verseInLine,
-    };
-  };
+  // Setting.getDerivedStateFromProps = (nextProps) => {
+  //   return {
+  //     colorMode: nextProps.colorMode,
+  //     sizeMode: nextProps.sizeMode,
+  //     colorFile: nextProps.colorFile,
+  //     sizeFile: nextProps.sizeFile,
+  //     verseInLine: nextProps.verseInLine,
+  //   };
+  // };
 
   return (
     <View style={style.container}>

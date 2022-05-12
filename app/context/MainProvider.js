@@ -71,15 +71,14 @@ const MainProvider = (props) => {
         bookListData.length == 0
           ? []
           : bookListData.sort(function (a, b) {
-              return a.bookNumber - b.bookNumber;
-            });
+            return a.bookNumber - b.bookNumber;
+          });
       setBookList(res);
     } catch (error) {
       setBookList([]);
       console.log("ERROR ", error);
     }
   };
-  console.log(bookList);
   useEffect(() => {
     getBookList();
   });
