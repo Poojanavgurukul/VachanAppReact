@@ -265,15 +265,15 @@ const DrawerCommentary = (props) => {
                   <Text>Copyright:</Text> {metadata?.revision}
                 </Text>
               )}
-              {metadata?.copyrightHolder !== null &&
-                metadata?.copyrightHolder !== "" && (
+              {metadata?.license !== null &&
+                metadata?.license !== "" && (
                   <Text textBreakStrategy={"simple"} style={style.metaDataText}>
-                    <Text>License:</Text> {metadata?.copyrightHolder}
+                    <Text>License:</Text> {metadata?.license}
                   </Text>
                 )}
-              {metadata?.license !== null && metadata?.license !== "" && (
+              {metadata?.copyrightHolder !== null && metadata?.copyrightHolder !== "" && (
                 <Text textBreakStrategy={"simple"} style={style.metaDataText}>
-                  <Text>Technology partner:</Text> {metadata?.license}
+                  <Text>Technology partner:</Text> {metadata?.copyrightHolder}
                 </Text>
               )}
             </View>

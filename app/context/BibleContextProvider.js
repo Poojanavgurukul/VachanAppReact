@@ -221,6 +221,18 @@ const BibleContextProvider = (props) => {
       if (res.length !== 0) {
         let data = res.filter((item) => {
           if (item.language.name == language.toLowerCase()) {
+            let obj = item.audioBibles[0].books
+            for (let key in obj) {
+              console.log(obj)
+              if (obj.hasOwnProperty(key)) {
+                var val = key;
+                return val
+              }
+            }
+          }
+          console.log(val)
+
+          if (item.language.name == language.toLowerCase()) {
             return item;
           }
         });
@@ -301,8 +313,8 @@ const BibleContextProvider = (props) => {
         bookListData.length == 0
           ? []
           : bookListData.sort(function (a, b) {
-              return a.bookNumber - b.bookNumber;
-            });
+            return a.bookNumber - b.bookNumber;
+          });
       setBookList(res);
     } catch (error) {
       console.log("ERROR ", error);
