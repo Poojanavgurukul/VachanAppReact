@@ -77,6 +77,8 @@ const BibleContextProvider = (props) => {
     setSelectedReferenceSet([]);
     setShowBottomBar(false);
     setShowColorGrid(false);
+    audioComponentUpdate()
+    console.log('after audio ref')
     if (item) {
       setCurrentVisibleChapter(item.chapterNumber);
       // updateBookChapterRef()
@@ -220,22 +222,17 @@ const BibleContextProvider = (props) => {
     try {
       if (res.length !== 0) {
         let data = res.filter((item) => {
-          if (item.language.name == language.toLowerCase()) {
-            let obj = item.audioBibles[0].books
-            for (let key in obj) {
-              console.log(obj)
-              if (obj.hasOwnProperty(key)) {
-                var val = key;
-                return val
+          if (item.language.name === language.toLowerCase()) {
+            const audioCheck = Object.keys(item.audioBibles[0].books).map((it) => {
+              if (bookId === it) {
+                return item
               }
-            }
-          }
-          console.log(val)
-
-          if (item.language.name == language.toLowerCase()) {
-            return item;
+            })
+            console.log(audioCheck, 'audio')
+            return audioCheck
           }
         });
+        console.log(data, 'data')
         if (data.length != 0) {
           props.APIAudioURL({
             audioURL: data[0].audioBibles[0].url,
@@ -321,12 +318,14 @@ const BibleContextProvider = (props) => {
     }
   };
 
+
   useEffect(() => {
     getBookList();
   }, []);
   useEffect(() => {
     getBookList();
     audioComponentUpdate();
+    console.log("useeffect audio")
   }, [language, sourceId, baseAPI]);
 
   return (

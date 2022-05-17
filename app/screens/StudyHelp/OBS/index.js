@@ -64,6 +64,7 @@ const OBS = (props) => {
       .catch((error) => {
       });
   };
+
   const mdFileFetch = async () => {
     fetch(Github_URL + langCode + "/content/" + bsIndex + ".md")
       .then((response) => response.text())
@@ -137,7 +138,7 @@ const OBS = (props) => {
             defaultValue={defaultLanguage}
             isFullWidth={true}
             dropdownStyle={style.dropdownSize}
-            dropdownTextStyle={{ fontSize: 18 }}
+            dropdownTextStyle={style.dropdownBox}
             textStyle={style.dropdownText}
           />
           <Icon
@@ -160,7 +161,7 @@ const OBS = (props) => {
             defaultValue={defaultStory}
             isFullWidth={true}
             dropdownStyle={style.dropdownSize}
-            dropdownTextStyle={{ fontSize: 18 }}
+            dropdownTextStyle={style.dropdownBox}
             textStyle={style.dropdownText}
           />
           <Icon

@@ -85,6 +85,7 @@ const Bible = (props) => {
     setAudio,
     setNextContent,
     // scrollToVerse,
+    audioComponentUpdate
   } = useContext(BibleContext);
   const prevChapter = useRef(currentVisibleChapter).current;
   const { bookList } = useContext(MainContext);
@@ -311,6 +312,8 @@ const Bible = (props) => {
       setSelectedReferenceSet([]);
       setShowBottomBar(false);
       setShowColorGrid(false);
+      audioComponentUpdate()
+      console.log('audio foucs')
       if (books.length == 0) {
         props.fetchVersionBooks({
           language: language,
@@ -356,6 +359,7 @@ const Bible = (props) => {
 
   useEffect(() => {
     getChapter(null, null);
+    audioComponentUpdate()
     // scrollToVerse();
     // console.log(" USEFFECT GET REF CHECk");
     if (books.length == 0) {

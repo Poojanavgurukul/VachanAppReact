@@ -1,4 +1,4 @@
-import { StyleSheet,Dimensions } from "react-native";
+import { StyleSheet, Dimensions } from "react-native";
 // const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
@@ -78,14 +78,15 @@ export const styles = (colorFile, sizeFile) => {
       alignItems: "center",
       height: "100%",
     },
-    dropdownView:{
+    dropdownView: {
       flexDirection: "row",
       alignItems: "flex-start",
       justifyContent: "space-between",
     },
-    dropdownPos:{
+    dropdownPos: {
       padding: 10,
       margin: 10,
+      width: "40%",
       borderRadius: 10,
       flexDirection: "row",
       justifyContent: "center",
@@ -93,15 +94,20 @@ export const styles = (colorFile, sizeFile) => {
       borderColor: colorFile.iconColor,
       borderWidth: 0.5,
     },
-    dropdownSize:{ width: "60%", height: height / 2 },
-    dropdownText:{
+    dropdownSize: { width: "60%", height: height / 2 },
+    dropdownText: {
       paddingHorizontal: 8,
       fontSize: 18,
       fontWeight: "400",
       color: colorFile.textColor,
     },
-    loaderPos:{ flex: 1, justifyContent: "center", alignSelf: "center" },
-    scrollView:{ paddingHorizontal: 12, height: "100%" }
-    
+    dropdownBox: {
+      fontSize: 16,
+      borderBottomWidth: 0.5,
+      borderColor: '#000'
+    },
+    loaderPos: { flex: 1, justifyContent: "center", alignSelf: "center" },
+    scrollView: { paddingHorizontal: 12, height: "100%" }
+
   });
 };
