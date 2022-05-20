@@ -28,6 +28,10 @@ const OBS = (props) => {
   let _dropdown_2 = createRef();
   const style = styles(props.colorFile, props.sizeFile);
 
+  let scrollRef = useRef().current
+  const scroll = () => {
+    scrollRef.scrollTo({ x: 0, y: 0, animated: true })
+  }
   const fetchGitData = async (url) => {
     const data = await fetch(Github_URL + url);
     const res = await data.json();
@@ -149,9 +153,9 @@ const OBS = (props) => {
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => {
-            _dropdown_2 && _dropdown_2.show();
+            _dropdown_2 && _dropdown_2.show() && scroll();
           }}
-          style={style.dropdownPos}
+          style={[style.dropdownPos, style.dropdownPos2]}
         >
           <ModalDropdown
             ref={(el) => (_dropdown_2 = el)}
@@ -175,6 +179,7 @@ const OBS = (props) => {
         <ScrollView
           // contentInsetAdjustmentBehavior="automatic"
           style={style.scrollView}
+          ref={scrollRef}
         // contentContainerStyle={{paddingTop:20}}
         >
           <Markdown style={style}>{obsData}</Markdown>

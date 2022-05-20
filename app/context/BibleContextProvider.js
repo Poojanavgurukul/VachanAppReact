@@ -228,11 +228,11 @@ const BibleContextProvider = (props) => {
                 return item
               }
             })
-            console.log(audioCheck, 'audio')
+            // console.log(audioCheck, 'audio')
             return audioCheck
           }
         });
-        console.log(data, 'data')
+        // console.log(data, 'data')
         if (data.length != 0) {
           props.APIAudioURL({
             audioURL: data[0].audioBibles[0].url,

@@ -84,7 +84,7 @@ export function getBookChaptersFromMapping(id) {
   var obj = id_name_map.id_name_map;
   for (var key in obj) {
     if (obj.hasOwnProperty(key)) {
-      var bookId = id.toUpperCase();
+      var bookId = id?.toUpperCase();
       if (key == bookId) {
         var val = obj[key];
         return val.total_chapters;

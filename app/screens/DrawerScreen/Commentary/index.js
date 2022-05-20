@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   FlatList,
   Alert,
@@ -46,10 +46,9 @@ const DrawerCommentary = (props) => {
   const [parallelMetaData, setParallelMetaData] = useState(
     props.parallelMetaData
   );
-  const [commentaryLanguage, setParallelLanguage] = useState(
+  const [parallelLanguage, setParallelLanguage] = useState(
     props.parallelLanguage
   );
-
   const [selectedBookIndex, setSelectedBookIndex] = useState(-1);
   const [selectedBook, setSelectedBook] = useState(props.bookName);
   let _dropdown_1;
@@ -76,8 +75,8 @@ const DrawerCommentary = (props) => {
       let dropDownLists = [];
       if (res) {
         for (let i = 0; i <= res.length - 1; i++) {
-          let languages = commentaryLanguage.languageName.toLowerCase();
-          if (res[i].language.name === languages) {
+          let parallelLanguages = parallelLanguage.languageName.toLowerCase();
+          if (res[i].language.name === parallelLanguages) {
             let bookLists = res[i].bookNames.sort(function (a, b) {
               return a.book_id - b.book_id;
             });
@@ -98,6 +97,7 @@ const DrawerCommentary = (props) => {
             }
           }
         }
+        console.log(bookNameLists, dropDownLists, "update");
         setBookNameList(bookNameLists);
         setDropDownList(dropDownLists);
       } else {
@@ -107,28 +107,26 @@ const DrawerCommentary = (props) => {
   };
 
   const onSelectBook = (index, val) => {
-    if (bookNameList.length > 0) {
-      let bookId = null;
-      bookNameList.forEach((item) => {
-        if (item.bookName == val) {
-          bookId = item.bookId;
-        }
-      });
-      setBookId(bookId);
-      setTotalChapters(
-        Array.from(new Array(getBookChaptersFromMapping(bookId)), (x, i) =>
-          (i + 1).toString()
-        )
-      );
-      let selectedNumber =
-        totalChapters.length < chapterNumber ? "1" : chapterNumber;
-      _dropdown_2.select(parseInt(selectedNumber) - 1);
-      setChapterNumber(selectedNumber);
-      setSelectedBookIndex(index);
-      setSelectedBook(val);
-      setBookName(val);
-      commentaryUpdate();
-    }
+    let bookId = null;
+    bookNameList.forEach((item) => {
+      if (item.bookName == val) {
+        bookId = item.bookId;
+      }
+    });
+    setBookId(bookId);
+    setTotalChapters(
+      Array.from(new Array(getBookChaptersFromMapping(bookId)), (x, i) =>
+        (i + 1).toString()
+      )
+    );
+    let selectedNumber =
+      totalChapters.length < chapterNumber ? "1" : chapterNumber;
+    _dropdown_2.select(parseInt(selectedNumber) - 1);
+    setChapterNumber(selectedNumber);
+    setSelectedBookIndex(index);
+    setSelectedBook(val);
+    setBookName(val);
+    commentaryUpdate();
   };
   const onSelectChapter = (index, value) => {
     setChapterNumber(parseInt(value));
@@ -137,7 +135,7 @@ const DrawerCommentary = (props) => {
   const commentaryUpdate = () => {
     let url =
       "commentaries/" +
-      commentaryLanguage.sourceId +
+      parallelLanguage.sourceId +
       "/" +
       bookId +
       "/" +
@@ -164,15 +162,10 @@ const DrawerCommentary = (props) => {
         versionCode: commentary.versionModels[0].versionCode,
         sourceId: commentary.versionModels[0].sourceId,
       });
-
       commentaryUpdate();
       props.selectContent({
-        parallelLanguage: {
-          languageName: commentary.languageName,
-          versionCode: commentary.versionModels[0].versionCode,
-          sourceId: commentary.versionModels[0].sourceId,
-        },
-        parallelMetaData: commentary.versionModels[0].metaData[0],
+        parallelLanguage: parallelLanguage,
+        parallelMetaData: parallelMetaData,
       });
     } else {
       setParallelMetaData(constants.defaultCommentaryMd);
@@ -201,7 +194,7 @@ const DrawerCommentary = (props) => {
           ],
           { cancelable: false }
         );
-        if (commentaryLanguage) {
+        if (props.parallelLanguage) {
           commentaryUpdate();
         }
       } else {
@@ -258,7 +251,7 @@ const DrawerCommentary = (props) => {
       <View style={{ paddingVertical: 20 }}>
         {props.commentaryContent &&
           props.commentaryContent.commentaries &&
-          metadata && (
+          props.parallelMetaData && (
             <View style={style.centerContainer}>
               {metadata?.revision !== null && metadata?.revision !== "" && (
                 <Text textBreakStrategy={"simple"} style={style.metaDataText}>
@@ -298,7 +291,7 @@ const DrawerCommentary = (props) => {
             navigation={props.navigation}
             navStyles={navStyles}
             iconName={"arrow-drop-down"}
-            title={commentaryLanguage.languageName}
+            title={parallelLanguage.languageName}
             displayContent="commentary"
           />
         </View>
@@ -308,7 +301,6 @@ const DrawerCommentary = (props) => {
   useEffect(() => {
     setParallelLanguage(props.parallelLanguage);
     setParallelMetaData(props.parallelMetaData);
-    commentaryUpdate();
     props.navigation.setOptions({
       headerRight: () => (
         <View style={style.headerView}>
@@ -316,24 +308,24 @@ const DrawerCommentary = (props) => {
             navigation={props.navigation}
             navStyles={navStyles}
             iconName={"arrow-drop-down"}
-            title={commentaryLanguage.languageName}
+            title={props.parallelLanguage.languageName}
             displayContent="commentary"
           />
         </View>
       ),
     });
   }, [
-    props.parallelLanguage.sourceId,
+    parallelLanguage.sourceId,
+    parallelLanguage.languageName,
     props.parallelLanguage.languageName,
-    commentaryLanguage.sourceId,
-    commentaryLanguage.languageName,
+    props.parallelLanguage.sourceId,
   ]);
   useEffect(() => {
     commentaryUpdate();
     updateBookName();
   }, [
     JSON.stringify(props.commentaryContent),
-    commentaryLanguage.sourceId,
+    parallelLanguage.sourceId,
     chapterNumber,
     bookId,
   ]);
@@ -344,12 +336,10 @@ const DrawerCommentary = (props) => {
           onSelectBook(index, b);
         }
       });
+    } else {
+      _dropdown_1.select(selectedBookIndex);
     }
-  }, [dropDownList]);
-  useEffect(() => {
-    onSelectBook(selectedBookIndex, bookName);
-    commentaryUpdate();
-  }, [chapterNumber, bookId]);
+  }, [JSON.stringify(dropDownList), selectedBookIndex]);
 
   return (
     <View style={style.container}>
@@ -363,7 +353,7 @@ const DrawerCommentary = (props) => {
             message={null}
           />
         </View>
-      ) : commentaryLanguage == undefined ? null : (
+      ) : props.parallelLanguage == undefined ? null : (
         <View style={{ flex: 1 }}>
           <View style={style.dropdownPosition}>
             <TouchableOpacity
@@ -419,6 +409,7 @@ const DrawerCommentary = (props) => {
             showsVerticalScrollIndicator={false}
             contentContainerStyle={{ flexGrow: 1, margin: 16 }}
             renderItem={renderItem}
+            // ListFooterComponent={<View style={this.styles.listFooter}></View>}
             ListHeaderComponent={ListHeaderComponent}
             ListFooterComponent={renderFooter}
           />

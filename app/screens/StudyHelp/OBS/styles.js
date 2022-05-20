@@ -86,13 +86,15 @@ export const styles = (colorFile, sizeFile) => {
     dropdownPos: {
       padding: 10,
       margin: 10,
-      width: "40%",
       borderRadius: 10,
       flexDirection: "row",
       justifyContent: "center",
       alignItems: "center",
       borderColor: colorFile.iconColor,
       borderWidth: 0.5,
+    },
+    dropdownPos2: {
+      width: "50%"
     },
     dropdownSize: { width: "60%", height: height / 2 },
     dropdownText: {
@@ -108,6 +110,5 @@ export const styles = (colorFile, sizeFile) => {
     },
     loaderPos: { flex: 1, justifyContent: "center", alignSelf: "center" },
     scrollView: { paddingHorizontal: 12, height: "100%" }
-
   });
 };

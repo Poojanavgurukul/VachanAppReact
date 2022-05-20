@@ -227,7 +227,7 @@ const navStyles = StyleSheet.create({
     justifyContent: "center",
     // paddingTop: STATUS_BAR_HEIGHT,
   },
-  printView: { position: "absolute", right: 0, paddingRight: 8 },
+  printView: { position: "relative", right: 0, paddingRight: 8 },
   langVer: { fontSize: 18, color: "#fff" },
   title: {
     color: "#333333",
