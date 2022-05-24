@@ -14,7 +14,6 @@ const Player = (props) => {
   const refs = useRef()
   // const adioRef = useRef();
   let loadStart;
-  let onEnd;
   let videoError;
 
   const setDuration = (data) => {
@@ -69,7 +68,7 @@ const Player = (props) => {
             onLoadStart={loadStart} // Callback when video starts to load
             onLoad={setDuration} // Callback when video loads
             onProgress={setTime} // Callback every ~250ms with currentTime
-            onEnd={onEnd} // Callback when playback finishes
+            onEnd={() => setPaused(true)} // Callback when playback finishes
             onError={videoError} // Callback when video cannot be loaded
           />
         </View>
