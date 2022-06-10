@@ -109,7 +109,7 @@ const CustomHeader = (props) => {
     <Animated.View
       style={[
         navStyles.navbar,
-        { transform: [{ translateY: navbarTranslate }] },
+        // { transform: [{ translateY: navbarTranslate }] },
       ]}
     >
       <View style={navStyles.headerRightStyle}>

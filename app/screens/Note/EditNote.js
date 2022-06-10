@@ -140,7 +140,6 @@ const EditNote = (props) => {
 
   const handleGetHtml = () => {
     _editor.current?.getHtml().then((res) => {
-
     });
   };
 
@@ -180,7 +179,7 @@ const EditNote = (props) => {
     });
   }, [contentBody])
 
-  handleTextChange = (data) => {
+  const handleTextChange = (data) => {
     // setContentBody(data)
     // setEditorData(data)
   }

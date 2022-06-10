@@ -84,7 +84,7 @@ const Bible = (props) => {
     _handleAppStateChange,
     setAudio,
     setNextContent,
-    // scrollToVerse,
+    scrollToVerse,
     audioComponentUpdate
   } = useContext(BibleContext);
   const prevChapter = useRef(currentVisibleChapter).current;
@@ -333,8 +333,8 @@ const Bible = (props) => {
         prevChapter != currentVisibleChapter
       ) {
         getChapter(null, null);
+        scrollToVerse();
       }
-      // scrollToVerse();
     });
     return () => {
       DbQueries.addHistory(
@@ -377,12 +377,13 @@ const Bible = (props) => {
     visibleParallelView,
     bookId,
     chapterNumber,
+    bookName
     // selectedVerse
   ]);
   useEffect(() => {
     setAudio(props.audio);
     setStatus(props.status);
-  }, [props.audio, props.status]);
+  }, [props.audio, props.status, language]);
   useEffect(() => {
     props.fetchVersionBooks({
       language: language,
@@ -391,11 +392,10 @@ const Bible = (props) => {
       sourceId: sourceId,
     });
   }, [language, sourceId, baseAPI]);
-  // useEffect(() => {
-  //   getChapter(null, null)
-  //   console.log("selectedVerse ------> ", selectedVerse)
-  //   scrollToVerse(selectedVerse)
-  // }, [selectedVerse])
+  useEffect(() => {
+    getChapter(null, null)
+    console.log("selectedVerse ------> ", selectedVerse)
+  }, [])
   return (
     <BibleMainContext.Provider
       value={[

@@ -39,6 +39,11 @@ const DrawerCommentary = (props) => {
       (x, i) => (i + 1).toString()
     ),
   );
+  const scrollRef = useRef(null);
+  const scroll = () => {
+    scrollRef?.current?.scrollToIndex({ index: 0 });
+  }
+
   const [chapterNumber, setChapterNumber] = useState(props.chapterNumber);
   const [error, setError] = useState(null);
   const [bookName, setBookName] = useState(props.bookName);
@@ -126,11 +131,13 @@ const DrawerCommentary = (props) => {
       setSelectedBookIndex(index);
       setBookName(val);
       commentaryUpdate();
+      scroll();
     }
   };
   const onSelectChapter = (index, value) => {
     setChapterNumber(parseInt(value));
     commentaryUpdate();
+    scroll();
   };
   const commentaryUpdate = () => {
     let url =
@@ -141,7 +148,8 @@ const DrawerCommentary = (props) => {
       "/" +
       chapterNumber +
       commentaryKey;
-    props.vachanAPIFetch(url)
+    props.vachanAPIFetch(url);
+
   };
 
   const fetchCommentary = () => {
@@ -415,7 +423,8 @@ const DrawerCommentary = (props) => {
           </View>
           <FlatList
             data={props.commentaryContent && props.commentaryContent.commentaries}
-            showsVerticalScrollIndicator={false}
+            ref={scrollRef}
+            // showsVerticalScrollIndicator={false}
             contentContainerStyle={{ flexGrow: 1, margin: 16 }}
             renderItem={renderItem}
             ListHeaderComponent={ListHeaderComponent}

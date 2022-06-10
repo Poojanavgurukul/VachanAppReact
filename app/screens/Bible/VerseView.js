@@ -127,8 +127,8 @@ const VerseView = (props) => {
     return (
       <Text
         style={styles.textStyle}
-        // onLayout={(event) => props.onLayout(event, index, verseNumber)}
-        // onLayout={(event) => console.log(event, "event verse")}
+        onLayout={(event) => props.onLayout(event, index, verseNumber)}
+      // onLayout={(event) => console.log(event, "event verse")}
       >
         {chapterHeader ? (
           <Text style={styles.sectionHeading}>
@@ -145,14 +145,14 @@ const VerseView = (props) => {
               styles.textHighlight,
               isSelect() && isHighlight()
                 ? {
-                    backgroundColor: isHighlight(),
-                    textDecorationLine: "underline",
-                  }
+                  backgroundColor: isHighlight(),
+                  textDecorationLine: "underline",
+                }
                 : !isSelect() && !isHighlight()
-                ? styles.textHighlight
-                : !isSelect() && isHighlight()
-                ? { backgroundColor: isHighlight() }
-                : { textDecorationLine: "underline" },
+                  ? styles.textHighlight
+                  : !isSelect() && isHighlight()
+                    ? { backgroundColor: isHighlight() }
+                    : { textDecorationLine: "underline" },
             ]}
           >
             {getResultText(verseText)}
@@ -179,7 +179,7 @@ const VerseView = (props) => {
         textBreakStrategy={"simple"}
         style={styles.textStyle}
         onPress={onPress}
-        // onLayout={(event) => props.onLayout(event, index, verseNumber)}
+        onLayout={(event) => props.onLayout(event, index, verseNumber)}
       >
         <Text textBreakStrategy={"simple"}>
           <Text textBreakStrategy={"simple"} style={styles.verseNumber}>
@@ -191,14 +191,14 @@ const VerseView = (props) => {
               styles.textHighlight,
               isSelect() && isHighlight()
                 ? {
-                    backgroundColor: isHighlight(),
-                    textDecorationLine: "underline",
-                  }
+                  backgroundColor: isHighlight(),
+                  textDecorationLine: "underline",
+                }
                 : !isSelect() && !isHighlight()
-                ? styles.textHighlight
-                : !isSelect() && isHighlight()
-                ? { backgroundColor: isHighlight() }
-                : { textDecorationLine: "underline" },
+                  ? styles.textHighlight
+                  : !isSelect() && isHighlight()
+                    ? { backgroundColor: isHighlight() }
+                    : { textDecorationLine: "underline" },
             ]}
           >
             {getResultText(verseText)}

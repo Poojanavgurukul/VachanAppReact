@@ -28,9 +28,9 @@ const OBS = (props) => {
   let _dropdown_2 = createRef();
   const style = styles(props.colorFile, props.sizeFile);
 
-  let scrollRef = useRef().current
+  const scrollRef = useRef(null);
   const scroll = () => {
-    scrollRef.scrollTo({ x: 0, y: 0, animated: true })
+    scrollRef?.current?.scrollTo({ x: 0, y: 0, animated: true })
   }
   const fetchGitData = async (url) => {
     const data = await fetch(Github_URL + url);
@@ -63,6 +63,7 @@ const OBS = (props) => {
           }
           setObsLang(obslangList);
           setLanguagesList([...languagesList, lan]);
+          scroll();
         }
       })
       .catch((error) => {
@@ -74,6 +75,7 @@ const OBS = (props) => {
       .then((response) => response.text())
       .then((json) => {
         setObsData(json);
+        scroll()
       })
       .catch((error) => {
         setObsData(null);
@@ -99,7 +101,7 @@ const OBS = (props) => {
   const onSelectLang = (index, lang) => {
     for (var key in languagesList[0]) {
       if (languagesList[0][key] === lang) {
-        console.log(key, "onlan");
+        console.log(key, "onlang");
         setLangCode(key);
         mdFileFetch();
         bibleStoryList();
@@ -114,6 +116,7 @@ const OBS = (props) => {
     let bsIndexs = ("0" + num).slice(-2);
     setBsIndex(bsIndexs);
     mdFileFetch();
+    console.log('select story')
   };
   useEffect(() => {
     let selectedStoryIndex = bsIndex.replace(/^0+/, "");
@@ -126,6 +129,7 @@ const OBS = (props) => {
     bibleStoryList();
     mdFileFetch();
   }, [langCode, defaultLanguage, bsIndex]);
+
   return (
     <View style={style.container}>
       <View style={style.dropdownView}>
@@ -153,7 +157,7 @@ const OBS = (props) => {
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => {
-            _dropdown_2 && _dropdown_2.show() && scroll();
+            _dropdown_2 && _dropdown_2.show();
           }}
           style={[style.dropdownPos, style.dropdownPos2]}
         >
@@ -180,6 +184,7 @@ const OBS = (props) => {
           // contentInsetAdjustmentBehavior="automatic"
           style={style.scrollView}
           ref={scrollRef}
+          scrollsToTop={true}
         // contentContainerStyle={{paddingTop:20}}
         >
           <Markdown style={style}>{obsData}</Markdown>

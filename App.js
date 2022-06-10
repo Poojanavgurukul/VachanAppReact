@@ -29,7 +29,7 @@ const App = (props) => {
       currentVersion: currentVersion,
       latestVersion: latestVersion,
     }).then((res) => {
-      if (res.isNeeded) {
+      if (res?.isNeeded) {
         Alert.alert(
           "Please update your app ",
           "Kindly update your app to the latest version to continue using it",
@@ -103,7 +103,7 @@ const App = (props) => {
     return () => {
       unsubscribenetinfo && unsubscribenetinfo();
     };
-  }, []);
+  }, [isConnected, unsubscribenetinfo]);
 
   return (
     <Root>

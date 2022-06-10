@@ -11,11 +11,11 @@ export const MainContext = createContext();
 const MainProvider = (props) => {
   const { language, downloaded, sourceId, baseAPI } = props;
   const [bookList, setBookList] = useState([]);
-  const getBookList = async () => {
+  const getBookList = async (lang = language) => {
     try {
       let bookListData = [];
       if (downloaded) {
-        let response = await DbQueries.getDownloadedBook(language);
+        let response = await DbQueries.getDownloadedBook(lang);
         if (response != null) {
           for (var i = 0; i <= response.length - 1; i++) {
             let books = {
@@ -32,7 +32,7 @@ const MainProvider = (props) => {
         let found = false;
         let response = await vApi.get("booknames");
         for (var k = 0; k < response.length; k++) {
-          if (language.toLowerCase() == response[k].language.name) {
+          if (lang.toLowerCase() == response[k].language.name) {
             for (var j = 0; j <= response[k].bookNames.length - 1; j++) {
               let books = {
                 bookId: response[k].bookNames[j].book_code,
@@ -94,6 +94,7 @@ const MainProvider = (props) => {
 const mapStateToProps = (state) => {
   return {
     language: state.updateVersion.language,
+    parallelLanguage: state.selectContent.parallelLanguage,
     sourceId: state.updateVersion.sourceId,
     downloaded: state.updateVersion.downloaded,
     baseAPI: state.updateVersion.baseAPI,

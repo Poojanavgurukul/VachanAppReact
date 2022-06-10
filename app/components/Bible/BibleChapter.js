@@ -6,10 +6,11 @@ import {
   fetchVersionBooks,
   selectContent,
   parallelVisibleView,
+  updateVersionBook,
 } from "../../store/action";
 import { styles } from "./styles";
 import { connect } from "react-redux";
-import { getResultText } from "../../utils/UtilFunctions";
+import { getBookChaptersFromMapping, getResultText } from "../../utils/UtilFunctions";
 import { Header, Button, Right, Title } from "native-base";
 import Color from "../../utils/colorConstants";
 import ReloadButton from "../ReloadButton";
@@ -31,7 +32,7 @@ const BibleChapter = (props) => {
   );
   const [bookName, setBookName] = useState(props.bookName);
   const [bookNameList, setBookNameList] = useState([]);
-  const [shortbookName, setShortbookName] = useState(bShortName);
+  const [shortbookName, setShortBookName] = useState(bShortName);
   const [totalChapters, setTotalChapters] = useState(props.totalChapters);
   const [error, setError] = useState(false);
   const [message, setMessage] = useState(null);
@@ -47,35 +48,29 @@ const BibleChapter = (props) => {
   const scrollViewRef = useRef();
   const updateBook = async () => {
     try {
-      let response = await vApi.get("booknames");
-      setBookNameList(response);
       let bukName = null;
-      if (response) {
-        let parallelLanguage =
-          props.parallelLanguage &&
-          props.parallelLanguage.languageName.toLowerCase();
-        for (var i = 0; i <= response.length - 1; i++) {
-          if (response[i].language.name === parallelLanguage) {
-            for (var j = 0; j <= response[i].bookNames.length - 1; j++) {
-              if (bookId != null) {
-                if (response[i].bookNames[j].book_code == bookId) {
-                  bukName = response[i].bookNames[j].short;
-                }
-              }
+      if (bookNameList.length > 0) {
+        // looping in booklist 
+        for (var j = 0; j <= bookNameList.length - 1; j++) {
+          if (props.bookId != null) {
+            //comparing the response id and props book id
+            if (bookNameList[j].book_code === props.bookId) {
+              bukName = bookNameList[j].short;
             }
           }
         }
         if (bukName != null) {
-          let shortbookNames =
+          //making the bookname short if bukname is not null 
+          let shortBookNames =
             bukName != null &&
             (bukName.length > 10 ? bukName.slice(0, 9) + "..." : bukName);
           setMessage(null);
           setError(false);
-          setBookName(bukName);
-          setShortbookName(shortbookNames);
+          setShortBookName(shortBookNames);
         } else {
           setError(true);
           setMessage("This will be available soon");
+          let parallelLanguage = props.parallelLanguage?.languageName.toLowerCase();
           if (parallelLanguage) {
             let lang =
               parallelLanguage.charAt(0).toUpperCase() +
@@ -101,15 +96,14 @@ const BibleChapter = (props) => {
       }
     } catch (error) {
       setError(true);
-      setBookNameList([]);
     }
   };
 
   const queryParallelBible = async (val, bkId) => {
     try {
       if (props.parallelLanguage) {
-        let chapter = val == null ? currentParallelViewChapter : val;
-        let bookIds = bkId == null ? bookId : bkId;
+        let chapter = val == null ? currentVisibleChapter : val;
+        let bookIds = bkId == null ? props.bookId : bkId;
         setLoading(true);
         setBookId(bookIds);
         setCurrentParallelViewChapter(chapter);
@@ -166,7 +160,16 @@ const BibleChapter = (props) => {
     try {
       setTotalChapters(item.totalChapters);
       queryParallelBible(item.chapterNumber, item.bookId);
+      console.log('yeah')
       updateBook();
+      props.updateVersionBook({
+        bookId: item.bookId,
+        bookName: item.bookName,
+        chapterNumber: item.chapterNumber,
+        totalChapters: getBookChaptersFromMapping(
+          item.bookId
+        ),
+      });
     } catch (error) {
       setError(true);
       setMessage(null);
@@ -213,6 +216,20 @@ const BibleChapter = (props) => {
     }
   };
 
+  useEffect(async () => {
+    //on load we getting the response
+    let response = await vApi.get("booknames");
+    if (response) {
+      let parallelLanguage =
+        props.parallelLanguage &&
+        props.parallelLanguage.languageName.toLowerCase();
+      for (var i = 0; i <= response.length - 1; i++) {
+        if (response[i].language.name === parallelLanguage) {
+          setBookNameList(response[i].bookNames);
+        }
+      }
+    }
+  }, [])
   useEffect(() => {
     queryParallelBible(null, null);
     updateBook();
@@ -229,7 +246,7 @@ const BibleChapter = (props) => {
   useEffect(() => {
     updateBook();
     queryParallelBible(null, null);
-  }, [bookId]);
+  }, [bookId, bookName, bShortName, bookNameList, shortbookName, currentVisibleChapter]);
 
   const closeParallelView = (value) => {
     props.parallelVisibleView({
@@ -373,7 +390,7 @@ const BibleChapter = (props) => {
               alignItems: "center",
             }}
           >
-            {PpeviousContent &&
+            {/* {PpeviousContent &&
               Object.keys(PpeviousContent).length > 0 &&
               PpeviousContent.constructor === Object ? (
               <View style={style.bottomBarParallelPrevView}>
@@ -408,7 +425,7 @@ const BibleChapter = (props) => {
                   }
                 />
               </View>
-            ) : null}
+            ) : null} */}
           </View>
         </View>
       )}
@@ -438,6 +455,8 @@ const mapDispatchToProps = (dispatch) => {
     fetchVersionBooks: (payload) => dispatch(fetchVersionBooks(payload)),
     selectContent: (payload) => dispatch(selectContent(payload)),
     parallelVisibleView: (payload) => dispatch(parallelVisibleView(payload)),
+    updateVersionBook: (value) => dispatch(updateVersionBook(value)),
+
   };
 };
 
