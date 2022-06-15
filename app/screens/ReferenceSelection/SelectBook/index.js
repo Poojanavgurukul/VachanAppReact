@@ -26,7 +26,8 @@ const SelectBook = (props) => {
     waitForInteraction: true,
   }).current;
   const flatlistRef = useRef();
-  const { bookList } = useContext(MainContext);
+  const { bookList, parallelBookList } = useContext(MainContext);
+  const books = props.route.params.parallelContent ? parallelBookList : bookList;
   const style = styles(props.colorFile, props.sizeFile);
   const toggleButton = (value) => {
     setActiveTab(value);
@@ -60,12 +61,12 @@ const SelectBook = (props) => {
   };
   const getOTSize = () => {
     let count = 0;
-    if (bookList) {
-      if (bookList.length == 0) {
+    if (books) {
+      if (books.length == 0) {
         setOTSize(0);
       } else {
-        for (let i = 0; i < bookList.length; i++) {
-          if (bookList[i].bookNumber <= 39) {
+        for (let i = 0; i < books.length; i++) {
+          if (books[i].bookNumber <= 39) {
             count++;
           } else {
             break;
@@ -78,12 +79,12 @@ const SelectBook = (props) => {
 
   const getNTSize = () => {
     let count = 0;
-    if (bookList) {
+    if (books) {
       if (bookList.length == 0) {
         setNTSize(0);
       } else {
-        for (let i = bookList.length - 1; i >= 0; i--) {
-          if (bookList[i].bookNumber >= 40) {
+        for (let i = books.length - 1; i >= 0; i--) {
+          if (books[i].bookNumber >= 40) {
             count++;
           } else {
             break;
@@ -106,10 +107,10 @@ const SelectBook = (props) => {
   const selectTab = () => {
     let bookData = null;
     let bookIndex = -1;
-    if (bookList.length > 0) {
-      for (let i = 0; i < bookList.length; i++) {
-        if (bookList[i].bookId == props.route.params.selectedBookId) {
-          bookData = bookList[i];
+    if (books.length > 0) {
+      for (let i = 0; i < books.length; i++) {
+        if (books[i].bookId == props.route.params.selectedBookId) {
+          bookData = books[i];
           bookIndex = i;
         }
       }
@@ -229,7 +230,7 @@ const SelectBook = (props) => {
           </Segment>
           <FlatList
             ref={flatlistRef}
-            data={bookList}
+            data={books}
             getItemLayout={(data, index) => getItemLayout(data, index)}
             renderItem={renderItem}
             extraData={style}

@@ -1,11 +1,11 @@
-import { SELECT_CONTENT,PARALLEL_VISIBLE_VIEW } from '../action/actionsType';
+import { SELECT_CONTENT, PARALLEL_VISIBLE_VIEW } from '../action/actionsType';
 
 const initialState = {
     modalVisible: false,
     visibleParallelView: false,
     parallelLanguage: {
-        languageName: 'Hindi',
-        versionCode: 'HindiIRVn',
+        languageName: '',
+        versionCode: '',
         sourceId: 24
     },
     parallelMetaData: {
@@ -37,7 +37,7 @@ function selectContent(state = initialState, action) {
                 parallelLanguage: action.payload.parallelLanguage
             }
         case PARALLEL_VISIBLE_VIEW:
-            return{
+            return {
                 ...state,
                 modalVisible: action.payload.modalVisible,
                 visibleParallelView: action.payload.visibleParallelView,

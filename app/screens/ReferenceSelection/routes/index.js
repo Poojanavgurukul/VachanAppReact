@@ -13,6 +13,7 @@ const SelectionTab = (props) => {
   const selectedChapterIndex = 0;
   const selectedChapterNumber = props.params ? props.params.chapterNumber : null;
   const selectedVerse = props.selectedVerse ? props.selectedVerse : null;
+  const parallelContent = props.params.parallelContent
   return (
     <Tab.Navigator
       initialRouteName="Books"
@@ -50,6 +51,7 @@ const SelectionTab = (props) => {
         initialParams={{
           selectedBookId: selectedBookId,
           selectedBookName: selectedBookName,
+          parallelContent: parallelContent
         }}
       />
       <Tab.Screen

@@ -29,7 +29,6 @@ import {
   getBookChaptersFromMapping,
   getBookSectionFromMapping,
 } from "../utils/UtilFunctions";
-import MainProvider from "./MainProvider";
 export const BibleContext = createContext();
 
 const BibleContextProvider = (props) => {
@@ -66,7 +65,7 @@ const BibleContextProvider = (props) => {
     props.navigation.navigate("ReferenceSelection", {
       getReference: getReference,
       chapterNumber: currentVisibleChapter,
-      // parallelContent: visibleParallelView ? false : true,
+      parallelContent: false,
     });
   };
   const navigateToLanguage = () => {
@@ -317,7 +316,6 @@ const BibleContextProvider = (props) => {
   useEffect(() => {
     getBookList();
     audioComponentUpdate();
-    console.log("useeffect audio")
   }, [language, sourceId, baseAPI]);
 
   return (
