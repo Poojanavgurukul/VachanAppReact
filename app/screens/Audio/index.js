@@ -8,8 +8,10 @@ import ListContainer from "../../components/Common/FlatList";
 import { MainContext } from "../../context/MainProvider";
 
 const Audio = (props) => {
+  const { bookList } = useContext(MainContext);
+
   const styles = style(props.colorFile, props.sizeFile);
-  const [allAudioBooks, setAllAudioBooks] = useState([]);
+  const [allAudioBooks, setAllAudioBooks] = useState(bookList);
   const [message, setMessage] = useState("");
 
   const navigateToBible = (bId, bookName, chapterNum) => {
@@ -21,7 +23,6 @@ const Audio = (props) => {
     props.ToggleAudio({ audio: true, status: true });
     props.navigation.navigate("Bible");
   };
-  const { bookList } = useContext(MainContext);
   const emptyMessageNavigation = () => {
     props.navigation.navigate("Bible");
   };

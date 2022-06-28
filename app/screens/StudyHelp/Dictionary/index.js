@@ -80,6 +80,7 @@ const Infographics = (props) => {
           listData={dictionaries}
           listStyle={style.centerEmptySet}
           renderItem={renderItem}
+          keyExtractor={(item, index) => String(index)}
           icon="book"
           iconStyle={style.emptyMessageIcon}
           containerStyle={style.emptyMessageContainer}

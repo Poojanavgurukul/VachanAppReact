@@ -236,6 +236,7 @@ const Commentary = (props) => {
             showsVerticalScrollIndicator={false}
             contentContainerStyle={{ flexGrow: 1, margin: 16 }}
             renderItem={renderItem}
+            keyExtractor={(item) => item.text}
             // ListFooterComponent={<View style={style.listFooter}></View>}
             ListHeaderComponent={ListHeaderComponent}
             // eslint-disable-next-line react/jsx-no-duplicate-props

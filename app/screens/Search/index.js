@@ -121,7 +121,7 @@ const Search = (props) => {
         "search/" + JSON.parse(sourceId) + "?keyword=" + searchText
       );
       let data = [];
-      if (res && res.result.length > 0 && books) {
+      if (res && res?.result?.length > 0 && books) {
         for (let i = 0; i < res.result.length; i++) {
           for (let j = 0; j < books.length; j++) {
             var bId = books[j].bookId;
@@ -192,7 +192,7 @@ const Search = (props) => {
       setSearchedResult([]);
       setSearchText("");
       setIsLoading(false);
-    });
+    }, [languageName]);
     props.navigation.setOptions({
       headerTitle: () => (
         <TextInput
@@ -221,7 +221,7 @@ const Search = (props) => {
     return () => {
       subs;
     };
-  }, [searchText, searchedResult, props.languageName]);
+  }, [searchText, searchedResult, languageName]);
   const toggleButton = (activeTabs) => {
     if (activeTabs === activeTab) {
       return;
@@ -335,6 +335,7 @@ const Search = (props) => {
     isLoading === true
       ? "Loading..."
       : tabsData.length + " search results found";
+
   return (
     <View style={style.container}>
       <View style={style.toggleBibleTouchable}>
@@ -365,6 +366,7 @@ const Search = (props) => {
             contentContainerStyle={{ paddingBottom: 60 }}
             ref={elementIndex}
             data={tabsData}
+            keyExtractor={(item) => item.text}
             renderItem={searchedData}
             ListEmptyComponent={ListEmptyComponent}
             ListFooterComponent={ListFooterComponent}

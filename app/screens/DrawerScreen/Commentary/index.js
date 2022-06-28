@@ -41,7 +41,7 @@ const DrawerCommentary = (props) => {
   );
   const scrollRef = useRef(null);
   const scroll = () => {
-    scrollRef?.current?.scrollToIndex({ index: 0 });
+    scrollRef?.current?.scrollToOffset({ animated: true, offset: 0 });
   }
 
   const [chapterNumber, setChapterNumber] = useState(props.chapterNumber);
@@ -130,8 +130,8 @@ const DrawerCommentary = (props) => {
       setChapterNumber(selectedNumber);
       setSelectedBookIndex(index);
       setBookName(val);
-      commentaryUpdate();
       scroll();
+      commentaryUpdate();
     }
   };
   const onSelectChapter = (index, value) => {
@@ -408,7 +408,7 @@ const DrawerCommentary = (props) => {
                 ref={(el) => (_dropdown_2 = el)}
                 options={totalChapters}
                 onSelect={onSelectChapter}
-                defaultValue={chapterNumber}
+                defaultValue={chapterNumber?.toString()}
                 isFullWidth={true}
                 dropdownStyle={style.dropdownSize}
                 dropdownTextStyle={{ fontSize: 18 }}
@@ -426,6 +426,7 @@ const DrawerCommentary = (props) => {
             ref={scrollRef}
             // showsVerticalScrollIndicator={false}
             contentContainerStyle={{ flexGrow: 1, margin: 16 }}
+            keyExtractor={(item) => item.verse}
             renderItem={renderItem}
             ListHeaderComponent={ListHeaderComponent}
             ListFooterComponent={renderFooter}

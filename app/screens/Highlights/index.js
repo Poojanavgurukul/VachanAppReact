@@ -169,7 +169,7 @@ const HighLights = (props) => {
 
   useEffect(() => {
     fetchHighlights();
-  }, [bookList, HightlightedVerseArray]);
+  }, [email, HightlightedVerseArray]);
   return (
     <View style={style.container}>
       {isLoading ? (

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, useContext } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import { connect } from "react-redux";
 import { styles } from "./styles.js";
@@ -6,85 +6,52 @@ import { Card, CardItem } from "native-base";
 import { Toast } from "native-base";
 import vApi from "../../utils/APIFetch";
 import ListContainer from "../../components/Common/FlatList.js";
-import { MainContext } from "../../context/MainProvider.js";
 const Video = (props) => {
   const bookId = props.route.params ? props.route.params.bookId : null;
   const bookName = props.route.params ? props.route.params.bookName : null;
-  const { bookList } = useContext(MainContext);
   const [videos, setVideos] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
   const style = styles(props.colorFile, props.sizeFile);
-
+  const { languageCode, languageName } = props
   const [message, setMessage] = useState("");
-  const fetchVideo = async () => {
-    setIsLoading(true);
-    const videosRes = await vApi.get("videos?language=" + props.languageCode);
-    let videoBook = [];
+  const getUniqueListBy = (arr, key) => {
+    return [...new Map(arr.map(item => [item[key], item])).values()]
+  }
+
+  useEffect(async () => {
+    const videosRes = await vApi.get("videos?language=" + languageCode);
     let videoAll = [];
-    let found = false;
-    if (videosRes.length > 0) {
-      for (var key in videosRes[0].books) {
-        if (key == bookId) {
-          for (var i = 0; i < videosRes[0].books[key].length; i++) {
-            videoBook.push({
-              title: videosRes[0].books[key][i].title,
-              url: videosRes[0].books[key][i].url,
-              description: videosRes[0].books[key][i].description,
-              theme: videosRes[0].books[key][i].theme,
-            });
-            found = true;
-          }
-          // }
-        } else {
-          for (var j = 0; j < videosRes[0].books[key].length; j++) {
-            videoAll.push({
-              title: videosRes[0].books[key][j].title,
-              url: videosRes[0].books[key][j].url,
-              description: videosRes[0].books[key][j].description,
-              theme: videosRes[0].books[key][j].theme,
-            });
-          }
-        }
-      }
-      if (found) {
-        setVideos(videoBook);
-        setMessage("");
-        setIsLoading(false);
-      } else {
-        if (bookId) {
-          // ToastAndroid.showWithGravityAndOffset(
-          //   'Video for ' + this.state.bookName + ' is unavailable. You can check other books',
-          //   ToastAndroid.LONG,
-          //   ToastAndroid.CENTER,
-          //   25,
-          //   50
-          // );
-          Toast.show({
-            text:
-              "Video for " +
-              bookName +
-              " is unavailable. You can check other books",
-            duration: 8000,
-            position: "top",
-          });
-        }
-        var elements = videoAll.reduce(function (previous, current) {
-          var object = previous.filter(
-            (object) => object.title === current.title
-          );
-          if (object.length == 0) {
-            previous.push(current);
-          }
-          return previous;
-        }, []);
-        setVideos(elements);
-        setMessage("No Video for " + props.languageName);
-        setIsLoading(false);
-      }
-    } else {
-      setMessage("No Video for " + props.languageName);
+    if (videosRes.success === false) {
+      setMessage("No Video for " + languageName);
+      return;
     }
-  };
+    const videos = videosRes[0].books
+    for (var book in videos) {
+      for (var j = 0; j < videos[book].length; j++) {
+        videoAll.push({
+          title: videos[book][j].title,
+          url: videos[book][j].url,
+          description: videos[book][j].description,
+          theme: videos[book][j].theme,
+          book: book
+        });
+      }
+    }
+    var elements = getUniqueListBy(videoAll, "title")
+    if (bookId in videos) {
+      setVideos(videoAll.filter((ele) => ele.book === bookId));
+      setMessage("");
+    } else {
+      if (bookId) {
+        Toast.show({
+          text: `Video for ${bookName} is unavailable. You can check other books`,
+          duration: 8000,
+          position: "top",
+        });
+      }
+      setVideos(elements);
+      setMessage("No Video for " + languageName);
+    }
+  }, [bookId, languageCode]);
   const playVideo = (val) => {
     const videoId = val.url.replace("https://youtu.be/", "");
     props.navigation.navigate("PlayVideo", {
@@ -112,15 +79,14 @@ const Video = (props) => {
     );
   };
 
-  useEffect(() => {
-    fetchVideo();
-  }, [bookList, videos]);
+
   return (
     <View style={style.container}>
       <ListContainer
         listData={videos}
         listStyle={style.centerEmptySet}
         renderItem={renderItem}
+        keyExtractor={(item, index) => String(index)}
         containerStyle={style.emptyMessageContainer}
         icon="video-library"
         iconStyle={style.emptyMessageIcon}

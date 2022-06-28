@@ -312,7 +312,7 @@ const Bible = (props) => {
       setSelectedReferenceSet([]);
       setShowBottomBar(false);
       setShowColorGrid(false);
-      audioComponentUpdate()
+      // audioComponentUpdate()
       console.log('audio foucs')
       if (books.length == 0) {
         props.fetchVersionBooks({
