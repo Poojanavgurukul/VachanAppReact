@@ -76,6 +76,10 @@ const BibleContextProvider = (props) => {
     setSelectedReferenceSet([]);
     setShowBottomBar(false);
     setShowColorGrid(false);
+<<<<<<< Updated upstream
+=======
+    audioComponentUpdate();
+>>>>>>> Stashed changes
     scrollToVerse();
     if (item) {
       setCurrentVisibleChapter(item.chapterNumber);
@@ -101,7 +105,6 @@ const BibleContextProvider = (props) => {
         totalChapters: item.totalChapters,
       });
       setVerseNum(item.selectedVerse)
-      audioComponentUpdate();
     } else {
       return;
     }

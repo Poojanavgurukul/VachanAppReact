@@ -94,9 +94,9 @@ export const styles = (colorFile, sizeFile) => {
       borderWidth: 0.5,
     },
     dropdownPos2: {
-      width: "40%"
+      width: "60%"
     },
-    dropdownSize: { width: "60%", height: height / 2 },
+    dropdownSize: { width: "50%", height: height / 2 },
     dropdownText: {
       paddingHorizontal: 8,
       fontSize: 18,

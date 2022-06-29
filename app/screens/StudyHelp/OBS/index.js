@@ -101,7 +101,6 @@ const OBS = (props) => {
   const onSelectLang = (index, lang) => {
     for (var key in languagesList[0]) {
       if (languagesList[0][key] === lang) {
-        console.log(key, "onlang");
         setLangCode(key);
         mdFileFetch();
         bibleStoryList();

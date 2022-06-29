@@ -84,7 +84,7 @@ const Bible = (props) => {
     _handleAppStateChange,
     setAudio,
     setNextContent,
-    scrollToVerse,
+    // scrollToVerse,
     audioComponentUpdate
   } = useContext(BibleContext);
   const prevChapter = useRef(currentVisibleChapter).current;
@@ -312,8 +312,8 @@ const Bible = (props) => {
       setSelectedReferenceSet([]);
       setShowBottomBar(false);
       setShowColorGrid(false);
-      // audioComponentUpdate()
-      console.log('audio foucs')
+      audioComponentUpdate();
+      // scrollToVerse();
       if (books.length == 0) {
         props.fetchVersionBooks({
           language: language,
@@ -333,7 +333,6 @@ const Bible = (props) => {
         prevChapter != currentVisibleChapter
       ) {
         getChapter(null, null);
-        scrollToVerse();
       }
     });
     return () => {
@@ -346,7 +345,7 @@ const Bible = (props) => {
         bookName,
         currentVisibleChapter,
         downloaded,
-        time
+        time,
       );
       appstate;
       netInfo;
@@ -374,11 +373,8 @@ const Bible = (props) => {
     language,
     sourceId,
     baseAPI,
-    visibleParallelView,
     bookId,
     chapterNumber,
-    bookName
-    // selectedVerse
   ]);
   useEffect(() => {
     setAudio(props.audio);
