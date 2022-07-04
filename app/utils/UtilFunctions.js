@@ -1,7 +1,7 @@
 /* eslint-disable no-prototype-builtins */
 import id_name_map from "../assets/mappings.json";
 const Constants = require("./constants");
-import { PermissionsAndroid } from "react-native";
+import { Alert, PermissionsAndroid } from "react-native";
 
 export function getHeading(contents) {
   if (contents) {
@@ -21,6 +21,24 @@ export function getHeading(contents) {
   } else {
     return null;
   }
+}
+export function titleCase(str) {
+  return str?.charAt(0)?.toUpperCase() + str?.slice(1).toLowerCase();
+}
+export function getBookChapter(bookName, chapter, length) {
+  const book =
+    bookName?.length > length ? bookName.slice(0, 9) + "..." : bookName;
+  return book ? `${book} ${chapter}` : "";
+}
+export function showAlert(message) {
+  Alert.alert("", message, [
+    {
+      text: "OK",
+      onPress: () => {
+        return;
+      },
+    },
+  ]);
 }
 export async function AndroidPermission(permissionName) {
   // We need to ask permission for Android only

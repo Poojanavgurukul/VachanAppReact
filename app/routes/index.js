@@ -28,7 +28,7 @@ import ProfilePage from "../screens/Auth/ProfilePage";
 import Auth from "../screens/Auth/";
 
 import DrawerScreen from "../screens/DrawerScreen";
-import Bible from "../screens/Bible";
+import Bible from "../screens/Bible/Bible";
 import LanguageList from "../screens/LanguageList";
 
 import ReferenceSelection from "../screens/ReferenceSelection/";

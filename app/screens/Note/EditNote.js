@@ -21,7 +21,6 @@ const EditNote = (props) => {
 
   const _editor = React.createRef();
   const style = styles(props.colorFile, props.sizeFile);
-
   const saveNote = () => {
 
     var time = Date.now()
@@ -162,7 +161,7 @@ const EditNote = (props) => {
           Note
         </Text>
       ),
-      headerLeft: () => <HeaderBackButton tintColor={Color.White} onPress={() => onBack()} />,
+      // headerLeft: () => <HeaderBackButton tintColor={Color.White} onPress={() => onBack()} />,
       headerRight: () => <TouchableOpacity style={{ margin: 8 }} onPress={() => saveNote()}>
         <Text
           style={{

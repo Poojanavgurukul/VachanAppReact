@@ -88,13 +88,13 @@ export const styles = (colorFile, sizeFile) => {
       margin: 10,
       borderRadius: 10,
       flexDirection: "row",
-      justifyContent: "space-between",
+      justifyContent: "center",
       alignItems: "center",
       borderColor: colorFile.iconColor,
       borderWidth: 0.5,
     },
     dropdownPos2: {
-      width: "60%"
+      width: "55%"
     },
     dropdownSize: { width: "50%", height: height / 2 },
     dropdownText: {

@@ -25,6 +25,7 @@ const LoginDataProvider = (props) => {
   const [showBottomBar, setShowBottomBar] = useState("");
   const [bottomHighlightText, setBottomHighlightText] = useState(false);
   const [showColorGrid, setShowColorGrid] = useState("");
+
   // const [isLoading, setIsLoading] = useState(false);
   // check internet connection to fetch api's accordingly
 
@@ -316,6 +317,8 @@ const LoginDataProvider = (props) => {
       setShowColorGrid(selectedCount == highlightCount ? false : true);
     }
   };
+
+
   useEffect(() => {
     setCurrentVisibleChapter(chapterNumber);
   }, [chapterNumber]);
@@ -323,7 +326,7 @@ const LoginDataProvider = (props) => {
     getHighlights()
     getNotes()
     getBookMarks()
-  }, [currentVisibleChapter, bookId, email, uid, language, sourceId]);
+  }, [currentVisibleChapter, bookId, bookName, email, uid, language, sourceId]);
   useEffect(() => {
     bookmarkedChap()
   }, [bookmarksList, currentVisibleChapter])

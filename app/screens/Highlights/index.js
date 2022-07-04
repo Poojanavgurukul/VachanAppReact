@@ -169,7 +169,7 @@ const HighLights = (props) => {
 
   useEffect(() => {
     fetchHighlights();
-  }, [email, HightlightedVerseArray]);
+  }, [HightlightedVerseArray]);
   return (
     <View style={style.container}>
       {isLoading ? (
@@ -184,6 +184,7 @@ const HighLights = (props) => {
           listData={HightlightedVerseArray}
           listStyle={style.centerEmptySet}
           renderItem={renderItem}
+          keyExtractor={(item, index) => index}
           icon="border-color"
           containerStyle={style.emptyMessageContainer}
           iconStyle={style.emptyMessageIcon}

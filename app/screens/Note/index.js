@@ -118,10 +118,9 @@ const Note = (props) => {
       props.navigation.navigate("Login");
     }
   };
-
   useEffect(() => {
     fetchNotes();
-  }, [email]);
+  }, []);
   const renderItem = ({ item, index }) => {
     var bookName = null;
     if (bookList) {
@@ -222,6 +221,7 @@ const Note = (props) => {
               : style.noteFlatlistCustom
           }
           renderItem={renderItem}
+          keyExtractor={(item, index) => index}
           containerStyle={style.emptyMessageContainer}
           icon="note"
           iconStyle={style.emptyMessageIcon}

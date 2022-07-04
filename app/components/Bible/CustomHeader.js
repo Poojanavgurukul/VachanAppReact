@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import {
   View,
   Animated,
@@ -13,21 +13,18 @@ import SelectContent from "./SelectContent";
 import RNHTMLtoPDF from "react-native-html-to-pdf";
 import Permission from "../../utils/constants";
 import { connect } from "react-redux";
-import { AndroidPermission } from "../../utils/UtilFunctions";
+import { AndroidPermission, getBookChapter } from "../../utils/UtilFunctions";
 import { Toast } from "native-base";
 const NAVBAR_HEIGHT = 80;
-import { BibleMainContext } from "../../screens/Bible";
+import { BibleMainContext } from "../../screens/Bible/Bible";
 import { BibleContext } from "../../context/BibleContextProvider";
 import { LoginData } from "../../context/LoginDataProvider";
 
 const CustomHeader = (props) => {
   const [{ clampedScroll, navigation, chapterContent }] =
     useContext(BibleMainContext);
-  const {
-    currentVisibleChapter,
-    isBookmark,
-    onBookmarkPress,
-  } = useContext(LoginData);
+  const { currentVisibleChapter, isBookmark, onBookmarkPress } =
+    useContext(LoginData);
   const {
     navigateToLanguage,
     navigateToSelectionTab,
@@ -35,12 +32,13 @@ const CustomHeader = (props) => {
     audio,
     setStatus,
   } = useContext(BibleContext);
-  const { language, versionCode, bookName, bookId } = props
-  let lgname = language && (language.length > 8 ? language.charAt(0).toUpperCase() +
-    language.slice(1, 3) :
-    language.charAt(0).toUpperCase() +
-    language.slice(1))
-  let bkName = !isNaN(bookName.charAt(0))
+  const { language, versionCode, bookName, bookId } = props;
+  let lgname =
+    language &&
+    (language.length > 8
+      ? language?.charAt(0).toUpperCase() + language.slice(1, 3)
+      : language.charAt(0).toUpperCase() + language.slice(1));
+  let bkName = !isNaN(bookName?.charAt(0))
     ? bookName.charAt(0).toUpperCase() + bookName.slice(1)
     : bookName;
   const navbarTranslate = clampedScroll.interpolate({
@@ -63,7 +61,6 @@ const CustomHeader = (props) => {
   };
   const downloadPDF = async () => {
     // setIsLoading(true);
-    console.log("downloadPDF")
     var texttohtml = "";
     chapterContent.forEach((val) => {
       if (val?.verseNumber != undefined && val.verseText != undefined) {
@@ -74,13 +71,9 @@ const CustomHeader = (props) => {
     let header3 = `<h3>${bookName + " " + currentVisibleChapter}</h3>`;
     let options = {
       html: `${header1}${header3}<p>${texttohtml}</p>`,
-      fileName: `${"VachanGo_" +
-        language +
-        "_" +
-        bookId +
-        "_" +
-        currentVisibleChapter
-        }`,
+      fileName: `${
+        "VachanGo_" + language + "_" + bookId + "_" + currentVisibleChapter
+      }`,
       // eslint-disable-next-line no-constant-condition
       directory: "Documents" ? "Download" : "Downloads",
     };
@@ -186,12 +179,9 @@ const CustomHeader = (props) => {
           style={navStyles.titleTouchable}
           onPress={navigateToSelectionTab}
         >
-          {bkName && currentVisibleChapter ? (
-            <Text style={{ fontSize: 18, color: "#fff" }}>
-              {bkName.length > 12 ? bkName.slice(0, 8) + "..." : bkName}{" "}
-              {currentVisibleChapter}
-            </Text>
-          ) : null}
+          <Text style={{ fontSize: 18, color: "#fff" }}>
+            {getBookChapter(bkName, currentVisibleChapter, 12)}
+          </Text>
           <Icon name="arrow-drop-down" color={Color.White} size={20} />
         </TouchableOpacity>
         <TouchableOpacity
@@ -199,8 +189,7 @@ const CustomHeader = (props) => {
           onPress={navigateToLanguage}
         >
           <Text style={navStyles.langVer}>
-            {lgname}{" "}
-            {versionCode && versionCode.toUpperCase()}
+            {lgname} {versionCode && versionCode.toUpperCase()}
           </Text>
           <Icon name="arrow-drop-down" color={Color.White} size={20} />
         </TouchableOpacity>

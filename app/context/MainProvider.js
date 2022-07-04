@@ -73,11 +73,13 @@ const MainProvider = (props) => {
         bookListData.length == 0
           ? []
           : bookListData.sort(function (a, b) {
-            return a.bookNumber - b.bookNumber;
-          });
+              return a.bookNumber - b.bookNumber;
+            });
+      console.log(res, "res");
       setBookList(res);
     } catch (error) {
       setBookList([]);
+      console.log("catch");
       console.log("ERROR ", error);
     }
   };
@@ -141,8 +143,8 @@ const MainProvider = (props) => {
         bookListData.length == 0
           ? []
           : bookListData.sort(function (a, b) {
-            return a.bookNumber - b.bookNumber;
-          });
+              return a.bookNumber - b.bookNumber;
+            });
       setParallelBookList(res);
     } catch (error) {
       setParallelBookList([]);
@@ -151,13 +153,13 @@ const MainProvider = (props) => {
   };
 
   useEffect(() => {
-    if (parallelLanguage != '') {
+    if (parallelLanguage != "") {
       getParallelBookList();
     }
   }, [parallelLanguage, baseAPI]);
-  useEffect(() => {
-    getBookList();
-  });
+  // useEffect(() => {
+  //   getBookList();
+  // },[]);
   useEffect(() => {
     getBookList;
   }, [language, sourceId, baseAPI]);

@@ -27,7 +27,10 @@ const SelectBook = (props) => {
   }).current;
   const flatlistRef = useRef();
   const { bookList, parallelBookList } = useContext(MainContext);
-  const books = props.route.params.parallelContent ? parallelBookList : bookList;
+  const books = props.route.params.parallelContent
+    ? parallelBookList
+    : bookList;
+  console.log(books, "setectbook");
   const style = styles(props.colorFile, props.sizeFile);
   const toggleButton = (value) => {
     setActiveTab(value);
@@ -80,7 +83,7 @@ const SelectBook = (props) => {
   const getNTSize = () => {
     let count = 0;
     if (books) {
-      if (bookList.length == 0) {
+      if (books.length == 0) {
         setNTSize(0);
       } else {
         for (let i = books.length - 1; i >= 0; i--) {
@@ -98,12 +101,12 @@ const SelectBook = (props) => {
     getOTSize();
     getNTSize();
     selectTab();
-  }, [])
+  }, []);
   useEffect(() => {
     getOTSize();
     getNTSize();
     selectTab();
-  }, [setActiveTab]);
+  }, [books]);
   const selectTab = () => {
     let bookData = null;
     let bookIndex = -1;
