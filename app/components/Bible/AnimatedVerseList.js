@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useState, useMemo, useRef } from "react";
+import React, { useContext, useState, useRef } from "react";
 import { FlatList, Animated, View, Text, Platform } from "react-native";
 import { createResponder } from "react-native-gesture-responder";
 import { updateFontSize } from "../../store/action/";
@@ -66,7 +66,7 @@ const AnimatedVerseList = (props) => {
   // };
 
   const _keyExtractor = (item, index) => {
-    return index.toString();
+    return index?.toString();
   };
   const _onMomentumScrollEnd = () => {
     const toValue =
@@ -181,7 +181,7 @@ const AnimatedVerseList = (props) => {
       onResponderRelease: (gestureState) => {
         setGestureState({ ...gestureState });
       },
-      onResponderTerminate: (gestureState) => { },
+      onResponderTerminate: () => { },
       onResponderSingleTapConfirmed: () => { },
       moveThreshold: 2,
       debug: false,

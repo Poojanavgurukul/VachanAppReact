@@ -22,7 +22,6 @@ import { put, takeLatest, call } from "redux-saga/effects";
 import fetchApi from "../../api";
 import DbQueries from "../../../utils/dbQueries";
 import store from "../../../store";
-import { Alert } from "react-native";
 
 function* fetchVersionLanguage() {
   try {

@@ -12,14 +12,12 @@ const Infographics = (props) => {
   const bookName = props.route.params ? props.route.params.bookName : null;
   const [infographics, setInfographics] = useState([]);
   const [url, setUrl] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
-
   const [message, setMessage] = useState("");
   const { bookList } = useContext(MainContext);
-
+  const { languageCode, languageName } = props
   const style = styles(props.colorFile, props.sizeFile);
   const fetchInfographics = async () => {
-    const apiData = await vApi.get("infographics/" + props.languageCode);
+    const apiData = await vApi.get("infographics/" + languageCode);
     let infographicsBook = [];
     if (apiData.books) {
       let found = false;
@@ -35,7 +33,6 @@ const Infographics = (props) => {
       if (found) {
         setInfographics(infographicsBook);
         setMessage("");
-
         setUrl(apiData.url);
       } else {
         if (bookId) {
@@ -52,7 +49,7 @@ const Infographics = (props) => {
         setUrl(apiData.url);
       }
     } else {
-      setMessage("No Infographics for " + props.languageName);
+      setMessage("No Infographics for " + languageName);
     }
   };
   const gotoImage = (item) => {
@@ -90,33 +87,24 @@ const Infographics = (props) => {
     ));
     return <View>{bookName && value}</View>;
   };
-
   useEffect(() => {
     fetchInfographics();
-
-  }, [bookList, infographics]);
-  console.log(isLoading);
+  }, [bookId, languageCode]);
   return (
     <View style={style.container}>
-      {isLoading ? (
-        // eslint-disable-next-line react/jsx-no-undef
-        <ActivityIndicator // it is showing undefined
-          animate={true}
-          style={{ justifyContent: "center", alignSelf: "center" }}
-        />
-      ) : (
-        <ListContainer
-          listData={infographics}
-          listStyle={style.centerEmptySet}
-          renderItem={renderItem}
-          containerStyle={style.emptyMessageContainer}
-          icon="image"
-          iconStyle={style.emptyMessageIcon}
-          textStyle={style.messageEmpty}
-          message={message}
-          onPress={emptyMessageNavigation}
-        />
-      )}
+      {console.log('info')}
+      <ListContainer
+        listData={infographics}
+        listStyle={style.centerEmptySet}
+        renderItem={renderItem}
+        keyExtractor={(item, index) => String(index)}
+        containerStyle={style.emptyMessageContainer}
+        icon="image"
+        iconStyle={style.emptyMessageIcon}
+        textStyle={style.messageEmpty}
+        message={message}
+        onPress={emptyMessageNavigation}
+      />
     </View>
   );
 };

@@ -8,7 +8,7 @@ import ChapterNdAudio from "./ChapterNdAudio";
 import ReloadButton from "../ReloadButton";
 import Spinner from "react-native-loading-spinner-overlay";
 import Color from "../../utils/colorConstants";
-import { Header, Button, Title, Toast } from "native-base";
+import { Header, Button, Title } from "native-base";
 import HighlightColorGrid from "./HighlightColorGrid";
 import CustomStatusBar from "../CustomStatusBar";
 import Commentary from "../../screens/StudyHelp/Commentary/";

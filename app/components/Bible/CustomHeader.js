@@ -63,10 +63,11 @@ const CustomHeader = (props) => {
   };
   const downloadPDF = async () => {
     // setIsLoading(true);
+    console.log("downloadPDF")
     var texttohtml = "";
     chapterContent.forEach((val) => {
-      if (val.verseNumber != undefined && val.verseText != undefined) {
-        texttohtml += `<p>${val.verseNumber} : ${val.verseText}</p>`;
+      if (val?.verseNumber != undefined && val.verseText != undefined) {
+        texttohtml += `<p>${val?.verseNumber} : ${val?.verseText}</p>`;
       }
     });
     let header1 = `<h1>${language + " " + versionCode}</h1>`;
@@ -81,7 +82,7 @@ const CustomHeader = (props) => {
         currentVisibleChapter
         }`,
       // eslint-disable-next-line no-constant-condition
-      directory: "Download" ? "Download" : "Downloads",
+      directory: "Documents" ? "Download" : "Downloads",
     };
     await RNHTMLtoPDF.convert(options);
     Toast.show({ text: "Pdf downloaded.", type: "success", duration: 5000 });

@@ -120,7 +120,7 @@ const SelectContent = (props) => {
   };
 
   const _renderContentInner = (item) => {
-    return item.versionModels.map((v) =>
+    return item.versionModels.map((v,) =>
       props.displayContent == "commentary" ? (
         contentType == props.displayContent && (
           <TouchableOpacity

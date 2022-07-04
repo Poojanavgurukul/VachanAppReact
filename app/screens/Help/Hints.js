@@ -178,7 +178,7 @@ const Help = (props) => {
 
   return (
     <View style={styleFile.container}>
-      <FlatList data={iconName} renderItem={renderItem} />
+      <FlatList data={iconName} renderItem={renderItem} keyExtractor={(item) => item.hint} />
     </View>
   );
 };

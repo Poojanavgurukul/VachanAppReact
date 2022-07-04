@@ -76,8 +76,8 @@ const BibleContextProvider = (props) => {
     setSelectedReferenceSet([]);
     setShowBottomBar(false);
     setShowColorGrid(false);
-    audioComponentUpdate()
-    console.log('after audio ref')
+    audioComponentUpdate();
+    scrollToVerse();
     if (item) {
       setCurrentVisibleChapter(item.chapterNumber);
       // updateBookChapterRef()
@@ -102,7 +102,6 @@ const BibleContextProvider = (props) => {
         totalChapters: item.totalChapters,
       });
       setVerseNum(item.selectedVerse)
-      scrollToVerse()
     } else {
       return;
     }
@@ -219,12 +218,12 @@ const BibleContextProvider = (props) => {
     try {
       if (res.length !== 0) {
         let data = res.filter((item) => {
-          if (item.language.name === language.toLowerCase()) {
+          if (item.language.name === language.toLowerCase() && item?.audioBibles[0]?.books.hasOwnProperty(bookId)) {
             return item
           }
         });
         // console.log(data, 'data')
-        if (data.length != 0 && data[0]?.audioBibles[0]?.books.hasOwnProperty(bookId)) {
+        if (data.length != 0) {
           props.APIAudioURL({
             audioURL: data[0].audioBibles[0].url,
             audioFormat: data[0].audioBibles[0].format,

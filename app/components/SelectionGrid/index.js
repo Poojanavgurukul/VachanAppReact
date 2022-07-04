@@ -18,6 +18,7 @@ const SelectionGrid = ({
     <FlatList
       numColumns={4}
       data={numbers}
+      keyExtractor={(item, index) => String(index)}
       renderItem={({ item, index }) => (
         <TouchableOpacity
           style={[styles.selectGridNum, { backgroundColor: Color.Transparent }]}

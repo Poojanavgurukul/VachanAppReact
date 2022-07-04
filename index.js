@@ -6,7 +6,6 @@ import { Provider } from "react-redux";
 import { persistStore } from "redux-persist";
 import { PersistGate } from "redux-persist/es/integration/react";
 import App from "./App";
-import rootSaga from "./app/store/saga/";
 import { typography } from "./app/utils/typography";
 import store from "./app/store/";
 import MainProvider from "./app/context/MainProvider";

@@ -101,7 +101,6 @@ const OBS = (props) => {
   const onSelectLang = (index, lang) => {
     for (var key in languagesList[0]) {
       if (languagesList[0][key] === lang) {
-        console.log(key, "onlang");
         setLangCode(key);
         mdFileFetch();
         bibleStoryList();
@@ -116,12 +115,11 @@ const OBS = (props) => {
     let bsIndexs = ("0" + num).slice(-2);
     setBsIndex(bsIndexs);
     mdFileFetch();
-    console.log('select story')
   };
   useEffect(() => {
     let selectedStoryIndex = bsIndex.replace(/^0+/, "");
     _dropdown_2.select(parseInt(selectedStoryIndex - 1));
-  }, [...storyList, defaultStory]);
+  }, [storyList, defaultStory]);
   useEffect(() => {
     fetchLangList();
   }, []);
