@@ -52,6 +52,7 @@ const Bible = (props) => {
     colorFile,
     books,
     selectedVerse,
+    visibleParallelView,
   } = props;
   const [downloadedBook, setDownloadedBook] = useState([]);
 
@@ -378,7 +379,7 @@ const Bible = (props) => {
       setBookNames(response);
     };
     getBookNames();
-  }, []);
+  }, [visibleParallelView]);
   useEffect(() => {
     setAudio(props.audio);
     setStatus(props.status);

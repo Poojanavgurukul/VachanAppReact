@@ -28,7 +28,7 @@ export function titleCase(str) {
 export function getBookChapter(bookName, chapter, length) {
   const book =
     bookName?.length > length ? bookName.slice(0, 9) + "..." : bookName;
-  return book ? `${book} ${chapter}` : "";
+  return book ? `${book} ${chapter}` : "Select Book";
 }
 export function showAlert(message) {
   Alert.alert("", message, [

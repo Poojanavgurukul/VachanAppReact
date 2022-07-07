@@ -161,7 +161,7 @@ const Note = (props) => {
                 <Text style={style.noteText}>
                   {props.languageName &&
                     props.languageName.charAt(0).toUpperCase() +
-                    props.languageName.slice(1)}{" "}
+                      props.languageName.slice(1)}{" "}
                   {props.versionCode && props.versionCode.toUpperCase()}{" "}
                   {bookName} {item.chapterNumber} {":"} {val.verses.join()}
                 </Text>
@@ -184,6 +184,7 @@ const Note = (props) => {
       ));
     return <View>{bookName && value}</View>;
   };
+
   return (
     <View style={style.container}>
       {isLoading && message.length != 0 ? (
@@ -221,7 +222,7 @@ const Note = (props) => {
               : style.noteFlatlistCustom
           }
           renderItem={renderItem}
-          keyExtractor={(item, index) => index}
+          keyExtractor={(item) => item.createdTime}
           containerStyle={style.emptyMessageContainer}
           icon="note"
           iconStyle={style.emptyMessageIcon}

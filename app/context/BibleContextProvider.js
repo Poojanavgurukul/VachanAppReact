@@ -307,7 +307,6 @@ const BibleContextProvider = (props) => {
             });
       setBookList(res);
     } catch (error) {
-      console.log(bookName);
       console.log("ERROR ", error);
     }
   };

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import { View, Dimensions } from "react-native";
 import ParallelBible from "./ParallelBible";
 import Icon from "react-native-vector-icons/MaterialIcons";
@@ -18,7 +18,7 @@ import { BibleMainContext } from "../../screens/Bible/Bible";
 import AnimatedVerseList from "./AnimatedVerseList";
 import { connect } from "react-redux";
 import { LoginData } from "../../context/LoginDataProvider";
-import { MainContext } from "../../context/MainProvider";
+import { updateVersionBook } from "../../store/action";
 const width = Dimensions.get("window").width;
 
 const BibleMainComponent = (props) => {
@@ -40,14 +40,8 @@ const BibleMainComponent = (props) => {
     showColorGrid,
     bottomHighlightText,
   } = useContext(LoginData);
-  const { bookList } = useContext(MainContext);
   const { navigateToSelectionTab } = useContext(BibleContext);
-  useEffect(() => {
-    console.log(bookName, bookList, "useEffect");
-    if (!visibleParallelView && bookName === undefined) {
-      console.log(bookName, bookList, "ifuseEffect");
-    }
-  }, [visibleParallelView, bookName]);
+
   return (
     <CustomStatusBar>
       <View style={styles.container}>
@@ -120,7 +114,13 @@ const mapStateToProps = (state) => {
     bookName: state.updateVersion.bookName,
     contentType: state.updateVersion.parallelContentType,
     visibleParallelView: state.selectContent.visibleParallelView,
+    bookId: state.updateVersion.bookId,
+  };
+};
+const mapDispatchToProps = (dispatch) => {
+  return {
+    updateVersionBook: (value) => dispatch(updateVersionBook(value)),
   };
 };
 
-export default connect(mapStateToProps, null)(BibleMainComponent);
+export default connect(mapStateToProps, mapDispatchToProps)(BibleMainComponent);

@@ -30,7 +30,6 @@ const SelectBook = (props) => {
   const books = props.route.params.parallelContent
     ? parallelBookList
     : bookList;
-  console.log(books, "setectbook");
   const style = styles(props.colorFile, props.sizeFile);
   const toggleButton = (value) => {
     setActiveTab(value);

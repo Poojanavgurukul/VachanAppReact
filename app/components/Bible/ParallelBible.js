@@ -22,10 +22,12 @@ import ReloadButton from "../ReloadButton";
 import vApi from "../../utils/APIFetch";
 import { BibleMainContext } from "../../screens/Bible/Bible";
 import { LoginData } from "../../context/LoginDataProvider";
+import { MainContext } from "../../context/MainProvider";
 const ParallelBible = (props) => {
   const [{ navigation, bookNames }] = useContext(BibleMainContext); //navigation function values are coming from context
   const { currentVisibleChapter } = useContext(LoginData); //current visible chapter
-  const [bookNameList, setBookNameList] = useState([]); // current language  booknames list
+  const { bookList } = useContext(MainContext);
+  const [bookNameList, setBooksList] = useState([]); // current language  booknames list
   const [shortBookName, setShortBookName] = useState(""); //short bookname
   const [message, setMessage] = useState(""); //error messages
   const [chapterContent, setChapterContent] = useState(null);
@@ -42,9 +44,9 @@ const ParallelBible = (props) => {
     parallelMetaData,
     updateVersionBook,
     parallelVisibleView,
+    visibleParallelView,
   } = props;
   const style = styles(colorFile, sizeFile); // external css file
-
   const scrollViewRef = useRef(); // scroll reference
   const getBookName = (bookName) => {
     return bookName?.length > 10 ? bookName?.slice(0, 9) + "..." : bookName;
@@ -59,7 +61,7 @@ const ParallelBible = (props) => {
         fetchBibleChapter(currentVisibleChapter, bookId);
       } else {
         setMessage("This will be available soon");
-        setShortBookName("");
+        setShortBookName("Select Book");
         const msg = ` The book you were reading is not available in ${titleCase(
           parallelLanguage?.languageName
         )} `;
@@ -96,9 +98,7 @@ const ParallelBible = (props) => {
       const lan = bookNames.find(
         (ele) => ele?.language?.name === language.toLowerCase()
       );
-      console.log(bookNames, "console");
       const book = lan?.bookNames?.find((a) => a?.book_code === bkId);
-      console.log(bkId, book, "getbook");
       return book?.short;
     }
   };
@@ -119,7 +119,6 @@ const ParallelBible = (props) => {
   const changeBCV = () => {
     //here we are going to referenceSelection tab with updated values
     if (parallelLanguage) {
-      console.log(parallelLanguage.sourceId);
       navigation.navigate("ReferenceSelection", {
         getReference: getRef,
         parallelContent: true,
@@ -138,16 +137,24 @@ const ParallelBible = (props) => {
     fetchBibleChapter(currentVisibleChapter, bookId);
     updateBook();
   }, [shortBookName]);
-  useEffect(async () => {
+  useEffect(() => {
     if (bookNames) {
       const parallelLang = parallelLanguage?.languageName?.toLowerCase();
       const lan = bookNames.find((ele) => ele?.language?.name === parallelLang);
-      setBookNameList(lan?.bookNames);
+      setBooksList(lan?.bookNames);
     }
   }, [bookNames]);
   // below useeffect on changing the dependency value those will run
 
   const closeParallelView = (value) => {
+    if (bookName === undefined) {
+      updateVersionBook({
+        bookId: bookList[0]?.bookId,
+        bookName: bookList[0]?.bookName,
+        chapterNumber: "1",
+        totalChapters: bookList[0]?.numOfChapters,
+      });
+    }
     parallelVisibleView({
       modalVisible: false,
       visibleParallelView: value,
@@ -166,7 +173,8 @@ const ParallelBible = (props) => {
         <Button transparent onPress={changeBCV}>
           {shortBookName ? (
             <Title style={{ fontSize: 16 }}>
-              {shortBookName} {currentVisibleChapter}{" "}
+              {shortBookName}{" "}
+              {shortBookName !== "Select Book" ? currentVisibleChapter : ""}{" "}
             </Title>
           ) : null}
           <Icon name="arrow-drop-down" color={Color.White} size={20} />
@@ -296,6 +304,7 @@ const mapStateToProps = (state) => {
     language: state.updateVersion.language,
     parallelLanguage: state.selectContent.parallelLanguage,
     parallelMetaData: state.selectContent.parallelMetaData,
+    visibleParallelView: state.selectContent.visibleParallelView,
   };
 };
 

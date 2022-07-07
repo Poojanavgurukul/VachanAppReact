@@ -1,6 +1,6 @@
 import { StyleSheet, Dimensions } from "react-native";
 // const width = Dimensions.get('window').width;
-const height = Dimensions.get('window').height;
+const height = Dimensions.get("window").height;
 
 export const styles = (colorFile, sizeFile) => {
   return StyleSheet.create({
@@ -81,7 +81,7 @@ export const styles = (colorFile, sizeFile) => {
     dropdownView: {
       flexDirection: "row",
       alignItems: "flex-start",
-      justifyContent: "space-between",
+      justifyContent: "space-around",
     },
     dropdownPos: {
       padding: 10,
@@ -94,7 +94,7 @@ export const styles = (colorFile, sizeFile) => {
       borderWidth: 0.5,
     },
     dropdownPos2: {
-      width: "55%"
+      width: "65%",
     },
     dropdownSize: { width: "50%", height: height / 2 },
     dropdownText: {
@@ -106,9 +106,9 @@ export const styles = (colorFile, sizeFile) => {
     dropdownBox: {
       fontSize: 16,
       borderBottomWidth: 0.5,
-      borderColor: '#000'
+      borderColor: "#000",
     },
     loaderPos: { flex: 1, justifyContent: "center", alignSelf: "center" },
-    scrollView: { paddingHorizontal: 12, height: "100%" }
+    scrollView: { paddingHorizontal: 12, height: "100%" },
   });
 };

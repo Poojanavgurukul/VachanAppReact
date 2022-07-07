@@ -4,8 +4,8 @@ const initialState = {
   modalVisible: false,
   visibleParallelView: false,
   parallelLanguage: {
-    languageName: "",
-    versionCode: "",
+    languageName: "Hindi",
+    versionCode: "HindiIRVn",
     sourceId: 24,
   },
   parallelMetaData: {

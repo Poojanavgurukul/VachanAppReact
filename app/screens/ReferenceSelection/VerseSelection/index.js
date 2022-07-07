@@ -22,7 +22,6 @@ const SelectVerse = (props) => {
   const [versesData, setVersesData] = useState([]);
   const style = styles(props.colorFile, props.sizeFile);
   const { parallelSourceId, sourceId } = props;
-  console.log(props.route.params, "verse", props.parallelSourceId);
   const fectchVerses = async () => {
     let versesArray = [];
     const sId = props.route.params.parallelContent
@@ -40,7 +39,6 @@ const SelectVerse = (props) => {
     verses.map((item) => versesArray.push(item.verse.number));
     setVersesData(versesArray);
   };
-  console.log(versesData);
   const onNumPress = (item) => {
     if (props.route.params) {
       props.route.params.getReference({

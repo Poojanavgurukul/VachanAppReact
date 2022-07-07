@@ -75,11 +75,9 @@ const MainProvider = (props) => {
           : bookListData.sort(function (a, b) {
               return a.bookNumber - b.bookNumber;
             });
-      console.log(res, "res");
       setBookList(res);
     } catch (error) {
       setBookList([]);
-      console.log("catch");
       console.log("ERROR ", error);
     }
   };
@@ -159,9 +157,9 @@ const MainProvider = (props) => {
   }, [parallelLanguage, baseAPI]);
   // useEffect(() => {
   //   getBookList();
-  // },[]);
+  // }, []);
   useEffect(() => {
-    getBookList;
+    getBookList();
   }, [language, sourceId, baseAPI]);
   return (
     <MainContext.Provider value={{ getBookList, bookList, parallelBookList }}>

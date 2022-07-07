@@ -15,15 +15,14 @@ const EditNote = (props) => {
   const noteIndex = props.route.params ? props.route.params.noteIndex : null;
   const noteObject = props.route.params ? props.route.params.notesList : null;
   const bcvRef = props.route.params ? props.route.params.bcvRef : null;
-  let bodyData = props.route.params ? props.route.params.contentBody : ""
+  let bodyData = props.route.params ? props.route.params.contentBody : "";
   const [contentBody, setContentBody] = useState(bodyData);
-  const [editorData, setEditorData] = useState('');
+  const [editorData, setEditorData] = useState("");
 
   const _editor = React.createRef();
   const style = styles(props.colorFile, props.sizeFile);
   const saveNote = () => {
-
-    var time = Date.now()
+    var time = Date.now();
     var firebaseRef = database().ref(
       "users/" + props.uid + "/notes/" + props.sourceId + "/" + bcvRef.bookId
     );
@@ -32,13 +31,13 @@ const EditNote = (props) => {
     } else {
       var edit = database().ref(
         "users/" +
-        props.uid +
-        "/notes/" +
-        props.sourceId +
-        "/" +
-        bcvRef.bookId +
-        "/" +
-        bcvRef.chapterNumber
+          props.uid +
+          "/notes/" +
+          props.sourceId +
+          "/" +
+          bcvRef.bookId +
+          "/" +
+          bcvRef.chapterNumber
       );
       if (noteIndex != -1) {
         let updates = {};
@@ -138,14 +137,13 @@ const EditNote = (props) => {
   };
 
   const handleGetHtml = () => {
-    _editor.current?.getHtml().then((res) => {
-    });
+    _editor.current?.getHtml().then((res) => {});
   };
 
   const onHtmlChange = (html) => {
-    setContentBody(html.html)
-    setEditorData("hello")
-  }
+    setContentBody(html.html);
+    setEditorData("hello");
+  };
 
   useEffect(() => {
     props.navigation.setOptions({
@@ -162,26 +160,27 @@ const EditNote = (props) => {
         </Text>
       ),
       // headerLeft: () => <HeaderBackButton tintColor={Color.White} onPress={() => onBack()} />,
-      headerRight: () => <TouchableOpacity style={{ margin: 8 }} onPress={() => saveNote()}>
-        <Text
-          style={{
-            fontSize: 16,
-            color: Color.White,
-            fontWeight: "700",
-            marginRight: 12,
-          }}
-        >
-          Save
-        </Text>
-      </TouchableOpacity>
-      ,
+      headerRight: () => (
+        <TouchableOpacity style={{ margin: 8 }} onPress={() => saveNote()}>
+          <Text
+            style={{
+              fontSize: 16,
+              color: Color.White,
+              fontWeight: "700",
+              marginRight: 12,
+            }}
+          >
+            Save
+          </Text>
+        </TouchableOpacity>
+      ),
     });
-  }, [contentBody])
+  }, [contentBody]);
 
   const handleTextChange = (data) => {
     // setContentBody(data)
     // setEditorData(data)
-  }
+  };
   // handleSelectionChange = async (data) => {
 
   // }
