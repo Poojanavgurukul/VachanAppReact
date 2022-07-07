@@ -1,9 +1,6 @@
-import store from "../store";
-const state = store.getState();
 import DbQueries from "./dbQueries";
 import Color from "./colorConstants";
 import { getBookChaptersFromMapping } from "./UtilFunctions";
-import { style } from "../screens/Bible/style";
 export function updateLangVersion(currentVisibleChapter, item, bId) {
   if (item) {
     let bookName = null;

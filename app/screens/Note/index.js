@@ -22,7 +22,7 @@ const Note = (props) => {
 
   const onDelete = (createdTime, body, k, l) => {
     var data = [...notesData];
-    data.forEach((a, i) => {
+    data?.forEach((a, i) => {
       var firebaseRef = database().ref(
         "users/" + props.uid + "/notes/" + props.sourceId + "/" + a.bookId
       );

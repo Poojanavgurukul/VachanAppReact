@@ -18,7 +18,6 @@ import { BibleMainContext } from "../../screens/Bible/Bible";
 import AnimatedVerseList from "./AnimatedVerseList";
 import { connect } from "react-redux";
 import { LoginData } from "../../context/LoginDataProvider";
-import { updateVersionBook } from "../../store/action";
 const width = Dimensions.get("window").width;
 
 const BibleMainComponent = (props) => {
@@ -114,13 +113,7 @@ const mapStateToProps = (state) => {
     bookName: state.updateVersion.bookName,
     contentType: state.updateVersion.parallelContentType,
     visibleParallelView: state.selectContent.visibleParallelView,
-    bookId: state.updateVersion.bookId,
-  };
-};
-const mapDispatchToProps = (dispatch) => {
-  return {
-    updateVersionBook: (value) => dispatch(updateVersionBook(value)),
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(BibleMainComponent);
+export default connect(mapStateToProps, null)(BibleMainComponent);

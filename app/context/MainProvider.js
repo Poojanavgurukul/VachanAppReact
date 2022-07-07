@@ -155,9 +155,7 @@ const MainProvider = (props) => {
       getParallelBookList();
     }
   }, [parallelLanguage, baseAPI]);
-  // useEffect(() => {
-  //   getBookList();
-  // }, []);
+
   useEffect(() => {
     getBookList();
   }, [language, sourceId, baseAPI]);

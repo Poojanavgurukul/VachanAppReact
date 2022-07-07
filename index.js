@@ -1,6 +1,5 @@
 import "react-native-gesture-handler";
 import React, { Component } from "react";
-import createSagaMiddleware from "redux-saga";
 import { AppRegistry } from "react-native";
 import { Provider } from "react-redux";
 import { persistStore } from "redux-persist";

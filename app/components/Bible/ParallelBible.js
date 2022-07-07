@@ -44,7 +44,6 @@ const ParallelBible = (props) => {
     parallelMetaData,
     updateVersionBook,
     parallelVisibleView,
-    visibleParallelView,
   } = props;
   const style = styles(colorFile, sizeFile); // external css file
   const scrollViewRef = useRef(); // scroll reference
@@ -304,7 +303,6 @@ const mapStateToProps = (state) => {
     language: state.updateVersion.language,
     parallelLanguage: state.selectContent.parallelLanguage,
     parallelMetaData: state.selectContent.parallelMetaData,
-    visibleParallelView: state.selectContent.visibleParallelView,
   };
 };
 
