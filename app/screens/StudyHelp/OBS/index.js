@@ -30,8 +30,8 @@ const OBS = (props) => {
 
   const scrollRef = useRef(null);
   const scroll = () => {
-    scrollRef?.current?.scrollTo({ x: 0, y: 0, animated: true })
-  }
+    scrollRef?.current?.scrollTo({ x: 0, y: 0, animated: true });
+  };
   const fetchGitData = async (url) => {
     const data = await fetch(Github_URL + url);
     const res = await data.json();
@@ -66,8 +66,7 @@ const OBS = (props) => {
           scroll();
         }
       })
-      .catch((error) => {
-      });
+      .catch((error) => {});
   };
 
   const mdFileFetch = async () => {
@@ -75,7 +74,7 @@ const OBS = (props) => {
       .then((response) => response.text())
       .then((json) => {
         setObsData(json);
-        scroll()
+        scroll();
       })
       .catch((error) => {
         setObsData(null);
@@ -109,7 +108,6 @@ const OBS = (props) => {
       }
     }
   };
-
   const onSelectStory = (index) => {
     let num = index + 1;
     let bsIndexs = ("0" + num).slice(-2);
@@ -183,7 +181,7 @@ const OBS = (props) => {
           style={style.scrollView}
           ref={scrollRef}
           scrollsToTop={true}
-        // contentContainerStyle={{paddingTop:20}}
+          // contentContainerStyle={{paddingTop:20}}
         >
           <Markdown style={style}>{obsData}</Markdown>
         </ScrollView>

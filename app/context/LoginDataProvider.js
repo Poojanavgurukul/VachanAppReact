@@ -25,22 +25,23 @@ const LoginDataProvider = (props) => {
   const [showBottomBar, setShowBottomBar] = useState("");
   const [bottomHighlightText, setBottomHighlightText] = useState(false);
   const [showColorGrid, setShowColorGrid] = useState("");
+
   // const [isLoading, setIsLoading] = useState(false);
   // check internet connection to fetch api's accordingly
 
   const getNotes = () => {
     if (connection_Status) {
-      if (email && uid) {
+      if (email) {
         database()
           .ref(
             "users/" +
-            uid +
-            "/notes/" +
-            sourceId +
-            "/" +
-            bookId +
-            "/" +
-            currentVisibleChapter
+              uid +
+              "/notes/" +
+              sourceId +
+              "/" +
+              bookId +
+              "/" +
+              currentVisibleChapter
           )
           .on("value", (snapshot) => {
             if (snapshot.val() === null) {
@@ -62,19 +63,18 @@ const LoginDataProvider = (props) => {
   };
 
   const getHighlights = () => {
-
     if (connection_Status) {
-      if (email && uid) {
+      if (email) {
         database()
           .ref(
             "users/" +
-            uid +
-            "/highlights/" +
-            sourceId +
-            "/" +
-            bookId +
-            "/" +
-            currentVisibleChapter
+              uid +
+              "/highlights/" +
+              sourceId +
+              "/" +
+              bookId +
+              "/" +
+              currentVisibleChapter
           )
           .on("value", (snapshot) => {
             let VerseArray = [];
@@ -206,10 +206,10 @@ const LoginDataProvider = (props) => {
     setShowBottomBar(false);
     setShowColorGrid(false);
   };
-  const onbackNote = () => { };
+  const onbackNote = () => {};
   const doHighlight = (color) => {
     if (connection_Status) {
-      if (email && uid) {
+      if (email) {
         let array = [...highlightedVerseArray];
         if (Object.keys(selectedReferenceSet).length != 0) {
           for (let item of selectedReferenceSet) {
@@ -241,13 +241,13 @@ const LoginDataProvider = (props) => {
         database()
           .ref(
             "users/" +
-            uid +
-            "/highlights/" +
-            sourceId +
-            "/" +
-            bookId +
-            "/" +
-            currentVisibleChapter
+              uid +
+              "/highlights/" +
+              sourceId +
+              "/" +
+              bookId +
+              "/" +
+              currentVisibleChapter
           )
           .set(array);
       } else {
@@ -320,13 +320,13 @@ const LoginDataProvider = (props) => {
     setCurrentVisibleChapter(chapterNumber);
   }, [chapterNumber]);
   useEffect(() => {
-    getHighlights()
-    getNotes()
-    getBookMarks()
-  }, [currentVisibleChapter, bookId, email, uid, language, sourceId]);
+    getHighlights();
+    getNotes();
+    getBookMarks();
+  }, [email, currentVisibleChapter, bookId, uid, language, sourceId]);
   useEffect(() => {
-    bookmarkedChap()
-  }, [bookmarksList, currentVisibleChapter])
+    bookmarkedChap();
+  }, [bookmarksList, currentVisibleChapter]);
 
   return (
     <LoginData.Provider

@@ -11,9 +11,11 @@ const SelectionTab = (props) => {
   const selectedBookName = props.bookName ? props.bookName : null;
   const totalChapters = props.totalChapters ? props.totalChapters : null;
   const selectedChapterIndex = 0;
-  const selectedChapterNumber = props.params ? props.params.chapterNumber : null;
+  const selectedChapterNumber = props.params
+    ? props.params.chapterNumber
+    : null;
   const selectedVerse = props.selectedVerse ? props.selectedVerse : null;
-  const parallelContent = props.params.parallelContent
+  const parallelContent = props.params.parallelContent;
   return (
     <Tab.Navigator
       initialRouteName="Books"
@@ -51,7 +53,7 @@ const SelectionTab = (props) => {
         initialParams={{
           selectedBookId: selectedBookId,
           selectedBookName: selectedBookName,
-          parallelContent: parallelContent
+          parallelContent: parallelContent,
         }}
       />
       <Tab.Screen
@@ -77,6 +79,7 @@ const SelectionTab = (props) => {
           selectedBookId: selectedBookId,
           selectedVerse: selectedVerse,
           selectedBookName: selectedBookName,
+          parallelContent: parallelContent,
           getReference: props.params && props.params.getReference,
         }}
       />

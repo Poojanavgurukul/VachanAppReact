@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { View, Dimensions } from "react-native";
-import BibleChapter from "./BibleChapter";
+import ParallelBible from "./ParallelBible";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import CustomHeader from "./CustomHeader";
 import SelectBottomTabBar from "./SelectBottomTabBar";
@@ -8,12 +8,13 @@ import ChapterNdAudio from "./ChapterNdAudio";
 import ReloadButton from "../ReloadButton";
 import Spinner from "react-native-loading-spinner-overlay";
 import Color from "../../utils/colorConstants";
+import { getBookChapter } from "../../utils/UtilFunctions";
 import { Header, Button, Title } from "native-base";
 import HighlightColorGrid from "./HighlightColorGrid";
 import CustomStatusBar from "../CustomStatusBar";
 import Commentary from "../../screens/StudyHelp/Commentary/";
 import { BibleContext } from "../../context/BibleContextProvider";
-import { BibleMainContext } from "../../screens/Bible";
+import { BibleMainContext } from "../../screens/Bible/Bible";
 import AnimatedVerseList from "./AnimatedVerseList";
 import { connect } from "react-redux";
 import { LoginData } from "../../context/LoginDataProvider";
@@ -21,15 +22,16 @@ const width = Dimensions.get("window").width;
 
 const BibleMainComponent = (props) => {
   const { contentType, bookName, visibleParallelView } = props;
-  const [{
-    styles,
-    chapterContent,
-    queryBookFromAPI,
-    unAvailableContent,
-    reloadMessage,
-    isLoading,
-    navigation
-  },
+  const [
+    {
+      styles,
+      chapterContent,
+      queryBookFromAPI,
+      unAvailableContent,
+      reloadMessage,
+      isLoading,
+      navigation,
+    },
   ] = useContext(BibleMainContext);
   const {
     currentVisibleChapter,
@@ -38,6 +40,7 @@ const BibleMainComponent = (props) => {
     bottomHighlightText,
   } = useContext(LoginData);
   const { navigateToSelectionTab } = useContext(BibleContext);
+
   return (
     <CustomStatusBar>
       <View style={styles.container}>
@@ -46,10 +49,7 @@ const BibleMainComponent = (props) => {
             <Header style={{ backgroundColor: Color.Blue_Color, height: 40 }}>
               <Button transparent onPress={() => navigateToSelectionTab(true)}>
                 <Title style={{ fontSize: 16 }}>
-                  {bookName.length > 10
-                    ? bookName.slice(0, 9) + "..."
-                    : bookName}{" "}
-                  {currentVisibleChapter}
+                  {getBookChapter(bookName, currentVisibleChapter, 10)}
                 </Title>
                 <Icon name="arrow-drop-down" color={Color.White} size={20} />
               </Button>
@@ -94,8 +94,12 @@ const BibleMainComponent = (props) => {
           {/** 2nd view as  parallelView**/}
           {visibleParallelView == true && (
             <View style={styles.parallelView}>
-              {contentType == "bible" && <BibleChapter navigation={navigation} />}
-              {contentType == "commentary" && <Commentary navigation={navigation} />}
+              {contentType == "bible" && (
+                <ParallelBible navigation={navigation} />
+              )}
+              {contentType == "commentary" && (
+                <Commentary navigation={navigation} />
+              )}
             </View>
           )}
         </View>

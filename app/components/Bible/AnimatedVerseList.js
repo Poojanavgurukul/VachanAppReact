@@ -6,7 +6,7 @@ import VerseView from "../../screens/Bible/VerseView";
 import { getHeading } from "../../utils/UtilFunctions";
 import { connect } from "react-redux";
 import { LoginData } from "../../context/LoginDataProvider";
-import { BibleMainContext } from "../../screens/Bible/index";
+import { BibleMainContext } from "../../screens/Bible/Bible";
 import { BibleContext } from "../../context/BibleContextProvider";
 import {
   extraSmallFont,
@@ -71,7 +71,7 @@ const AnimatedVerseList = (props) => {
   const _onMomentumScrollEnd = () => {
     const toValue =
       _scrollValue > NAVBAR_HEIGHT &&
-        _clampedScrollValue > (NAVBAR_HEIGHT - STATUS_BAR_HEIGHT) / 2
+      _clampedScrollValue > (NAVBAR_HEIGHT - STATUS_BAR_HEIGHT) / 2
         ? _offsetValue + NAVBAR_HEIGHT
         : _offsetValue - NAVBAR_HEIGHT;
 
@@ -147,7 +147,7 @@ const AnimatedVerseList = (props) => {
       onStartShouldSetResponderCapture: () => true,
       onMoveShouldSetResponder: () => true,
       onMoveShouldSetResponderCapture: () => true,
-      onResponderGrant: () => { },
+      onResponderGrant: () => {},
       onResponderMove: (evt, gestureState) => {
         let thumbS = thumbSize;
         if (gestureState.pinch && gestureState.previousPinch) {
@@ -181,8 +181,8 @@ const AnimatedVerseList = (props) => {
       onResponderRelease: (gestureState) => {
         setGestureState({ ...gestureState });
       },
-      onResponderTerminate: () => { },
-      onResponderSingleTapConfirmed: () => { },
+      onResponderTerminate: () => {},
+      onResponderSingleTapConfirmed: () => {},
       moveThreshold: 2,
       debug: false,
     })
@@ -240,10 +240,10 @@ const AnimatedVerseList = (props) => {
         chapterContent.length === 0
           ? styles.centerEmptySet
           : {
-            paddingHorizontal: 16,
-            paddingTop: visibleParallelView ? 52 : 90,
-            paddingBottom: 90,
-          }
+              paddingHorizontal: 16,
+              paddingTop: visibleParallelView ? 52 : 90,
+              paddingBottom: 90,
+            }
       }
       scrollEventThrottle={1}
       onMomentumScrollBegin={_onMomentumScrollBegin}

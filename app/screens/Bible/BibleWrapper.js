@@ -1,5 +1,5 @@
 import React from "react";
-import Bible from "./";
+import Bible from "./Bible";
 import LoginDataProvider from "../../context/LoginDataProvider";
 import BibleContextProvider from "../../context/BibleContextProvider";
 const BibleWrapper = (props) => {

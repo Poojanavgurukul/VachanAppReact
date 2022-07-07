@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, useContext } from "react";
+import React, { useContext } from "react";
 import { Text, Alert } from "react-native";
 import { connect } from "react-redux";
 import { selectContent, parallelVisibleView } from "../../store/action/";
@@ -98,11 +98,11 @@ const VerseView = (props) => {
   };
   const isNoted = () => {
     var arr = [];
-    for (var i = 0; i <= notesList.length - 1; i++) {
-      for (var j = 0; j <= notesList[i].verses.length - 1; j++) {
-        var index = arr.indexOf(notesList[i].verses[j]);
+    for (var i = 0; i <= notesList?.length - 1; i++) {
+      for (var j = 0; j <= notesList[i]?.verses?.length - 1; j++) {
+        var index = arr.indexOf(notesList[i]?.verses[j]);
         if (index == -1) {
-          arr.push(notesList[i].verses[j]);
+          arr.push(notesList[i]?.verses[j]);
         }
       }
     }
@@ -122,20 +122,18 @@ const VerseView = (props) => {
       verseNumber: verse_num,
     });
   };
-
-  if (verseNumber == 1 && typeof verseNumber != "undefined") {
+  if (verseNumber == 1 && typeof verseNumber !== "undefined") {
     return (
       <Text
         style={styles.textStyle}
         onLayout={(event) => props.onLayout(event, index, verseNumber)}
-      // onLayout={(event) => console.log(event, "event verse")}
+        // onLayout={(event) => console.log(event, "event verse")}
       >
         {chapterHeader ? (
           <Text style={styles.sectionHeading}>
             {chapterHeader} {"\n"}
           </Text>
         ) : null}
-
         <Text onPress={onPress}>
           <Text style={styles.verseChapterNumber}>
             {currentVisibleChapter}{" "}
@@ -145,14 +143,14 @@ const VerseView = (props) => {
               styles.textHighlight,
               isSelect() && isHighlight()
                 ? {
-                  backgroundColor: isHighlight(),
-                  textDecorationLine: "underline",
-                }
+                    backgroundColor: isHighlight(),
+                    textDecorationLine: "underline",
+                  }
                 : !isSelect() && !isHighlight()
-                  ? styles.textHighlight
-                  : !isSelect() && isHighlight()
-                    ? { backgroundColor: isHighlight() }
-                    : { textDecorationLine: "underline" },
+                ? styles.textHighlight
+                : !isSelect() && isHighlight()
+                ? { backgroundColor: isHighlight() }
+                : { textDecorationLine: "underline" },
             ]}
           >
             {getResultText(verseText)}
@@ -191,14 +189,14 @@ const VerseView = (props) => {
               styles.textHighlight,
               isSelect() && isHighlight()
                 ? {
-                  backgroundColor: isHighlight(),
-                  textDecorationLine: "underline",
-                }
+                    backgroundColor: isHighlight(),
+                    textDecorationLine: "underline",
+                  }
                 : !isSelect() && !isHighlight()
-                  ? styles.textHighlight
-                  : !isSelect() && isHighlight()
-                    ? { backgroundColor: isHighlight() }
-                    : { textDecorationLine: "underline" },
+                ? styles.textHighlight
+                : !isSelect() && isHighlight()
+                ? { backgroundColor: isHighlight() }
+                : { textDecorationLine: "underline" },
             ]}
           >
             {getResultText(verseText)}

@@ -1,13 +1,7 @@
-import store from "../store";
-const state = store.getState();
 import DbQueries from "./dbQueries";
 import Color from "./colorConstants";
 import { getBookChaptersFromMapping } from "./UtilFunctions";
-import { style } from "../screens/Bible/style";
-export function updateLangVersion(
-  currentVisibleChapter,
-  item, bId
-) {
+export function updateLangVersion(currentVisibleChapter, item, bId) {
   if (item) {
     let bookName = null;
     let bookId = null;
@@ -30,7 +24,10 @@ export function updateLangVersion(
         }
       }
     }
-    let chapterNum = parseInt(currentVisibleChapter) > getBookChaptersFromMapping(bookId) ? 1 : parseInt(currentVisibleChapter);
+    let chapterNum =
+      parseInt(currentVisibleChapter) > getBookChaptersFromMapping(bookId)
+        ? 1
+        : parseInt(currentVisibleChapter);
 
     var time = new Date();
     DbQueries.addHistory(
@@ -44,7 +41,7 @@ export function updateLangVersion(
       item.downloaded,
       time
     );
-    return { bookId, bookName, chapterNum }
+    return { bookId, bookName, chapterNum };
   } else {
     return;
   }

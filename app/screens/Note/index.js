@@ -22,7 +22,7 @@ const Note = (props) => {
 
   const onDelete = (createdTime, body, k, l) => {
     var data = [...notesData];
-    data.forEach((a, i) => {
+    data?.forEach((a, i) => {
       var firebaseRef = database().ref(
         "users/" + props.uid + "/notes/" + props.sourceId + "/" + a.bookId
       );
@@ -118,10 +118,9 @@ const Note = (props) => {
       props.navigation.navigate("Login");
     }
   };
-
   useEffect(() => {
     fetchNotes();
-  }, [email]);
+  }, []);
   const renderItem = ({ item, index }) => {
     var bookName = null;
     if (bookList) {
@@ -162,7 +161,7 @@ const Note = (props) => {
                 <Text style={style.noteText}>
                   {props.languageName &&
                     props.languageName.charAt(0).toUpperCase() +
-                    props.languageName.slice(1)}{" "}
+                      props.languageName.slice(1)}{" "}
                   {props.versionCode && props.versionCode.toUpperCase()}{" "}
                   {bookName} {item.chapterNumber} {":"} {val.verses.join()}
                 </Text>
@@ -185,6 +184,7 @@ const Note = (props) => {
       ));
     return <View>{bookName && value}</View>;
   };
+
   return (
     <View style={style.container}>
       {isLoading && message.length != 0 ? (
@@ -222,6 +222,7 @@ const Note = (props) => {
               : style.noteFlatlistCustom
           }
           renderItem={renderItem}
+          keyExtractor={(item) => item.createdTime}
           containerStyle={style.emptyMessageContainer}
           icon="note"
           iconStyle={style.emptyMessageIcon}

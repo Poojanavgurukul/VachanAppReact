@@ -3,7 +3,7 @@ import React, {
   useContext,
   useState,
   useEffect,
-  useRef
+  useRef,
 } from "react";
 import { connect } from "react-redux";
 import {
@@ -56,9 +56,9 @@ const BibleContextProvider = (props) => {
   const [bookList, setBookList] = useState([]);
   const [audioList, setAudioList] = useState([]);
   const [verseNum, setVerseNum] = useState([]);
-  const verseScroll = useRef()
-  var arrLayout = []
-  const [arrl, setArrL] = useState([])
+  const verseScroll = useRef();
+  var arrLayout = [];
+  const [arrl, setArrL] = useState([]);
 
   const navigateToSelectionTab = () => {
     setStatus(false);
@@ -101,7 +101,7 @@ const BibleContextProvider = (props) => {
         chapterNumber: parseInt(item.chapterNumber),
         totalChapters: item.totalChapters,
       });
-      setVerseNum(item.selectedVerse)
+      setVerseNum(item.selectedVerse);
     } else {
       return;
     }
@@ -118,7 +118,7 @@ const BibleContextProvider = (props) => {
     if (arrl.length != 0) {
       setArrL([...arrl, ...arrLayout]);
     } else {
-      setArrL(arrLayout);//arrLayout
+      setArrL(arrLayout); //arrLayout
     }
     updateLayout();
   };
@@ -139,8 +139,8 @@ const BibleContextProvider = (props) => {
   }, [verseNum]);
   useEffect(() => {
     updateLayout();
-    setArrL([])
-  }, [previousContent, nextContent]);//previousContent.chapterId, nextContent.chapterId
+    setArrL([]);
+  }, [previousContent, nextContent]); //previousContent.chapterId, nextContent.chapterId
   const onScrollLayout = (event, index, verseNumber) => {
     if (verseNumber != undefined) {
       arrLayout[verseNumber - 1] = {
@@ -218,8 +218,11 @@ const BibleContextProvider = (props) => {
     try {
       if (res.length !== 0) {
         let data = res.filter((item) => {
-          if (item.language.name === language.toLowerCase() && item?.audioBibles[0]?.books.hasOwnProperty(bookId)) {
-            return item
+          if (
+            item.language.name === language.toLowerCase() &&
+            item?.audioBibles[0]?.books.hasOwnProperty(bookId)
+          ) {
+            return item;
           }
         });
         // console.log(data, 'data')
@@ -297,17 +300,16 @@ const BibleContextProvider = (props) => {
         // }
       }
       var res =
-        bookListData.length == 0
+        bookListData?.length == 0
           ? []
           : bookListData.sort(function (a, b) {
-            return a.bookNumber - b.bookNumber;
-          });
+              return a.bookNumber - b.bookNumber;
+            });
       setBookList(res);
     } catch (error) {
       console.log("ERROR ", error);
     }
   };
-
 
   useEffect(() => {
     getBookList();
@@ -338,7 +340,7 @@ const BibleContextProvider = (props) => {
         bookList,
         onScrollLayout,
         scrollToVerse,
-        verseScroll
+        verseScroll,
       }}
     >
       {props.children}

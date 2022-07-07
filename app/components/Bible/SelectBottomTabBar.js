@@ -3,7 +3,7 @@ import { Text, TouchableOpacity, View } from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import Color from "../../utils/colorConstants";
 import { LoginData } from "../../context/LoginDataProvider";
-import { BibleMainContext } from "../../screens/Bible";
+import { BibleMainContext } from "../../screens/Bible/Bible";
 const SelectBottomTabBar = () => {
   const [{ styles }] = useContext(BibleMainContext);
   const {
@@ -19,7 +19,12 @@ const SelectBottomTabBar = () => {
     <View style={styles.bottomBar}>
       <View style={styles.bottomOption}>
         <TouchableOpacity
-          onPress={() => { bottomHighlightText == true ? setShowColorGrid(!showColorGrid) : doHighlight() }}>
+          onPress={() => {
+            bottomHighlightText == true
+              ? setShowColorGrid(!showColorGrid)
+              : doHighlight();
+          }}
+        >
           <Text style={styles.bottomOptionText}>
             {bottomHighlightText == true ? "HIGHLIGHT" : "REMOVE HIGHLIGHT"}
           </Text>
