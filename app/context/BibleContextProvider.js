@@ -123,13 +123,11 @@ const BibleContextProvider = (props) => {
     updateLayout();
   };
   const updateLayout = () => {
-    if (arrl != undefined) {
-      let item = arrl.filter((i) => i?.verseNumber == verseNum);
-      if (item.length > 0) {
-        if (item[0].verseNumber == verseNum) {
-          const offset = getOffset(verseNum - 1);
-          verseScroll.current.scrollToOffset({ offset, animated: true });
-        }
+    let item = arrl?.filter((i) => i?.verseNumber == verseNum);
+    if (item?.length > 0) {
+      if (item[0].verseNumber == verseNum) {
+        const offset = getOffset(verseNum - 1);
+        verseScroll.current.scrollToOffset({ offset, animated: true });
       }
     }
   };
@@ -216,16 +214,19 @@ const BibleContextProvider = (props) => {
   const audioComponentUpdate = async () => {
     let res = await vApi.get("audiobibles");
     try {
-      if (res.length !== 0) {
+      if (res.length != 0) {
         let data = res.filter((item) => {
           if (
-            item.language.name === language.toLowerCase() &&
+            item.language.name == language.toLowerCase() &&
             item?.audioBibles[0]?.books.hasOwnProperty(bookId)
           ) {
             return item;
+          } else {
+            if (item.language.name == language.toLowerCase()) {
+              setAudioList(item?.audioBibles[0]?.books);
+            }
           }
         });
-        // console.log(data, 'data')
         if (data.length != 0) {
           props.APIAudioURL({
             audioURL: data[0].audioBibles[0].url,
@@ -235,7 +236,10 @@ const BibleContextProvider = (props) => {
           setAudioList(audioList);
           setAudio(true);
         } else {
-          props.APIAudioURL({ audioURL: null, audioFormat: null });
+          props.APIAudioURL({
+            audioURL: null,
+            audioFormat: null,
+          });
           setAudio(false);
         }
       }
@@ -282,22 +286,6 @@ const BibleContextProvider = (props) => {
             found = true;
           }
         }
-        // if (!found) {
-        //   //can exit app to refresh the data or give alert
-        //   Alert.alert(
-        //     "Check for update in languageList screen",
-        //     [
-        //       {
-        //         text: "OK",
-        //         onPress: () => {
-        //           return;
-        //         },
-        //       },
-        //     ],
-        //     { cancelable: false }
-        //   );
-        //   // BackHandler.exitApp();
-        // }
       }
       var res =
         bookListData?.length == 0

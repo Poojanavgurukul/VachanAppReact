@@ -44,10 +44,11 @@ const Audio = (props) => {
       </Card>
     );
   };
-  const audioData = async () => {
+
+  const audioData = () => {
     try {
       if (bookList) {
-        const audioBooks = props.audioList && props.audioList[0].books;
+        const audioBooks = props.audioList[0].books;
         const arrayBooks = audioBooks && Object.keys(audioBooks);
         const allBooks = bookList.map((code) => code);
         let allAudioBook = [];
@@ -68,11 +69,10 @@ const Audio = (props) => {
       console.log("ERROR ------> ", error);
     }
   };
-
   useEffect(() => {
     audioData();
   }, []);
-  const keyExtractor = (item, index) => item.bookId;
+  const keyExtractor = (item, index) => index;
   return (
     <View style={styles.container}>
       <ListContainer
