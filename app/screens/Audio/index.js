@@ -49,20 +49,17 @@ const Audio = (props) => {
     try {
       if (bookList) {
         const audioBooks = props.audioList[0].books;
-        console.log(audioBooks, "audioBooks");
         const arrayBooks = audioBooks && Object.keys(audioBooks);
         const allBooks = bookList.map((code) => code);
         let allAudioBook = [];
         if (arrayBooks != undefined) {
           for (var i = 0; i < arrayBooks.length; i++) {
             let temp = allBooks.find((item) => item.bookId === arrayBooks[i]);
-            console.log(temp, "aubook");
             allAudioBook.push(temp);
           }
           if (allAudioBook.length === 0) {
             setMessage(`Audio for ${props.language} not available`);
           } else {
-            console.log(allAudioBook, "booksaud");
             setAllAudioBooks(allAudioBook);
             setMessage("");
           }
@@ -72,7 +69,6 @@ const Audio = (props) => {
       console.log("ERROR ------> ", error);
     }
   };
-  console.log(allAudioBooks, "hhhah");
   useEffect(() => {
     audioData();
   }, []);

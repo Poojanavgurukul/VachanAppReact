@@ -103,7 +103,7 @@ const App = (props) => {
     return () => {
       unsubscribenetinfo && unsubscribenetinfo();
     };
-  }, [isConnected]);
+  }, []);
 
   return (
     <Root>

@@ -124,7 +124,7 @@ const BibleContextProvider = (props) => {
   };
   const updateLayout = () => {
     let item = arrl?.filter((i) => i?.verseNumber == verseNum);
-    if (item.length > 0) {
+    if (item?.length > 0) {
       if (item[0].verseNumber == verseNum) {
         const offset = getOffset(verseNum - 1);
         verseScroll.current.scrollToOffset({ offset, animated: true });
@@ -286,22 +286,6 @@ const BibleContextProvider = (props) => {
             found = true;
           }
         }
-        // if (!found) {
-        //   //can exit app to refresh the data or give alert
-        //   Alert.alert(
-        //     "Check for update in languageList screen",
-        //     [
-        //       {
-        //         text: "OK",
-        //         onPress: () => {
-        //           return;
-        //         },
-        //       },
-        //     ],
-        //     { cancelable: false }
-        //   );
-        //   // BackHandler.exitApp();
-        // }
       }
       var res =
         bookListData?.length == 0

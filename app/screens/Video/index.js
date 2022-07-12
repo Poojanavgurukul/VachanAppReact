@@ -12,12 +12,10 @@ const Video = (props) => {
   const bookName = props.route.params ? props.route.params.bookName : null;
   const { bookList } = useContext(MainContext);
   const [videos, setVideos] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
   const style = styles(props.colorFile, props.sizeFile);
   const { languageCode } = props;
   const [message, setMessage] = useState("");
   const fetchVideo = async () => {
-    setIsLoading(true);
     const videosRes = await vApi.get("videos?language=" + languageCode);
     let videoBook = [];
     let videoAll = [];
@@ -49,16 +47,8 @@ const Video = (props) => {
       if (found) {
         setVideos(videoBook);
         setMessage("");
-        setIsLoading(false);
       } else {
         if (bookId) {
-          // ToastAndroid.showWithGravityAndOffset(
-          //   'Video for ' + this.state.bookName + ' is unavailable. You can check other books',
-          //   ToastAndroid.LONG,
-          //   ToastAndroid.CENTER,
-          //   25,
-          //   50
-          // );
           Toast.show({
             text:
               "Video for " +
@@ -79,7 +69,6 @@ const Video = (props) => {
         }, []);
         setVideos(elements);
         setMessage("");
-        setIsLoading(false);
       }
     } else {
       setMessage("No Video for " + props.languageName);
