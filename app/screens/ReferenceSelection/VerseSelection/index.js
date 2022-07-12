@@ -53,7 +53,10 @@ const SelectVerse = (props) => {
   };
   useEffect(() => {
     fectchVerses();
-  }, [selectedBookId, selectedChapterNumber]);
+  }, []);
+  useEffect(() => {
+    fectchVerses();
+  }, [versesData]);
   return (
     <View style={{ flex: 1 }}>
       <SelectionGrid

@@ -85,7 +85,7 @@ const Bible = (props) => {
     _handleAppStateChange,
     setAudio,
     setNextContent,
-    // scrollToVerse,
+    scrollToVerse,
     audioComponentUpdate,
   } = useContext(BibleContext);
   const prevChapter = useRef(currentVisibleChapter).current;
@@ -394,6 +394,7 @@ const Bible = (props) => {
   }, [language, sourceId, baseAPI]);
   useEffect(() => {
     getChapter(null, null);
+    scrollToVerse();
     audioComponentUpdate();
     console.log("selectedVerse ------> ", selectedVerse);
   }, []);

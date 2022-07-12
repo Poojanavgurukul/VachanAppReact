@@ -67,6 +67,7 @@ const PlayVideo = (props) => {
         onReady={() => onReady}
         onError={onError}
         volume={50}
+        webViewStyle={{ opacity: 0.99 }}
         playbackRate={1}
       />
       <Text style={style.description}>{description}</Text>
