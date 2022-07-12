@@ -59,6 +59,38 @@ const About = (props) => {
               (https://www.bridgeconn.com)
             </Text>{" "}
             who is the localization and technology partner.{"\n"}
+            <Text
+              textBreakStrategy={"simple"}
+              style={style.TitleText}
+              onPress={() => {
+                Linking.openURL(
+                  "https://github.com/Bridgeconn/VachanAppReact/releases"
+                );
+              }}
+            >
+              {"\n"}Release Notes 15/07/2022 v1.3.5{"\n"}
+            </Text>
+            <Text textBreakStrategy={"simple"} style={style.bulletIcon}>
+              {"\u2022" + " "}
+            </Text>
+            Bug fixes and performance improvements.
+            <Text textBreakStrategy={"simple"} style={style.TitleText}>
+              {"\n"}Release Notes 02/04/2022 v1.3.4
+            </Text>
+            <Text textBreakStrategy={"simple"} style={style.releaseNoteText}>
+              {"\n"}Operations Update:{"\n"}
+            </Text>
+            <Text textBreakStrategy={"simple"} style={style.bulletIcon}>
+              {"\u2022" + " "}
+            </Text>
+            Code refactoring for better user experience.
+            <Text textBreakStrategy={"simple"} style={style.releaseNoteText}>
+              {"\n"} Bug Fixes:{"\n"}
+            </Text>
+            <Text textBreakStrategy={"simple"} style={style.bulletIcon}>
+              {"\u2022" + " "}
+            </Text>
+            Minor UI responsiveness related bugs were fixed.
             <Text textBreakStrategy={"simple"} style={style.TitleText}>
               {"\n"}Release Notes (01/11/2021) v1.3.2
             </Text>
@@ -98,7 +130,7 @@ const About = (props) => {
             <Text textBreakStrategy={"simple"} style={style.bulletIcon}>
               {"\u2022" + " "}
             </Text>
-            React-Native version upgrade to 0.64.2{"\n"}
+            <Text>React-Native version upgrade to 0.64.2{"\n"}</Text>
             <Text textBreakStrategy={"simple"} style={style.TitleText}>
               {"\n"}Release Notes (13/07/2021) v1.3.0
             </Text>
@@ -114,7 +146,7 @@ const About = (props) => {
             </Text>
             Audio Bible: Oriya IRV NT, Dogri DSV{"\n"}
             <Text textBreakStrategy={"simple"} style={style.releaseNoteText}>
-              {"\n"}Feature Additions:{"\n"}
+              Feature Additions:{"\n"}
             </Text>
             <Text textBreakStrategy={"simple"} style={style.bulletIcon}>
               {"\u2022" + " "}
@@ -125,19 +157,13 @@ const About = (props) => {
             </Text>
             M’Cheyne Bible Reading Plan{"\n"}
             <Text textBreakStrategy={"simple"} style={style.releaseNoteText}>
-              {"\n"}Bug Fixes:{"\n"}
+              Bug Fixes:{"\n"}
             </Text>
-            <Text
-              textBreakStrategy={"simple"}
-              style={[style.bulletIcon, { ...padding }]}
-            >
+            <Text textBreakStrategy={"simple"} style={style.bulletIcon}>
               {"\u2022" + " "}
             </Text>
             Enhanced navigation icon{"\n"}
-            <Text
-              textBreakStrategy={"simple"}
-              style={[style.bulletIcon, { ...padding }]}
-            >
+            <Text textBreakStrategy={"simple"} style={style.bulletIcon}>
               {"\u2022" + " "}
             </Text>
             Colour tray has been hidden when not in use{"\n"}
@@ -147,10 +173,7 @@ const About = (props) => {
             <Text textBreakStrategy={"simple"} style={style.releaseNoteText}>
               {"\n"}Bug Fixes:{"\n"}
             </Text>
-            <Text
-              textBreakStrategy={"simple"}
-              style={[style.bulletIcon, { ...padding }]}
-            >
+            <Text textBreakStrategy={"simple"} style={style.bulletIcon}>
               {"\u2022" + " "}
             </Text>
             Fixed Google Sync and logout issue on state change{"\n"}
@@ -160,17 +183,11 @@ const About = (props) => {
             <Text textBreakStrategy={"simple"} style={style.releaseNoteText}>
               {"\n"}Content Additions (Using Vachan API’s):{"\n"}
             </Text>
-            <Text
-              textBreakStrategy={"simple"}
-              style={[style.bulletIcon, { ...padding }]}
-            >
+            <Text textBreakStrategy={"simple"} style={style.bulletIcon}>
               {"\u2022" + " "}
             </Text>
             Bibles: ESV Bible, Haryanvi NT, Bilaspuri NT{"\n"}
-            <Text
-              textBreakStrategy={"simple"}
-              style={[style.bulletIcon, { ...padding }]}
-            >
+            <Text textBreakStrategy={"simple"} style={style.bulletIcon}>
               {"\u2022" + " "}
             </Text>
             Audio Bible: Hindi IRV OT, Punjabi IRV, Bilaspuri NT, Haryanvi NT
@@ -178,10 +195,7 @@ const About = (props) => {
             <Text textBreakStrategy={"simple"} style={style.releaseNoteText}>
               {"\n"}Operations Update:{"\n"}
             </Text>
-            <Text
-              textBreakStrategy={"simple"}
-              style={[style.bulletIcon, { ...padding }]}
-            >
+            <Text textBreakStrategy={"simple"} style={style.bulletIcon}>
               {"\u2022" + " "}
             </Text>
             usfm-grammar version upgrade to 2.0.0{"\n"}
@@ -191,10 +205,7 @@ const About = (props) => {
             <Text textBreakStrategy={"simple"} style={style.releaseNoteText}>
               {"\n"}Bug Fixes:{"\n"}
             </Text>
-            <Text
-              textBreakStrategy={"simple"}
-              style={[style.bulletIcon, { ...padding }]}
-            >
+            <Text textBreakStrategy={"simple"} style={style.bulletIcon}>
               {"\u2022" + " "}
             </Text>
             Fixed bug on update version alert{"\n"}
@@ -204,10 +215,7 @@ const About = (props) => {
             <Text textBreakStrategy={"simple"} style={style.releaseNoteText}>
               {"\n"}Bug Fixes:{"\n"}
             </Text>
-            <Text
-              textBreakStrategy={"simple"}
-              style={[style.bulletIcon, { ...padding }]}
-            >
+            <Text textBreakStrategy={"simple"} style={style.bulletIcon}>
               {"\u2022" + " "}
             </Text>
             Fixed Google Authentication issue{"\n"}
@@ -234,7 +242,7 @@ const About = (props) => {
             </Text>
             Videos: BibleProject (Bengali & Malayalam){"\n"}
             <Text textBreakStrategy={"simple"} style={style.releaseNoteText}>
-              {"\n"}Feature Additions:{"\n"}
+              Feature Additions:{"\n"}
             </Text>
             <Text textBreakStrategy={"simple"} style={style.bulletIcon}>
               {"\u2022" + " "}
@@ -253,7 +261,7 @@ const About = (props) => {
             </Text>
             Added appropriate user-friendly alerts for required screens{"\n"}
             <Text textBreakStrategy={"simple"} style={style.releaseNoteText}>
-              {"\n"}Bug Fixes:{"\n"}
+              Bug Fixes:{"\n"}
             </Text>
             <Text textBreakStrategy={"simple"} style={style.bulletIcon}>
               {"\u2022" + " "}
@@ -280,7 +288,7 @@ const About = (props) => {
             </Text>
             Fixed Parallel-view issues{"\n"}
             <Text textBreakStrategy={"simple"} style={style.releaseNoteText}>
-              {"\n"}Operations Update:{"\n"}
+              Operations Update:{"\n"}
             </Text>
             <Text textBreakStrategy={"simple"} style={style.bulletIcon}>
               {"\u2022" + " "}
@@ -294,7 +302,7 @@ const About = (props) => {
             <Text textBreakStrategy={"simple"} style={style.TitleText}>
               {"\n"}Release Notes v1.0{"\n"}
             </Text>
-            <Text textBreakStrategy={"simple"} style={{ fontWeight: "bold" }}>
+            <Text textBreakStrategy={"simple"} style={style.boldText}>
               Platform:{" "}
             </Text>
             React-Native, powered by Postgres and Python APIs (VachanEngine) in
@@ -327,7 +335,7 @@ const About = (props) => {
             <Text textBreakStrategy={"simple"} style={style.bulletIcon}>
               {"\u2022" + " "}
             </Text>
-            Video: BibleProject (English, Hindi & Telugu){"\n"}
+            Video: BibleProject (English, Hindi & Telugu)
             <Text textBreakStrategy={"simple"} style={style.releaseNoteText}>
               {"\n"}Features:{"\n"}
             </Text>
@@ -350,7 +358,7 @@ const About = (props) => {
             <Text textBreakStrategy={"simple"} style={style.bulletIcon}>
               {"\u2022" + " "}
             </Text>
-            Basic Bible search.{"\n"}
+            Basic Bible search.
             <Text textBreakStrategy={"simple"} style={style.releaseNoteText}>
               {"\n"}Backend Services:{"\n"}
             </Text>
