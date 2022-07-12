@@ -28,7 +28,6 @@ import ProfilePage from "../screens/Auth/ProfilePage";
 import Auth from "../screens/Auth/";
 
 import DrawerScreen from "../screens/DrawerScreen";
-import Bible from "../screens/Bible/Bible";
 import LanguageList from "../screens/LanguageList";
 
 import ReferenceSelection from "../screens/ReferenceSelection/";
@@ -136,7 +135,7 @@ function NavStackScreen() {
           headerTitle: Platform.OS === "android" ? "Notes" : null,
         }}
       />
-      <NavStack.Screen name="EditNote" component={EditNote} options={{}} />
+      <NavStack.Screen name="EditNote" component={EditNote} />
       <NavStack.Screen
         name="Highlights"
         component={Highlights}

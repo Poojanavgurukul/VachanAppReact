@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Text, View, TouchableOpacity, Alert } from "react-native";
 import FlowLayout from "../../components/FlowLayout";
 import { CommonActions } from "@react-navigation/native";
-import { HeaderBackButton } from "@react-navigation/stack";
 import { styles } from "./styles.js";
 import { connect } from "react-redux";
 import database from "@react-native-firebase/database";
@@ -10,6 +9,7 @@ import Color from "../../utils/colorConstants";
 import { getBookChaptersFromMapping } from "../../utils/UtilFunctions";
 import { updateVersionBook } from "../../store/action/";
 import QuillEditor, { QuillToolbar } from "react-native-cn-quill";
+import { useLayoutEffect } from "react";
 
 const EditNote = (props) => {
   const noteIndex = props.route.params ? props.route.params.noteIndex : null;
@@ -17,7 +17,6 @@ const EditNote = (props) => {
   const bcvRef = props.route.params ? props.route.params.bcvRef : null;
   let bodyData = props.route.params ? props.route.params.contentBody : "";
   const [contentBody, setContentBody] = useState(bodyData);
-  const [editorData, setEditorData] = useState("");
 
   const _editor = React.createRef();
   const style = styles(props.colorFile, props.sizeFile);
@@ -59,7 +58,7 @@ const EditNote = (props) => {
         updates[bcvRef.chapterNumber] = notesArray;
         firebaseRef.update(updates);
       }
-      props.route.params.onbackNote();
+      props?.route?.params?.onbackNote();
       props.navigation.pop();
     }
   };
@@ -136,16 +135,11 @@ const EditNote = (props) => {
     props.navigation.navigate("Bible");
   };
 
-  const handleGetHtml = () => {
-    _editor.current?.getHtml().then((res) => {});
-  };
-
   const onHtmlChange = (html) => {
     setContentBody(html.html);
-    setEditorData("hello");
   };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     props.navigation.setOptions({
       headerTitle: () => (
         <Text
@@ -161,7 +155,7 @@ const EditNote = (props) => {
       ),
       // headerLeft: () => <HeaderBackButton tintColor={Color.White} onPress={() => onBack()} />,
       headerRight: () => (
-        <TouchableOpacity style={{ margin: 8 }} onPress={() => saveNote()}>
+        <TouchableOpacity style={{ margin: 8 }} onPress={saveNote}>
           <Text
             style={{
               fontSize: 16,
@@ -176,14 +170,6 @@ const EditNote = (props) => {
       ),
     });
   }, [contentBody]);
-
-  const handleTextChange = (data) => {
-    // setContentBody(data)
-    // setEditorData(data)
-  };
-  // handleSelectionChange = async (data) => {
-
-  // }
 
   return (
     <View style={style.containerEditNote}>
@@ -202,7 +188,7 @@ const EditNote = (props) => {
         style={style.editorInput}
         ref={_editor}
         // onSelectionChange={handleSelectionChange}
-        onTextChange={handleTextChange}
+        onTextChange={() => {}}
         onHtmlChange={onHtmlChange}
         quill={{
           placeholder: "Enter your note here",
