@@ -2,26 +2,98 @@ import React from "react";
 import { Text, View, Linking, Dimensions, ScrollView } from "react-native";
 import { styles } from "./styles.js";
 import { connect } from "react-redux";
+import ListView from "../../components/ListView.js";
 const screenHeight = Dimensions.get("window").height;
 
 const About = (props) => {
   const style = styles(props.colorFile, props.sizeFile);
-  function padding(a, b, c, d) {
-    return {
-      paddingTop: a,
-      paddingRight: b ? b : a,
-      paddingBottom: c ? c : a,
-      paddingLeft: d ? d : b ? b : a,
-    };
-  }
+  const releaseNotes = {
+    "1.3.5": ["Bug fixes and performance improvements."],
+    "1.3.4.O": ["Code refactoring for better user experience."],
+    "1.3.4.B": ["Minor UI responsiveness related bugs were fixed."],
+    "1.3.2.F": [
+      "Note Editor updated to include Rich Text Format",
+      "Bible chapters can be downloaded as PDF",
+    ],
+    "1.3.2.E": [
+      "Enhanced the left panel to include Commentary and Audio",
+      "Navigation arrows -Expand/Collapse have been enhanced in various tabs for better user experience.",
+    ],
+    "1.3.1.O": [
+      "React version upgrade to 17.0.2",
+      "React-Native version upgrade to 0.64.2",
+    ],
+    "1.3.0.C": ["Bibles: Dogri DSV", "Audio Bible: Oriya IRV NT, Dogri DSV"],
+    "1.3.0.F": [
+      "Bible Stories in various languages",
+      "M’Cheyne Bible Reading Plan",
+    ],
+    "1.3.0.B": [
+      "Enhanced navigation icon",
+      "Colour tray has been hidden when not in use",
+    ],
+    "1.2.1.B": ["Fixed Google Sync and logout issue on state change"],
+    "1.2.0.C": [
+      "Bibles: ESV Bible, Haryanvi NT, Bilaspuri NT",
+      "Audio Bible: Hindi IRV OT, Punjabi IRV, Bilaspuri NT, Haryanvi NT",
+    ],
+    "1.2.0.O": ["usfm-grammar version upgrade to 2.0.0"],
+    "1.1.2.B": ["Fixed bug on update version alert"],
+    "1.1.1.B": ["Fixed Google Authentication issue"],
+    "1.1.C": [
+      "Bibles: Nagamese NT",
+      "Commentary: Bridgeway Bible Commentary (Marathi & Gujarati)",
+      "Dictionary: Easton’s Bible Dictionary (English)",
+      "Videos: BibleProject (Bengali & Malayalam)",
+    ],
+    "1.1.F": [
+      "Multi-colour highlights",
+      "Pinch zoom in and out for reading page",
+      "Added Hints section",
+      "Added appropriate user-friendly alerts for required screens",
+    ],
+    "1.1.B": [
+      "Fixed known cosmetic issues",
+      "Fixed known usability issues",
+      "Fixed issues in bookmarks and notes",
+      "Fixed issue in sync of Notes data",
+      "Fixed issue of duplication in Video pane",
+      "Fixed Parallel-view issues",
+    ],
+    "1.1.O": [
+      "Added metadata-based filtering for only published bibles to be displayed on Vachan platforms",
+      "Handle use-cases when Bible has only OT or NT books",
+    ],
+    "1.0.P": [
+      "React-Native",
+      "Powered by Postgres and Python APIs (VachanEngine) in the back-end.",
+    ],
+    "1.0.C": [
+      "Bibles: Latest versions of IRV Bibles in all available Indian Gateway languages",
+      "Commentary: IRV Notes (Hindi) + Bridgeway Bible Commentary (English)",
+      "Dictionary: IRV Dictionary (Hindi)",
+      "Infographics: VisualUnit (Hindi)",
+      "Audio: IRV NT Bible (Hindi)",
+      "Video: BibleProject (English, Hindi & Telugu)",
+    ],
+    "1.0.F": [
+      "Clean Bible reading pane with section-headings.",
+      "Parallel 2-pane feature to display Bibles, Commentaries etc.",
+      "Personalization using simple login.",
+      "Bookmarks, Highlights & Notes.",
+      "Basic Bible search.",
+    ],
+    "1.0.BS": [
+      "DigitalOcean Spaces with CDN to serve Audio & Video",
+      "Firebase for personalisation and synchronisation with website",
+    ],
+  };
   return (
     <View style={[style.container, { height: screenHeight }]}>
       <ScrollView>
         <View style={style.textContainer}>
-          <Text style={style.textStyle} textBreakStrategy={"simple"}>
-            <Text textBreakStrategy={"simple"} style={style.TitleText}>
-              Introduction{"\n"}
-            </Text>
+          <Text style={style.titleText}>Introduction</Text>
+          <Text style={style.textStyle}>
             The VachanGo app is a Bible Study app developed to facilitate
             digital scripture engagement in Indian Languages. It is a companion
             app for the{" "}
@@ -31,20 +103,24 @@ const About = (props) => {
                 Linking.openURL("https://vachanonline.com");
               }}
             >
-              https://vachanonline.com{" "}
-            </Text>
-            website.{"\n"}
+              https://vachanonline.com
+            </Text>{" "}
+            website{"\n"}
+          </Text>
+          <Text style={style.textStyle}>
             Both the VachanGo Bible app and the VachanOnline.com Bible website
             come to you under aegis of The Vachan Project initiative,
             established to provide free access to Bible Study tools in Indian
             Languages.{"\n"}
+          </Text>
+          <Text style={style.textStyle}>
             Since the content is brought to you under multiple licensing
             arrangements, it is requested that it not be further redistributed
             in any other format or platform without explicit permission from the
-            original copyright owners.{"\n"}
-            <Text textBreakStrategy={"simple"} style={styles.TitleText}>
-              {"\n"}Content and Technology Partners{"\n"}
-            </Text>
+            original copyright owners.
+          </Text>
+          <Text style={style.titleText}>Content and Technology Partners</Text>
+          <Text style={style.textStyle}>
             VachanGo is being made available under a collaborative arrangement
             of Friends of Agape, unfoldingWord, Wycliffe Associates, Crossway,
             Bridgeway Publications, Dusty Sandals, BibleProject, Visual Unit,
@@ -58,316 +134,81 @@ const About = (props) => {
             >
               (https://www.bridgeconn.com)
             </Text>{" "}
-            who is the localization and technology partner.{"\n"}
-            <Text textBreakStrategy={"simple"} style={style.TitleText}>
-              {"\n"}Release Notes (01/11/2021) v1.3.2
-            </Text>
-            <Text textBreakStrategy={"simple"} style={style.releaseNoteText}>
-              {"\n"}Feature Additions:{"\n"}
-            </Text>
-            <Text textBreakStrategy={"simple"} style={style.bulletIcon}>
-              {"\u2022" + " "}
-            </Text>
-            Note Editor updated to include Rich Text Format{"\n"}
-            <Text textBreakStrategy={"simple"} style={style.bulletIcon}>
-              {"\u2022" + " "}
-            </Text>
-            Bible chapters can be downloaded as PDF{"\n"}
-            <Text textBreakStrategy={"simple"} style={style.releaseNoteText}>
-              {"\n"}Enhancements:{"\n"}
-            </Text>
-            <Text textBreakStrategy={"simple"} style={style.bulletIcon}>
-              {"\u2022" + " "}
-            </Text>
-            Enhanced the left panel to include Commentary and Audio{"\n"}
-            <Text textBreakStrategy={"simple"} style={style.bulletIcon}>
-              {"\u2022" + " "}
-            </Text>
-            Navigation arrows -Expand/Collapse have been enhanced in various
-            tabs for better user experience.{"\n"}
-            <Text textBreakStrategy={"simple"} style={style.TitleText}>
-              {"\n"}Release Notes (14/09/2021) v1.3.1
-            </Text>
-            <Text textBreakStrategy={"simple"} style={style.releaseNoteText}>
-              {"\n"}Operations Update:{"\n"}
-            </Text>
-            <Text textBreakStrategy={"simple"} style={style.bulletIcon}>
-              {"\u2022" + " "}
-            </Text>
-            React version upgrade to 17.0.2{"\n"}
-            <Text textBreakStrategy={"simple"} style={style.bulletIcon}>
-              {"\u2022" + " "}
-            </Text>
-            React-Native version upgrade to 0.64.2{"\n"}
-            <Text textBreakStrategy={"simple"} style={style.TitleText}>
-              {"\n"}Release Notes (13/07/2021) v1.3.0
-            </Text>
-            <Text textBreakStrategy={"simple"} style={style.releaseNoteText}>
-              {"\n"}Content Additions (using Vachan API’s):{"\n"}
-            </Text>
-            <Text textBreakStrategy={"simple"} style={style.bulletIcon}>
-              {"\u2022" + " "}
-            </Text>
-            Bibles: Dogri DSV{"\n"}
-            <Text textBreakStrategy={"simple"} style={style.bulletIcon}>
-              {"\u2022" + " "}
-            </Text>
-            Audio Bible: Oriya IRV NT, Dogri DSV{"\n"}
-            <Text textBreakStrategy={"simple"} style={style.releaseNoteText}>
-              {"\n"}Feature Additions:{"\n"}
-            </Text>
-            <Text textBreakStrategy={"simple"} style={style.bulletIcon}>
-              {"\u2022" + " "}
-            </Text>
-            Bible Stories in various languages{"\n"}
-            <Text textBreakStrategy={"simple"} style={style.bulletIcon}>
-              {"\u2022" + " "}
-            </Text>
-            M’Cheyne Bible Reading Plan{"\n"}
-            <Text textBreakStrategy={"simple"} style={style.releaseNoteText}>
-              {"\n"}Bug Fixes:{"\n"}
-            </Text>
-            <Text
-              textBreakStrategy={"simple"}
-              style={[style.bulletIcon, { ...padding }]}
-            >
-              {"\u2022" + " "}
-            </Text>
-            Enhanced navigation icon{"\n"}
-            <Text
-              textBreakStrategy={"simple"}
-              style={[style.bulletIcon, { ...padding }]}
-            >
-              {"\u2022" + " "}
-            </Text>
-            Colour tray has been hidden when not in use{"\n"}
-            <Text textBreakStrategy={"simple"} style={style.TitleText}>
-              {"\n"}Release Notes (30/05/2021) v1.2.1
-            </Text>
-            <Text textBreakStrategy={"simple"} style={style.releaseNoteText}>
-              {"\n"}Bug Fixes:{"\n"}
-            </Text>
-            <Text
-              textBreakStrategy={"simple"}
-              style={[style.bulletIcon, { ...padding }]}
-            >
-              {"\u2022" + " "}
-            </Text>
-            Fixed Google Sync and logout issue on state change{"\n"}
-            <Text textBreakStrategy={"simple"} style={style.TitleText}>
-              {"\n"}Release Notes (28/05/2021) v1.2.0
-            </Text>
-            <Text textBreakStrategy={"simple"} style={style.releaseNoteText}>
-              {"\n"}Content Additions (Using Vachan API’s):{"\n"}
-            </Text>
-            <Text
-              textBreakStrategy={"simple"}
-              style={[style.bulletIcon, { ...padding }]}
-            >
-              {"\u2022" + " "}
-            </Text>
-            Bibles: ESV Bible, Haryanvi NT, Bilaspuri NT{"\n"}
-            <Text
-              textBreakStrategy={"simple"}
-              style={[style.bulletIcon, { ...padding }]}
-            >
-              {"\u2022" + " "}
-            </Text>
-            Audio Bible: Hindi IRV OT, Punjabi IRV, Bilaspuri NT, Haryanvi NT
-            {"\n"}
-            <Text textBreakStrategy={"simple"} style={style.releaseNoteText}>
-              {"\n"}Operations Update:{"\n"}
-            </Text>
-            <Text
-              textBreakStrategy={"simple"}
-              style={[style.bulletIcon, { ...padding }]}
-            >
-              {"\u2022" + " "}
-            </Text>
-            usfm-grammar version upgrade to 2.0.0{"\n"}
-            <Text textBreakStrategy={"simple"} style={style.TitleText}>
-              {"\n"}Release Notes (19/03/2021) v1.1.2
-            </Text>
-            <Text textBreakStrategy={"simple"} style={style.releaseNoteText}>
-              {"\n"}Bug Fixes:{"\n"}
-            </Text>
-            <Text
-              textBreakStrategy={"simple"}
-              style={[style.bulletIcon, { ...padding }]}
-            >
-              {"\u2022" + " "}
-            </Text>
-            Fixed bug on update version alert{"\n"}
-            <Text textBreakStrategy={"simple"} style={style.TitleText}>
-              {"\n"}Release Notes (17/03/2021) v1.1.1
-            </Text>
-            <Text textBreakStrategy={"simple"} style={style.releaseNoteText}>
-              {"\n"}Bug Fixes:{"\n"}
-            </Text>
-            <Text
-              textBreakStrategy={"simple"}
-              style={[style.bulletIcon, { ...padding }]}
-            >
-              {"\u2022" + " "}
-            </Text>
-            Fixed Google Authentication issue{"\n"}
-            <Text textBreakStrategy={"simple"} style={style.TitleText}>
-              {"\n"}Release Notes (05/03/2021) v1.1
-            </Text>
-            <Text textBreakStrategy={"simple"} style={style.releaseNoteText}>
-              {"\n"}Content Additions (using Vachan API’s):{"\n"}
-            </Text>
-            <Text textBreakStrategy={"simple"} style={style.bulletIcon}>
-              {"\u2022" + " "}
-            </Text>
-            Bibles: Nagamese NT{"\n"}
-            <Text textBreakStrategy={"simple"} style={style.bulletIcon}>
-              {"\u2022" + " "}
-            </Text>
-            Commentary: Bridgeway Bible Commentary (Marathi & Gujarati){"\n"}
-            <Text textBreakStrategy={"simple"} style={style.bulletIcon}>
-              {"\u2022" + " "}
-            </Text>
-            Dictionary: Easton’s Bible Dictionary (English){"\n"}
-            <Text textBreakStrategy={"simple"} style={style.bulletIcon}>
-              {"\u2022" + " "}
-            </Text>
-            Videos: BibleProject (Bengali & Malayalam){"\n"}
-            <Text textBreakStrategy={"simple"} style={style.releaseNoteText}>
-              {"\n"}Feature Additions:{"\n"}
-            </Text>
-            <Text textBreakStrategy={"simple"} style={style.bulletIcon}>
-              {"\u2022" + " "}
-            </Text>
-            Multi-colour highlights{"\n"}
-            <Text textBreakStrategy={"simple"} style={style.bulletIcon}>
-              {"\u2022" + " "}
-            </Text>
-            Pinch zoom in and out for reading page{"\n"}
-            <Text textBreakStrategy={"simple"} style={style.bulletIcon}>
-              {"\u2022" + " "}
-            </Text>
-            Added Hints section{"\n"}
-            <Text textBreakStrategy={"simple"} style={style.bulletIcon}>
-              {"\u2022" + " "}
-            </Text>
-            Added appropriate user-friendly alerts for required screens{"\n"}
-            <Text textBreakStrategy={"simple"} style={style.releaseNoteText}>
-              {"\n"}Bug Fixes:{"\n"}
-            </Text>
-            <Text textBreakStrategy={"simple"} style={style.bulletIcon}>
-              {"\u2022" + " "}
-            </Text>
-            Fixed known cosmetic issues{"\n"}
-            <Text textBreakStrategy={"simple"} style={style.bulletIcon}>
-              {"\u2022" + " "}
-            </Text>
-            Fixed known usability issues{"\n"}
-            <Text textBreakStrategy={"simple"} style={style.bulletIcon}>
-              {"\u2022" + " "}
-            </Text>
-            Fixed issues in bookmarks and notes{"\n"}
-            <Text textBreakStrategy={"simple"} style={style.bulletIcon}>
-              {"\u2022" + " "}
-            </Text>
-            Fixed issue in sync of Notes data{"\n"}
-            <Text textBreakStrategy={"simple"} style={style.bulletIcon}>
-              {"\u2022" + " "}
-            </Text>
-            Fixed issue of duplication in Video pane{"\n"}
-            <Text textBreakStrategy={"simple"} style={style.bulletIcon}>
-              {"\u2022" + " "}
-            </Text>
-            Fixed Parallel-view issues{"\n"}
-            <Text textBreakStrategy={"simple"} style={style.releaseNoteText}>
-              {"\n"}Operations Update:{"\n"}
-            </Text>
-            <Text textBreakStrategy={"simple"} style={style.bulletIcon}>
-              {"\u2022" + " "}
-            </Text>
-            Added metadata-based filtering for only published bibles to be
-            displayed on Vachan platforms{"\n"}
-            <Text textBreakStrategy={"simple"} style={style.bulletIcon}>
-              {"\u2022" + " "}
-            </Text>
-            Handle use-cases when Bible has only OT or NT books{"\n"}
-            <Text textBreakStrategy={"simple"} style={style.TitleText}>
-              {"\n"}Release Notes v1.0{"\n"}
-            </Text>
-            <Text textBreakStrategy={"simple"} style={{ fontWeight: "bold" }}>
-              Platform:{" "}
-            </Text>
-            React-Native, powered by Postgres and Python APIs (VachanEngine) in
-            the back-end.
-            <Text textBreakStrategy={"simple"} style={style.releaseNoteText}>
-              {"\n"}Content Available :{"\n"}
-            </Text>
-            <Text textBreakStrategy={"simple"} style={style.bulletIcon}>
-              {"\u2022" + " "}
-            </Text>
-            Bibles: Latest versions of IRV Bibles in all available Indian
-            Gateway languages{"\n"}
-            <Text textBreakStrategy={"simple"} style={style.bulletIcon}>
-              {"\u2022" + " "}
-            </Text>
-            Commentary: IRV Notes (Hindi) + Bridgeway Bible Commentary (English)
-            {"\n"}
-            <Text textBreakStrategy={"simple"} style={style.bulletIcon}>
-              {"\u2022" + " "}
-            </Text>
-            Dictionary: IRV Dictionary (Hindi){"\n"}
-            <Text textBreakStrategy={"simple"} style={style.bulletIcon}>
-              {"\u2022" + " "}
-            </Text>
-            Infographics: VisualUnit (Hindi) {"\n"}
-            <Text textBreakStrategy={"simple"} style={style.bulletIcon}>
-              {"\u2022" + " "}
-            </Text>
-            Audio: IRV NT Bible (Hindi){"\n"}
-            <Text textBreakStrategy={"simple"} style={style.bulletIcon}>
-              {"\u2022" + " "}
-            </Text>
-            Video: BibleProject (English, Hindi & Telugu){"\n"}
-            <Text textBreakStrategy={"simple"} style={style.releaseNoteText}>
-              {"\n"}Features:{"\n"}
-            </Text>
-            <Text textBreakStrategy={"simple"} style={style.bulletIcon}>
-              {"\u2022" + " "}
-            </Text>
-            Clean Bible reading pane with section-headings.{"\n"}
-            <Text textBreakStrategy={"simple"} style={style.bulletIcon}>
-              {"\u2022" + " "}
-            </Text>
-            Parallel 2-pane feature to display Bibles, Commentaries etc.{"\n"}
-            <Text textBreakStrategy={"simple"} style={style.bulletIcon}>
-              {"\u2022" + " "}
-            </Text>
-            Personalization using simple login.{"\n"}
-            <Text textBreakStrategy={"simple"} style={style.bulletIcon}>
-              {"\u2022" + " "}
-            </Text>
-            Bookmarks, Highlights & Notes.{"\n"}
-            <Text textBreakStrategy={"simple"} style={style.bulletIcon}>
-              {"\u2022" + " "}
-            </Text>
-            Basic Bible search.{"\n"}
-            <Text textBreakStrategy={"simple"} style={style.releaseNoteText}>
-              {"\n"}Backend Services:{"\n"}
-            </Text>
-            <Text textBreakStrategy={"simple"} style={style.bulletIcon}>
-              {"\u2022" + " "}
-            </Text>
-            DigitalOcean Spaces with CDN to serve Audio & Video{"\n"}
-            <Text textBreakStrategy={"simple"} style={style.bulletIcon}>
-              {"\u2022" + " "}
-            </Text>
-            Firebase for personalisation and synchronisation{"\n"}
-            <Text textBreakStrategy={"simple"} style={style.TitleText}>
-              {"\n"}Contact Us
-            </Text>
-            {"\n"}
-            thevachanproject@gmail.com
+            who is the localization and technology partner.
           </Text>
+          <Text
+            style={[style.linkText, style.titleText]}
+            onPress={() => {
+              Linking.openURL(
+                "https://github.com/Bridgeconn/VachanAppReact/releases"
+              );
+            }}
+          >
+            GitHub Release Notes
+          </Text>
+          <Text style={style.titleText}>Release Notes 15/07/2022 v1.3.5</Text>
+          <Text style={style.heading}>Bug Fixes:</Text>
+          <ListView data={releaseNotes["1.3.5"]} />
+          <Text style={style.titleText}>Release Notes 02/04/2022 v1.3.4</Text>
+          <Text style={style.heading}>Operations Update:</Text>
+          <ListView data={releaseNotes["1.3.4.O"]} />
+          <Text style={style.heading}>Bug Fixes:</Text>
+          <ListView data={releaseNotes["1.3.4.B"]} />
+          <Text style={style.titleText}>Release Notes (01/11/2021) v1.3.2</Text>
+          <Text style={style.heading}>Feature Additions:</Text>
+          <ListView data={releaseNotes["1.3.2.F"]} />
+          <Text style={style.heading}>Enhancements:</Text>
+          <ListView data={releaseNotes["1.3.2.E"]} />
+          <Text style={style.titleText}>Release Notes (14/09/2021) v1.3.1</Text>
+          <Text style={style.heading}>Operations Update:</Text>
+          <ListView data={releaseNotes["1.3.1.O"]} />
+          <Text style={style.titleText}>Release Notes (13/07/2021) v1.3.0</Text>
+          <Text style={style.heading}>
+            Content Additions (using Vachan API’s):
+          </Text>
+          <ListView data={releaseNotes["1.3.0.C"]} />
+          <Text style={style.heading}>Feature Additions:</Text>
+          <ListView data={releaseNotes["1.3.0.F"]} />
+          <Text style={style.heading}>Bug Fixes:</Text>
+          <ListView data={releaseNotes["1.3.0.B"]} />
+          <Text style={style.titleText}>Release Notes (30/05/2021) v1.2.1</Text>
+          <Text style={style.heading}>Bug Fixes:</Text>
+          <ListView data={releaseNotes["1.2.1.B"]} />
+          <Text style={style.titleText}>Release Notes (28/05/2021) v1.2.0</Text>
+          <Text style={style.heading}>
+            Content Additions (Using Vachan API’s):
+          </Text>
+          <ListView data={releaseNotes["1.2.0.C"]} />
+          <Text style={style.heading}>Operations Update:</Text>
+          <ListView data={releaseNotes["1.2.0.O"]} />
+          <Text style={style.titleText}>Release Notes (19/03/2021) v1.1.2</Text>
+          <Text style={style.heading}>Bug Fixes:</Text>
+          <ListView data={releaseNotes["1.1.2.B"]} />
+          <Text style={style.titleText}>Release Notes (17/03/2021) v1.1.1</Text>
+          <Text style={style.heading}>Bug Fixes:</Text>
+          <ListView data={releaseNotes["1.1.1.B"]} />
+          <Text style={style.titleText}>Release Notes (05/03/2021) v1.1</Text>
+          <Text style={style.heading}>
+            Content Additions (using Vachan API’s):
+          </Text>
+          <ListView data={releaseNotes["1.1.C"]} />
+          <Text style={style.heading}>Feature Additions:</Text>
+          <ListView data={releaseNotes["1.1.F"]} />
+          <Text style={style.heading}>Bug Fixes:</Text>
+          <ListView data={releaseNotes["1.1.B"]} />
+          <Text style={style.heading}>Operations Update:</Text>
+          <ListView data={releaseNotes["1.1.O"]} />
+          <Text style={style.titleText}>Release Notes v1.0</Text>
+          <Text style={style.heading}>Platform: </Text>
+          <ListView data={releaseNotes["1.0.P"]} />
+          <Text style={style.heading}>Content Available :</Text>
+          <ListView data={releaseNotes["1.0.C"]} />
+          <Text style={style.heading}>Features:</Text>
+          <ListView data={releaseNotes["1.0.F"]} />
+          <Text style={style.heading}>Backend Services:</Text>
+          <ListView data={releaseNotes["1.0.BS"]} />
+          <Text style={style.titleText}>Contact Us</Text>
+          <Text style={style.textStyle}>thevachanproject@gmail.com</Text>
         </View>
       </ScrollView>
     </View>

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, useContext } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import { connect } from "react-redux";
 import { styles } from "./styles.js";
