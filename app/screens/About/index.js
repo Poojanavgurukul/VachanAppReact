@@ -17,7 +17,7 @@ const About = (props) => {
     ],
     "1.3.2.E": [
       "Enhanced the left panel to include Commentary and Audio",
-      "Navigation arrows -Expand/Collapse have been enhanced in varioustabs for better user experience.",
+      "Navigation arrows -Expand/Collapse have been enhanced in various tabs for better user experience.",
     ],
     "1.3.1.O": [
       "React version upgrade to 17.0.2",
@@ -64,6 +64,10 @@ const About = (props) => {
       "Added metadata-based filtering for only published bibles to be displayed on Vachan platforms",
       "Handle use-cases when Bible has only OT or NT books",
     ],
+    "1.0.P": [
+      "React-Native",
+      "Powered by Postgres and Python APIs (VachanEngine) in the back-end.",
+    ],
     "1.0.C": [
       "Bibles: Latest versions of IRV Bibles in all available Indian Gateway languages",
       "Commentary: IRV Notes (Hindi) + Bridgeway Bible Commentary (English)",
@@ -81,7 +85,7 @@ const About = (props) => {
     ],
     "1.0.BS": [
       "DigitalOcean Spaces with CDN to serve Audio & Video",
-      "Firebase for personalisation and synchronisation",
+      "Firebase for personalisation and synchronisation with website",
     ],
   };
   return (
@@ -92,15 +96,16 @@ const About = (props) => {
           <Text style={style.textStyle}>
             The VachanGo app is a Bible Study app developed to facilitate
             digital scripture engagement in Indian Languages. It is a companion
-            app for the website
-          </Text>
-          <Text
-            style={style.linkText}
-            onPress={() => {
-              Linking.openURL("https://vachanonline.com");
-            }}
-          >
-            https://vachanonline.com.{"\n"}
+            app for the{" "}
+            <Text
+              style={style.linkText}
+              onPress={() => {
+                Linking.openURL("https://vachanonline.com");
+              }}
+            >
+              https://vachanonline.com
+            </Text>{" "}
+            website{"\n"}
           </Text>
           <Text style={style.textStyle}>
             Both the VachanGo Bible app and the VachanOnline.com Bible website
@@ -120,29 +125,28 @@ const About = (props) => {
             of Friends of Agape, unfoldingWord, Wycliffe Associates, Crossway,
             Bridgeway Publications, Dusty Sandals, BibleProject, Visual Unit,
             and is brought to you by Bridge Connectivity Solutions Pvt. Ltd.
-            (BCS)
-          </Text>
-          <Text
-            style={style.linkText}
-            onPress={() => {
-              Linking.openURL("https://www.bridgeconn.com");
-            }}
-          >
-            (https://www.bridgeconn.com)
-          </Text>
-          <Text style={style.textStyle}>
+            (BCS){" "}
+            <Text
+              style={style.linkText}
+              onPress={() => {
+                Linking.openURL("https://www.bridgeconn.com");
+              }}
+            >
+              (https://www.bridgeconn.com)
+            </Text>{" "}
             who is the localization and technology partner.
           </Text>
           <Text
-            style={style.titleText}
+            style={[style.linkText, style.titleText]}
             onPress={() => {
               Linking.openURL(
                 "https://github.com/Bridgeconn/VachanAppReact/releases"
               );
             }}
           >
-            Release Notes 15/07/2022 v1.3.5
+            GitHub Release Notes
           </Text>
+          <Text style={style.titleText}>Release Notes 15/07/2022 v1.3.5</Text>
           <Text style={style.heading}>Bug Fixes:</Text>
           <ListView data={releaseNotes["1.3.5"]} />
           <Text style={style.titleText}>Release Notes 02/04/2022 v1.3.4</Text>
@@ -195,11 +199,8 @@ const About = (props) => {
           <Text style={style.heading}>Operations Update:</Text>
           <ListView data={releaseNotes["1.1.O"]} />
           <Text style={style.titleText}>Release Notes v1.0</Text>
-          <Text style={style.boldText}>Platform: </Text>
-          <Text style={style.textStyle}>
-            React-Native, powered by Postgres and Python APIs (VachanEngine) in
-            the back-end.
-          </Text>
+          <Text style={style.heading}>Platform: </Text>
+          <ListView data={releaseNotes["1.0.P"]} />
           <Text style={style.heading}>Content Available :</Text>
           <ListView data={releaseNotes["1.0.C"]} />
           <Text style={style.heading}>Features:</Text>

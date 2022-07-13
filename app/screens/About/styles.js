@@ -22,12 +22,14 @@ export const styles = (colorFile, sizeFile) => {
       fontSize: sizeFile.titleText,
     },
     linkText: {
-      color: Color.Red,
+      color: Color.Blue_Color,
       textDecorationLine: "underline",
       fontSize: sizeFile.contentText,
     },
+
     titleText: {
       paddingTop: 6,
+      paddingBottom: 5,
       fontSize: sizeFile.titleText,
       color: colorFile.sectionHeading,
     },
@@ -48,9 +50,7 @@ export const styles = (colorFile, sizeFile) => {
       paddingLeft: 5,
     },
     heading: {
-      paddingTop: 8,
-      lineHeight: sizeFile.lineHeight,
-      fontSize: sizeFile.contentText,
+      fontSize: sizeFile.titleText,
       color: colorFile.textColor,
       fontWeight: "bold",
     },
