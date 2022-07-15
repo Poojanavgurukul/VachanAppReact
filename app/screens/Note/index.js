@@ -195,25 +195,6 @@ const Note = (props) => {
           style={style.loaderPosition}
         />
       ) : (
-        /* <FlatList
-            contentContainerStyle={
-              this.state.notesData.length === 0
-                ? this.styles.centerEmptySet
-                : this.styles.noteFlatlistCustom
-            }
-            data={this.state.notesData}listData
-            renderItem={this.renderItem}
-            ListEmptyComponent={
-              <View style={this.styles.emptyMessageContainer}>
-                <Icon name="note" style={this.styles.emptyMessageIcon} />
-                <Text
-                  style={this.styles.messageEmpty}
-                  onPress={this.emptyMessageNavigation}>
-                  {this.state.message}
-                </Text>
-              </View>
-            }
-          /> */
         <ListContainer
           listData={notesData}
           listStyle={
@@ -222,7 +203,7 @@ const Note = (props) => {
               : style.noteFlatlistCustom
           }
           renderItem={renderItem}
-          keyExtractor={(item) => item.createdTime}
+          keyExtractor={(item, i) => i}
           containerStyle={style.emptyMessageContainer}
           icon="note"
           iconStyle={style.emptyMessageIcon}

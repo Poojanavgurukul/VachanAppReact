@@ -1,38 +1,53 @@
-import React, { useState } from "react";
-import { Text, View, TouchableOpacity, Alert } from "react-native";
+import React, { useEffect, useState } from "react";
+import {
+  Text,
+  View,
+  TouchableOpacity,
+  Alert,
+  ScrollView,
+  TextInput,
+  Keyboard,
+} from "react-native";
 import FlowLayout from "../../components/FlowLayout";
-import { CommonActions } from "@react-navigation/native";
+
 import { styles } from "./styles.js";
 import { connect } from "react-redux";
 import database from "@react-native-firebase/database";
 import Color from "../../utils/colorConstants";
 import { getBookChaptersFromMapping } from "../../utils/UtilFunctions";
 import { updateVersionBook } from "../../store/action/";
-import QuillEditor, { QuillToolbar } from "react-native-cn-quill";
-import { useLayoutEffect } from "react";
 
 const EditNote = (props) => {
-  const noteIndex = props.route.params ? props.route.params.noteIndex : null;
-  const noteObject = props.route.params ? props.route.params.notesList : null;
-  const bcvRef = props.route.params ? props.route.params.bcvRef : null;
-  let bodyData = props.route.params ? props.route.params.contentBody : "";
+  const {
+    route,
+    uid,
+    colorFile,
+    sizeFile,
+    sourceId,
+    navigation,
+    updateVersionBook,
+  } = props;
+  const { params } = route;
+  const noteIndex = params ? params.noteIndex : null;
+  const noteObject = params ? params.notesList : null;
+  const bcvRef = params ? params.bcvRef : null;
+  let bodyData = params ? params.contentBody : "";
   const [contentBody, setContentBody] = useState(bodyData);
 
-  const _editor = React.createRef();
-  const style = styles(props.colorFile, props.sizeFile);
+  const style = styles(colorFile, sizeFile);
   const saveNote = () => {
     var time = Date.now();
     var firebaseRef = database().ref(
-      "users/" + props.uid + "/notes/" + props.sourceId + "/" + bcvRef.bookId
+      "users/" + uid + "/notes/" + sourceId + "/" + bcvRef.bookId
     );
     if (contentBody == "") {
       alert(" Note should not be empty");
     } else {
       var edit = database().ref(
         "users/" +
-          props.uid +
+          uid +
           "/notes/" +
-          props.sourceId +
+          sourceId +
           "/" +
           bcvRef.bookId +
           "/" +
@@ -58,50 +73,15 @@ const EditNote = (props) => {
         updates[bcvRef.chapterNumber] = notesArray;
         firebaseRef.update(updates);
       }
-      props?.route?.params?.onbackNote();
-      props.navigation.pop();
+      params?.onbackNote();
+      navigation.pop();
     }
   };
-  const showAlert = () => {
-    Alert.alert("Save Changes ? ", "Do you want to save the note ", [
-      {
-        text: "Cancel",
-        onPress: () => {
-          return;
-        },
-      },
-      {
-        text: "No",
-        onPress: () => {
-          props.navigation.dispatch(CommonActions.goBack());
-        },
-      },
-      { text: "Yes", onPress: () => saveNote() },
-    ]);
-  };
-  const onBack = async () => {
-    if (noteIndex == -1) {
-      if (contentBody == "") {
-        props.navigation.dispatch(CommonActions.goBack());
-        return;
-      }
-      showAlert();
-      return;
-    } else {
-      if (
-        contentBody !== props.route.params.contentBody ||
-        bcvRef.verses.length !== props.route.params.bcvRef.verses.length
-      ) {
-        showAlert();
-        return;
-      }
-      props.navigation.dispatch(CommonActions.goBack());
-    }
-  };
+
   const openReference = () => {
     if (
-      contentBody !== props.route.params.contentBody ||
-      bcvRef.verses.length !== props.route.params.bcvRef.verses.length
+      contentBody !== params.contentBody ||
+      bcvRef.verses.length !== params.bcvRef.verses.length
     ) {
       Alert.alert("Save Changes ? ", "Do you want to save the note ", [
         {
@@ -113,34 +93,30 @@ const EditNote = (props) => {
         {
           text: "No",
           onPress: () => {
-            props.updateVersionBook({
+            updateVersionBook({
               bookId: bcvRef.bookId,
               bookName: bcvRef.bookName,
               chapterNumber: bcvRef.chapterNumber,
               totalChapters: getBookChaptersFromMapping(bcvRef.bookId),
             });
-            props.navigation.navigate("Bible");
+            navigation.navigate("Bible");
           },
         },
-        { text: "Yes", onPress: () => saveNote() },
+        { text: "Yes", onPress: saveNote },
       ]);
       return;
     }
-    props.updateVersionBook({
+    updateVersionBook({
       bookId: bcvRef.bookId,
       bookName: bcvRef.bookName,
       chapterNumber: bcvRef.chapterNumber,
       totalChapters: getBookChaptersFromMapping(bcvRef.bookId),
     });
-    props.navigation.navigate("Bible");
+    navigation.navigate("Bible");
   };
 
-  const onHtmlChange = (html) => {
-    setContentBody(html.html);
-  };
-
-  useLayoutEffect(() => {
-    props.navigation.setOptions({
+  useEffect(() => {
+    navigation.setOptions({
       headerTitle: () => (
         <Text
           style={{
@@ -153,7 +129,6 @@ const EditNote = (props) => {
           Note
         </Text>
       ),
-      // headerLeft: () => <HeaderBackButton tintColor={Color.White} onPress={() => onBack()} />,
       headerRight: () => (
         <TouchableOpacity style={{ margin: 8 }} onPress={saveNote}>
           <Text
@@ -173,65 +148,35 @@ const EditNote = (props) => {
 
   return (
     <View style={style.containerEditNote}>
-      <View style={style.subContainer}>
-        {bcvRef && (
-          <FlowLayout
-            style={style.tapButton}
-            dataValue={bcvRef}
-            openReference={(index) => openReference(index)}
-            styles={style}
-          />
-        )}
-      </View>
-      <QuillEditor
-        // container={CustomContainer} // not required just to show how to pass cusom container
-        style={style.editorInput}
-        ref={_editor}
-        // onSelectionChange={handleSelectionChange}
-        onTextChange={() => {}}
-        onHtmlChange={onHtmlChange}
-        quill={{
-          placeholder: "Enter your note here",
-          modules: {
-            toolbar: false,
-          },
-          theme: "bubble",
-        }}
-        theme={{
-          background: props.colorFile.fedBackgroundColor,
-          color: props.colorFile.textColor,
-        }}
-        import3rdParties="cdn"
-        initialHtml={contentBody}
-      />
-      <QuillToolbar
-        editor={_editor}
-        theme="light"
-        options={[
-          ["bold", "italic", "underline"],
-          [{ list: "ordered" }, { list: "bullet" }],
-          [{ align: [] }],
-          [{ size: ["small", false, "large", "huge"] }],
-          [{ color: [] }, { background: [] }],
-        ]}
-      />
+      <ScrollView style={style.containerEditNote}>
+        <View style={style.subContainer}>
+          {bcvRef && (
+            <FlowLayout
+              style={style.tapButton}
+              dataValue={bcvRef}
+              openReference={(index) => openReference(index)}
+              styles={style}
+            />
+          )}
+        </View>
+        <TextInput
+          style={style.inputStyle}
+          placeholder="Enter your note here"
+          placeholderTextColor={style.placeholderColor.color}
+          value={contentBody}
+          onChangeText={(text) => setContentBody(text)}
+          multiline={true}
+          onSubmitEditing={Keyboard.dismiss()}
+        />
+      </ScrollView>
     </View>
   );
 };
 
 const mapStateToProps = (state) => {
   return {
-    language: state.updateVersion.language,
-    versionCode: state.updateVersion.versionCode,
     sourceId: state.updateVersion.sourceId,
-
-    email: state.userInfo.email,
     uid: state.userInfo.uid,
-
-    chapterNumber: state.updateVersion.chapterNumber,
-    totalChapters: state.updateVersion.totalChapters,
-    bookId: state.updateVersion.bookId,
-    downloaded: state.updateVersion.downloaded,
     sizeFile: state.updateStyling.sizeFile,
     colorFile: state.updateStyling.colorFile,
   };

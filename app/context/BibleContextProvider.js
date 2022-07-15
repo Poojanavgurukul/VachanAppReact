@@ -215,26 +215,16 @@ const BibleContextProvider = (props) => {
     let res = await vApi.get("audiobibles");
     try {
       if (res.length != 0) {
-        let data = res.filter((item) => {
-          if (
-            item.language.name == language.toLowerCase() &&
-            item?.audioBibles[0]?.books.hasOwnProperty(bookId)
-          ) {
-            return item;
-          } else {
-            if (item.language.name == language.toLowerCase()) {
-              setAudioList(item?.audioBibles[0]?.books);
-            }
-          }
-        });
-        if (data.length != 0) {
+        let data = res.find((i) => i.language.name == language.toLowerCase());
+        if (data) {
+          const { audioBibles } = data;
           props.APIAudioURL({
-            audioURL: data[0].audioBibles[0].url,
-            audioFormat: data[0].audioBibles[0].format,
-            audioList: data[0].audioBibles,
+            audioURL: audioBibles[0].url,
+            audioFormat: audioBibles[0].format,
+            audioList: audioBibles,
           });
           setAudioList(audioList);
-          setAudio(true);
+          setAudio(bookId in audioBibles[0]?.books);
         } else {
           props.APIAudioURL({
             audioURL: null,
@@ -265,7 +255,6 @@ const BibleContextProvider = (props) => {
           }
         }
       } else {
-        let found = false;
         let response = await vApi.get("booknames");
         for (var k = 0; k < response.length; k++) {
           if (language.toLowerCase() == response[k].language.name) {
@@ -283,7 +272,6 @@ const BibleContextProvider = (props) => {
               };
               bookListData.push(books);
             }
-            found = true;
           }
         }
       }
@@ -328,6 +316,7 @@ const BibleContextProvider = (props) => {
         bookList,
         onScrollLayout,
         scrollToVerse,
+        audioList,
         verseScroll,
       }}
     >
