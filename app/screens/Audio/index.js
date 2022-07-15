@@ -13,7 +13,6 @@ const Audio = (props) => {
   const styles = style(props.colorFile, props.sizeFile);
   const [allAudioBooks, setAllAudioBooks] = useState(bookList);
   const [message, setMessage] = useState("");
-
   const navigateToBible = (bId, bookName, chapterNum) => {
     props.updateVersionBook({
       bookId: bId,
@@ -49,14 +48,12 @@ const Audio = (props) => {
     try {
       if (bookList) {
         const audioBooks = props.audioList[0].books;
-        const arrayBooks = audioBooks && Object.keys(audioBooks);
-        const allBooks = bookList.map((code) => code);
-        let allAudioBook = [];
-        if (arrayBooks != undefined) {
-          for (var i = 0; i < arrayBooks.length; i++) {
-            let temp = allBooks.find((item) => item.bookId === arrayBooks[i]);
-            allAudioBook.push(temp);
-          }
+        if (audioBooks != undefined) {
+          const allAudioBook = Object.keys(audioBooks)
+            .map((i) => {
+              return bookList.find((item) => item.bookId === i);
+            })
+            .sort((a, b) => a.bookNumber - b.bookNumber);
           if (allAudioBook.length === 0) {
             setMessage(`Audio for ${props.language} not available`);
           } else {

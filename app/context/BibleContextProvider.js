@@ -216,15 +216,8 @@ const BibleContextProvider = (props) => {
     try {
       if (res.length != 0) {
         let data = res.filter((item) => {
-          if (
-            item.language.name == language.toLowerCase() &&
-            item?.audioBibles[0]?.books.hasOwnProperty(bookId)
-          ) {
+          if (item.language.name == language.toLowerCase()) {
             return item;
-          } else {
-            if (item.language.name == language.toLowerCase()) {
-              setAudioList(item?.audioBibles[0]?.books);
-            }
           }
         });
         if (data.length != 0) {
@@ -234,7 +227,11 @@ const BibleContextProvider = (props) => {
             audioList: data[0].audioBibles,
           });
           setAudioList(audioList);
-          setAudio(true);
+          if (data[0]?.audioBibles[0]?.books.hasOwnProperty(bookId)) {
+            setAudio(true);
+          } else {
+            setAudio(false);
+          }
         } else {
           props.APIAudioURL({
             audioURL: null,
@@ -328,6 +325,7 @@ const BibleContextProvider = (props) => {
         bookList,
         onScrollLayout,
         scrollToVerse,
+        audioList,
         verseScroll,
       }}
     >

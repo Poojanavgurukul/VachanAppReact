@@ -11,7 +11,7 @@ const Player = (props) => {
   const [currentPosition, setCurrentPosition] = useState(0);
   const [repeatOn, setRepeatOn] = useState(false);
   const [shuffleOn, setShuffleOn] = useState(false);
-  const refs = useRef()
+  const refs = useRef();
   // const adioRef = useRef();
   let loadStart;
   let videoError;
@@ -46,7 +46,7 @@ const Player = (props) => {
 
   return (
     <View style={{ flex: 1 }}>
-      {props.audioURL && (
+      {props.audioURL && props.audioList[0].books.hasOwnProperty(props.bookId) && (
         <View style={props.styles.audiocontainer}>
           <Controls
             styles={props.styles}
@@ -87,6 +87,7 @@ const mapStateToProps = (state) => {
     bookId: state.updateVersion.bookId,
     languageCode: state.updateVersion.languageCode,
     versionCode: state.updateVersion.versionCode,
+    audioList: state.updateVersion.audioList,
   };
 };
 const mapDispatchToProps = (dispatch) => {

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Text, View, TouchableOpacity, Alert } from "react-native";
 import FlowLayout from "../../components/FlowLayout";
 import { CommonActions } from "@react-navigation/native";
@@ -9,7 +9,6 @@ import Color from "../../utils/colorConstants";
 import { getBookChaptersFromMapping } from "../../utils/UtilFunctions";
 import { updateVersionBook } from "../../store/action/";
 import QuillEditor, { QuillToolbar } from "react-native-cn-quill";
-import { useLayoutEffect } from "react";
 
 const EditNote = (props) => {
   const noteIndex = props.route.params ? props.route.params.noteIndex : null;
@@ -21,6 +20,7 @@ const EditNote = (props) => {
   const _editor = React.createRef();
   const style = styles(props.colorFile, props.sizeFile);
   const saveNote = () => {
+    console.log("save");
     var time = Date.now();
     var firebaseRef = database().ref(
       "users/" + props.uid + "/notes/" + props.sourceId + "/" + bcvRef.bookId
@@ -62,42 +62,7 @@ const EditNote = (props) => {
       props.navigation.pop();
     }
   };
-  const showAlert = () => {
-    Alert.alert("Save Changes ? ", "Do you want to save the note ", [
-      {
-        text: "Cancel",
-        onPress: () => {
-          return;
-        },
-      },
-      {
-        text: "No",
-        onPress: () => {
-          props.navigation.dispatch(CommonActions.goBack());
-        },
-      },
-      { text: "Yes", onPress: () => saveNote() },
-    ]);
-  };
-  const onBack = async () => {
-    if (noteIndex == -1) {
-      if (contentBody == "") {
-        props.navigation.dispatch(CommonActions.goBack());
-        return;
-      }
-      showAlert();
-      return;
-    } else {
-      if (
-        contentBody !== props.route.params.contentBody ||
-        bcvRef.verses.length !== props.route.params.bcvRef.verses.length
-      ) {
-        showAlert();
-        return;
-      }
-      props.navigation.dispatch(CommonActions.goBack());
-    }
-  };
+
   const openReference = () => {
     if (
       contentBody !== props.route.params.contentBody ||
@@ -122,7 +87,7 @@ const EditNote = (props) => {
             props.navigation.navigate("Bible");
           },
         },
-        { text: "Yes", onPress: () => saveNote() },
+        { text: "Yes", onPress: saveNote },
       ]);
       return;
     }
@@ -139,7 +104,7 @@ const EditNote = (props) => {
     setContentBody(html.html);
   };
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     props.navigation.setOptions({
       headerTitle: () => (
         <Text
@@ -178,7 +143,7 @@ const EditNote = (props) => {
           <FlowLayout
             style={style.tapButton}
             dataValue={bcvRef}
-            openReference={(index) => openReference(index)}
+            openReference={() => openReference()}
             styles={style}
           />
         )}
@@ -188,7 +153,9 @@ const EditNote = (props) => {
         style={style.editorInput}
         ref={_editor}
         // onSelectionChange={handleSelectionChange}
-        onTextChange={() => {}}
+        onTextChange={(text) => {
+          console.log(text);
+        }}
         onHtmlChange={onHtmlChange}
         quill={{
           placeholder: "Enter your note here",
