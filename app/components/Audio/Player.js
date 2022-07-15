@@ -6,19 +6,15 @@ import { connect } from "react-redux";
 import { ToggleAudio } from "../../store/action";
 
 const Player = (props) => {
+  const { audio, audioURL, bookId, chapter, audioFormat, audioList, styles } =
+    props;
   const [paused, setPaused] = useState(true);
-  const [totalLength, setTotalLength] = useState(1);
   const [currentPosition, setCurrentPosition] = useState(0);
   const [repeatOn, setRepeatOn] = useState(false);
   const [shuffleOn, setShuffleOn] = useState(false);
   const refs = useRef();
-  // const adioRef = useRef();
   let loadStart;
   let videoError;
-
-  const setDuration = (data) => {
-    setTotalLength(Math.floor(data.duration));
-  };
 
   const setTime = (data) => {
     setCurrentPosition(Math.floor(data.currentTime));
@@ -33,23 +29,17 @@ const Player = (props) => {
   };
 
   useEffect(() => {
-    setPaused(!props.audio);
+    setPaused(!audio);
   }, []);
 
-  const audiourl =
-    props.audioURL +
-    props.bookId +
-    "/" +
-    props.chapter +
-    "." +
-    props.audioFormat;
+  const audiourl = audioURL + bookId + "/" + chapter + "." + audioFormat;
 
   return (
     <View style={{ flex: 1 }}>
-      {props.audioURL && props.audioList[0].books.hasOwnProperty(props.bookId) && (
-        <View style={props.styles.audiocontainer}>
+      {audioURL && bookId in audioList[0].books && (
+        <View style={styles.audiocontainer}>
           <Controls
-            styles={props.styles}
+            styles={styles}
             onPressRepeat={() => setRepeatOn(!repeatOn)}
             repeatOn={repeatOn}
             onPressShuffle={() => setShuffleOn(!shuffleOn)}
@@ -66,7 +56,6 @@ const Player = (props) => {
             resizeMode="cover" // Fill the whole screen at aspect ratio.
             repeat={false} // Repeat forever.
             onLoadStart={loadStart} // Callback when video starts to load
-            onLoad={setDuration} // Callback when video loads
             onProgress={setTime} // Callback every ~250ms with currentTime
             onEnd={() => setPaused(true)} // Callback when playback finishes
             onError={videoError} // Callback when video cannot be loaded
