@@ -6,7 +6,6 @@ import {
   Alert,
   ScrollView,
   TextInput,
-  Keyboard,
 } from "react-native";
 import FlowLayout from "../../components/FlowLayout";
 
@@ -166,7 +165,6 @@ const EditNote = (props) => {
           value={contentBody}
           onChangeText={(text) => setContentBody(text)}
           multiline={true}
-          onSubmitEditing={Keyboard.dismiss()}
         />
       </ScrollView>
     </View>
