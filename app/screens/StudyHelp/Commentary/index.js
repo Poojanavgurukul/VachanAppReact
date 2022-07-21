@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, useContext } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { FlatList, Alert, Text, View } from "react-native";
 import { connect } from "react-redux";
 import { Body, Header, Right, Title, Button } from "native-base";
@@ -97,7 +97,7 @@ const Commentary = (props) => {
     return (
       <View>
         {props.commentaryContent &&
-          props.commentaryContent.bookIntro == "" ? null : (
+        props.commentaryContent.bookIntro == "" ? null : (
           <View style={style.cardItemBackground}>
             <Text style={style.commentaryHeading}>Book Intro</Text>
             <HTML
@@ -120,21 +120,22 @@ const Commentary = (props) => {
             {props.parallelMetaData?.revision !== null &&
               props.parallelMetaData?.revision !== "" && (
                 <Text textBreakStrategy={"simple"} style={style.metadataText}>
-                  <Text>Copyright:</Text> {props.parallelMetaData?.revision}
-                </Text>
-              )}
-            {props.parallelMetaData?.copyrightHolder !== null &&
-              props.parallelMetaData?.copyrightHolder !== "" && (
-                <Text textBreakStrategy={"simple"} style={style.metadataText}>
-                  <Text>License:</Text>{" "}
-                  {props.parallelMetaData?.copyrightHolder}
+                  <Text style={style.footerText}>Copyright:</Text>{" "}
+                  {props.parallelMetaData?.revision}
                 </Text>
               )}
             {props.parallelMetaData?.license !== null &&
               props.parallelMetaData?.license !== "" && (
                 <Text textBreakStrategy={"simple"} style={style.metadataText}>
-                  <Text>Technology partner:</Text>{" "}
+                  <Text style={style.footerText}>License:</Text>{" "}
                   {props.parallelMetaData?.license}
+                </Text>
+              )}
+            {props.parallelMetaData?.copyrightHolder !== null &&
+              props.parallelMetaData?.copyrightHolder !== "" && (
+                <Text textBreakStrategy={"simple"} style={style.metadataText}>
+                  <Text style={style.footerText}>Technology partner:</Text>{" "}
+                  {props.parallelMetaData?.copyrightHolder}
                 </Text>
               )}
           </View>
@@ -145,14 +146,15 @@ const Commentary = (props) => {
   const updateBookName = () => {
     if (bookNameList) {
       for (var i = 0; i <= bookNameList.length - 1; i++) {
-        let parallelLanguage = props.parallelLanguage &&
+        let parallelLanguage =
+          props.parallelLanguage &&
           props.parallelLanguage.languageName.toLowerCase();
         if (bookNameList[i].language.name === parallelLanguage) {
           for (var j = 0; j <= bookNameList[i].bookNames.length - 1; j++) {
             var bId = bookNameList[i].bookNames[j].book_code;
             if (bId == props.bookId) {
               let bookName = bookNameList[i].bookNames[j].short;
-              setBookName(bookName)
+              setBookName(bookName);
             }
           }
         }
@@ -187,12 +189,18 @@ const Commentary = (props) => {
     fetchBookName();
   }, []);
   useEffect(() => {
-    fetchCommentary()
-  }, [props.bookId, bookList, currentVisibleChapter, props.parallelLanguage.sourceId, props.commentaryContent]);
+    fetchCommentary();
+  }, [
+    props.bookId,
+    bookList,
+    currentVisibleChapter,
+    props.parallelLanguage.sourceId,
+    props.commentaryContent,
+  ]);
   useEffect(() => {
-    fetchBookName()
-    updateBookName()
-  }, [bookNameList])
+    fetchBookName();
+    updateBookName();
+  }, [bookNameList]);
   return (
     <View style={style.container}>
       <Header
@@ -204,7 +212,7 @@ const Commentary = (props) => {
         }}
       >
         <Body>
-          <Title style={{ fontSize: 16 }}>
+          <Title style={{ fontSize: 16, alignSelf: "center" }}>
             {props.parallelLanguage && props.parallelLanguage.versionCode}
           </Title>
         </Body>
@@ -226,7 +234,7 @@ const Commentary = (props) => {
       ) : (
         <View style={{ flex: 1 }}>
           <Text style={[style.commentaryHeading, { margin: 10 }]}>
-            {bookName != null && bookName} { }{" "}
+            {bookName != null && bookName} {}{" "}
             {props.commentaryContent && props.commentaryContent.chapter}
           </Text>
           <FlatList
