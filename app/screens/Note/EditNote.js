@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Text,
   View,
   TouchableOpacity,
   Alert,
   ScrollView,
-  TextInput,
+  KeyboardAvoidingView,
+  Platform,
 } from "react-native";
 import FlowLayout from "../../components/FlowLayout";
 
@@ -15,6 +16,11 @@ import database from "@react-native-firebase/database";
 import Color from "../../utils/colorConstants";
 import { getBookChaptersFromMapping } from "../../utils/UtilFunctions";
 import { updateVersionBook } from "../../store/action/";
+import {
+  actions,
+  RichEditor,
+  RichToolbar,
+} from "react-native-pell-rich-editor";
 
 const EditNote = (props) => {
   const {
@@ -27,12 +33,12 @@ const EditNote = (props) => {
     updateVersionBook,
   } = props;
   const { params } = route;
+  const richText = useRef();
   const noteIndex = params ? params.noteIndex : null;
   const noteObject = params ? params.notesList : null;
   const bcvRef = params ? params.bcvRef : null;
   let bodyData = params ? params.contentBody : "";
   const [contentBody, setContentBody] = useState(bodyData);
-
   const style = styles(colorFile, sizeFile);
   const saveNote = () => {
     var time = Date.now();
@@ -144,29 +150,46 @@ const EditNote = (props) => {
       ),
     });
   }, [contentBody]);
-
   return (
     <View style={style.containerEditNote}>
+      <View style={style.subContainer}>
+        {bcvRef && (
+          <FlowLayout
+            style={style.tapButton}
+            dataValue={bcvRef}
+            openReference={(index) => openReference(index)}
+            styles={style}
+          />
+        )}
+      </View>
       <ScrollView style={style.containerEditNote}>
-        <View style={style.subContainer}>
-          {bcvRef && (
-            <FlowLayout
-              style={style.tapButton}
-              dataValue={bcvRef}
-              openReference={(index) => openReference(index)}
-              styles={style}
-            />
-          )}
-        </View>
-        <TextInput
-          style={style.inputStyle}
-          placeholder="Enter your note here"
-          placeholderTextColor={style.placeholderColor.color}
-          value={contentBody}
-          onChangeText={(text) => setContentBody(text)}
-          multiline={true}
-        />
+        <KeyboardAvoidingView
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          style={{ flex: 1 }}
+        >
+          <RichEditor
+            ref={richText}
+            initialContentHTML={contentBody}
+            onChange={(descriptionText) => {
+              setContentBody(descriptionText);
+            }}
+          />
+        </KeyboardAvoidingView>
       </ScrollView>
+      <RichToolbar
+        editor={richText}
+        actions={[
+          actions.setBold,
+          actions.setItalic,
+          actions.setUnderline,
+          actions.heading1,
+        ]}
+        iconMap={{
+          [actions.heading1]: ({ tintColor }) => (
+            <Text style={[{ color: tintColor }]}>H1</Text>
+          ),
+        }}
+      />
     </View>
   );
 };
