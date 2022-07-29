@@ -57,8 +57,7 @@ const BibleContextProvider = (props) => {
   const [audioList, setAudioList] = useState([]);
   const [verseNum, setVerseNum] = useState([]);
   const verseScroll = useRef();
-  var arrLayout = [];
-  const [arrl, setArrL] = useState([]);
+  const arrLayout = useRef([]);
 
   const navigateToSelectionTab = () => {
     setStatus(false);
@@ -72,12 +71,47 @@ const BibleContextProvider = (props) => {
     setStatus(false);
     props.navigation.navigate("LanguageList", { updateLangVer: updateLangVer });
   };
+  const getOffset = (index) => {
+    return arrLayout.current.reduce(
+      (prev, currentValue, i) =>
+        index >= i ? prev + currentValue?.height : prev,
+      0
+    );
+  };
+
+  const updateLayout = () => {
+    let item = arrLayout?.current?.filter((i) => i?.verseNumber == verseNum);
+    if (item?.length > 0) {
+      if (item[0].verseNumber == verseNum) {
+        const offset = getOffset(verseNum - 1);
+        verseScroll?.current?.scrollToOffset({ offset, animated: true });
+      }
+    }
+  };
+  const onScrollLayout = (event, index, verseNumber) => {
+    if (verseNumber != undefined && verseNum && verseNum >= verseNumber) {
+      arrLayout.current[verseNumber - 1] = {
+        height: event.nativeEvent.layout.height,
+        verseNumber,
+        index,
+      };
+      if (arrLayout.current.length >= verseNum) {
+        updateLayout();
+      }
+    }
+  };
+  useEffect(() => {
+    updateLayout();
+  }, [verseNum]);
+  useEffect(() => {
+    updateLayout();
+  }, [previousContent, nextContent]); //previousContent.chapterId, nextContent.chapterId
+
   const getReference = async (item) => {
     setSelectedReferenceSet([]);
     setShowBottomBar(false);
     setShowColorGrid(false);
     audioComponentUpdate();
-    scrollToVerse();
     if (item) {
       setCurrentVisibleChapter(item.chapterNumber);
       // updateBookChapterRef()
@@ -105,49 +139,6 @@ const BibleContextProvider = (props) => {
     } else {
       return;
     }
-  };
-  const getOffset = (index) => {
-    return arrl.reduce(
-      (prev, currentValue, i) =>
-        index >= i ? prev + currentValue?.height : prev,
-      0
-    );
-  };
-
-  const scrollToVerse = () => {
-    if (arrl.length != 0) {
-      setArrL([...arrl, ...arrLayout]);
-    } else {
-      setArrL(arrLayout); //arrLayout
-    }
-    updateLayout();
-  };
-  const updateLayout = () => {
-    let item = arrl?.filter((i) => i?.verseNumber == verseNum);
-    if (item?.length > 0) {
-      if (item[0].verseNumber == verseNum) {
-        const offset = getOffset(verseNum - 1);
-        verseScroll.current.scrollToOffset({ offset, animated: true });
-      }
-    }
-  };
-  useEffect(() => {
-    scrollToVerse();
-    updateLayout();
-  }, [verseNum]);
-  useEffect(() => {
-    updateLayout();
-    setArrL([]);
-  }, [previousContent, nextContent]); //previousContent.chapterId, nextContent.chapterId
-  const onScrollLayout = (event, index, verseNumber) => {
-    if (verseNumber != undefined) {
-      arrLayout[verseNumber - 1] = {
-        height: event.nativeEvent.layout.height,
-        verseNumber,
-        index,
-      };
-    }
-    updateLayout();
   };
 
   const updateLangVer = async (item) => {
@@ -315,7 +306,6 @@ const BibleContextProvider = (props) => {
         setAudio,
         bookList,
         onScrollLayout,
-        scrollToVerse,
         audioList,
         verseScroll,
       }}
