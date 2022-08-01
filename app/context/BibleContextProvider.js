@@ -86,6 +86,7 @@ const BibleContextProvider = (props) => {
         const offset = getOffset(verseNum - 1);
         verseScroll?.current?.scrollToOffset({ offset, animated: true });
       }
+      setVerseNum([]);
     }
   };
   const onScrollLayout = (event, index, verseNumber) => {
@@ -100,12 +101,6 @@ const BibleContextProvider = (props) => {
       }
     }
   };
-  useEffect(() => {
-    updateLayout();
-  }, [verseNum]);
-  useEffect(() => {
-    updateLayout();
-  }, [previousContent, nextContent]); //previousContent.chapterId, nextContent.chapterId
 
   const getReference = async (item) => {
     setSelectedReferenceSet([]);
