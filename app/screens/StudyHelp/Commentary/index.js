@@ -24,6 +24,8 @@ const commentaryKey = securityVaraibles.COMMENTARY_KEY
 const Commentary = (props) => {
   const { currentVisibleChapter } = useContext(LoginData);
   const [error, setError] = useState(null);
+  const [baseUrl, setBaseUrl] = useState("");
+  const { parallelMetaData } = props;
   const [bookNameList, setBookNameList] = useState([]);
   const [bookName, setBookName] = useState(props.bookName);
   const { bookList } = useContext(MainContext);
@@ -87,25 +89,34 @@ const Commentary = (props) => {
           ))}
         <HTML
           baseFontStyle={style.textString}
-          tagsStyles={{ p: style.textString }}
-          html={item.text}
+          tagsStyles={{ p: style.textString, img: style.imageCard }}
+          html={replaceBaseUrl(item.text)}
         />
       </View>
     );
   };
+  const replaceBaseUrl = (str) => {
+    const regex = new RegExp("base_url", "g");
+    if (typeof str === "string" && str != undefined) {
+      return str.replace(regex, baseUrl);
+    }
+  };
+  useEffect(() => {
+    if (parallelMetaData?.baseUrl != undefined) {
+      setBaseUrl(parallelMetaData.baseUrl);
+    }
+  }, [parallelMetaData]);
   const ListHeaderComponent = () => {
     return (
       <View>
-        {props.commentaryContent &&
-        props.commentaryContent.bookIntro == "" ? null : (
+        {props?.commentaryContent &&
+        props?.commentaryContent?.bookIntro == "" ? null : (
           <View style={style.cardItemBackground}>
             <Text style={style.commentaryHeading}>Book Intro</Text>
             <HTML
               baseFontStyle={style.textString}
-              tagsStyles={{ p: style.textString }}
-              html={
-                props.commentaryContent && props.commentaryContent.bookIntro
-              }
+              tagsStyles={{ p: style.textString, img: style.imageCard }}
+              html={replaceBaseUrl(props?.commentaryContent?.bookIntro)}
             />
           </View>
         )}

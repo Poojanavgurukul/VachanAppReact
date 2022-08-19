@@ -75,7 +75,7 @@ const Video = (props) => {
     }
   };
   const playVideo = (val) => {
-    const videoId = val.url.replace("https://youtu.be/", "");
+    const videoId = val.url;
     props.navigation.navigate("PlayVideo", {
       url: videoId,
       title: val.title,

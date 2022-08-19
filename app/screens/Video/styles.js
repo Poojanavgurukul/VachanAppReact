@@ -1,63 +1,66 @@
-import {StyleSheet,Dimensions} from 'react-native'
-const height = Dimensions.get('window').height
+import { StyleSheet, Dimensions } from "react-native";
+const height = Dimensions.get("window").height;
 
-export const styles=(colorFile, sizeFile) =>{
-    return StyleSheet.create({
-    container:{
-        flex:1,
-        backgroundColor:colorFile.backgroundColor,
-        padding:8
+export const styles = (colorFile, sizeFile) => {
+  return StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: colorFile.backgroundColor,
+      padding: 8,
     },
-    videoView:{
-        width:'100%',
-        fontSize:sizeFile.fontSize,
+    videoView: {
+      width: "100%",
+      fontSize: sizeFile.fontSize,
     },
-    videoText:{
-        fontSize:sizeFile.titleText,
-        color:colorFile.iconColor
+    videoText: {
+      fontSize: sizeFile.titleText,
+      color: colorFile.iconColor,
     },
 
-    emptyMessageContainer:{
-        // flex:1,
-        alignItems:'center',
-        flexDirection:'column',
-        justifyContent:'center'
+    emptyMessageContainer: {
+      // flex:1,
+      alignItems: "center",
+      flexDirection: "column",
+      justifyContent: "center",
     },
-    messageEmpty:{
-        fontSize:sizeFile.titleText,
-        color:colorFile.textColor,
+    messageEmpty: {
+      fontSize: sizeFile.titleText,
+      color: colorFile.textColor,
     },
-    emptyMessageIcon:{
-        fontSize:sizeFile.emptyIconSize,
-        margin:16,
-        color:colorFile.iconColor,
+    emptyMessageIcon: {
+      fontSize: sizeFile.emptyIconSize,
+      margin: 16,
+      color: colorFile.iconColor,
     },
-    centerEmptySet: { 
-        justifyContent: 'center', 
-        alignItems: 'center',
-        height: height ,
-        // flexGrow: 1,
+    centerEmptySet: {
+      justifyContent: "center",
+      alignItems: "center",
+      height: height,
+      // flexGrow: 1,
     },
-    videoStyle:{
-        height:height/2,
-        width:'100%'
+    videoStyle: {
+      height: height / 2,
+      width: "100%",
     },
-    description:{
-        marginHorizontal:8,
-        fontSize:sizeFile.contentText,
-        color:colorFile.textColor
+    description: {
+      marginHorizontal: 8,
+      fontSize: sizeFile.contentText,
+      color: colorFile.textColor,
     },
-    title:{
-        margin:16,
-        fontSize:sizeFile.titleText,
-        color:colorFile.textColor
+    video: {
+      width: "100%",
+      height: "100%",
     },
-    cardItemStyle:{
-        paddingTop:16,
-        paddingBottom:16,
-        backgroundColor:colorFile.backgroundColor
-     },
-     loaderPos:{ justifyContent: "center", alignItems: "center" }
-
-    })
-}
+    title: {
+      margin: 16,
+      fontSize: sizeFile.titleText,
+      color: colorFile.textColor,
+    },
+    cardItemStyle: {
+      paddingTop: 16,
+      paddingBottom: 16,
+      backgroundColor: colorFile.backgroundColor,
+    },
+    loaderPos: { justifyContent: "center", alignItems: "center" },
+  });
+};

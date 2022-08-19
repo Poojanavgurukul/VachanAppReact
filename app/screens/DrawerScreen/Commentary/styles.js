@@ -20,7 +20,9 @@ export const styles = (colorFile, sizeFile) => {
     },
     cardItemBackground: {
       backgroundColor: colorFile.backgroundColor,
-      padding: 10,
+    },
+    imageCard: {
+      maxWidth: "100%",
     },
     commentaryText: {
       fontSize: sizeFile.contentText,

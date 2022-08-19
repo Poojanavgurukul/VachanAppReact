@@ -3,6 +3,7 @@ import YoutubePlayer from "react-native-youtube-iframe";
 import { styles } from "./styles.js";
 import { View, Text, ActivityIndicator, AppState } from "react-native";
 import { connect } from "react-redux";
+import WebView from "react-native-webview";
 
 const PlayVideo = (props) => {
   const url = props.route.params ? props.route.params.url : null;
@@ -15,6 +16,7 @@ const PlayVideo = (props) => {
   const [isLoading, setIsLoading] = useState(false);
   const style = styles(props.colorFile, props.sizeFile);
   const textRef = useRef("playerRef");
+
   const onError = () => alert("Oh! ");
   const onReady = () => {
     setPlaying(playing);
@@ -49,6 +51,14 @@ const PlayVideo = (props) => {
       AppState.removeEventListener("change", handleYoutubePlay);
     };
   }, []);
+  if (url.includes("youtu.be")) {
+    var videoUrl = url.replace("https://youtu.be/", "");
+  } else {
+    if (url.includes("https://vimeo.com")) {
+      let rep = url.replace("https://vimeo.com/", "");
+      var vimeoUrl = `https://player.vimeo.com/video/${rep}`;
+    }
+  }
   return (
     <View style={style.container}>
       <Text style={style.title}>{title}</Text>
@@ -57,19 +67,28 @@ const PlayVideo = (props) => {
           <ActivityIndicator animate={true} size={32} />
         </View>
       ) : null}
-      <YoutubePlayer
-        ref={textRef}
-        height={"36%"}
-        width={"100%"}
-        videoId={url}
-        play={playing}
-        onChangeState={(event) => onChangeState(event)}
-        onReady={() => onReady}
-        onError={onError}
-        volume={50}
-        webViewStyle={{ opacity: 0.99 }}
-        playbackRate={1}
-      />
+      {url.includes("youtu.be") ? (
+        <YoutubePlayer
+          ref={textRef}
+          height={"36%"}
+          width={"100%"}
+          videoId={videoUrl}
+          play={playing}
+          onChangeState={(event) => onChangeState(event)}
+          onReady={() => onReady}
+          onError={onError}
+          volume={50}
+          webViewStyle={{ opacity: 0.99 }}
+          playbackRate={1}
+        />
+      ) : (
+        <WebView
+          source={{
+            html: `<iframe width='100%' height='80%' src=${vimeoUrl} frameborder='0' allow='autoplay' allowfullscreen></iframe>`,
+          }}
+          style={{ marginHorizontal: 0 }}
+        />
+      )}
       <Text style={style.description}>{description}</Text>
     </View>
   );

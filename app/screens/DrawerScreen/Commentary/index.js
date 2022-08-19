@@ -30,19 +30,16 @@ const commentaryKey = securityVaraibles.COMMENTARY_KEY
   : "";
 
 const DrawerCommentary = (props) => {
-  // const [commentary, setCommentary] = useState([]);
+  const [baseUrl, setBaseUrl] = useState("");
   const [totalChapters, setTotalChapters] = useState(
-    Array.from(
-      new Array(
-        getBookChaptersFromMapping(props.bookId)
-      ),
-      (x, i) => (i + 1).toString()
-    ),
+    Array.from(new Array(getBookChaptersFromMapping(props.bookId)), (x, i) =>
+      (i + 1).toString()
+    )
   );
   const scrollRef = useRef(null);
   const scroll = () => {
     scrollRef?.current?.scrollToOffset({ animated: true, offset: 0 });
-  }
+  };
 
   const [chapterNumber, setChapterNumber] = useState(props.chapterNumber);
   const [error, setError] = useState(null);
@@ -57,14 +54,12 @@ const DrawerCommentary = (props) => {
   const [commentaryLanguage, setParallelLanguage] = useState(
     props.parallelLanguage
   );
-
   const [selectedBookIndex, setSelectedBookIndex] = useState(-1);
   let _dropdown_1;
   let _dropdown_2;
 
   const style = styles(props.colorFile, props.sizeFile);
   let alertPresent = false;
-
   const fetchBookName = async () => {
     try {
       const response = await vApi.get("booknames");
@@ -123,7 +118,10 @@ const DrawerCommentary = (props) => {
       });
       setBookId(bookId);
       setTotalChapters(
-        Array.from(new Array(getBookChaptersFromMapping(bookId)), (x, i) => (i + 1).toString()));
+        Array.from(new Array(getBookChaptersFromMapping(bookId)), (x, i) =>
+          (i + 1).toString()
+        )
+      );
       let selectedNumber =
         totalChapters.length < chapterNumber ? "1" : chapterNumber;
       _dropdown_2.select(parseInt(selectedNumber) - 1);
@@ -149,9 +147,7 @@ const DrawerCommentary = (props) => {
       chapterNumber +
       commentaryKey;
     props.vachanAPIFetch(url);
-
   };
-
   const fetchCommentary = () => {
     let commentary = [];
     props.availableContents.forEach((element) => {
@@ -162,7 +158,7 @@ const DrawerCommentary = (props) => {
           }
         });
       }
-    })
+    });
     if (Object.keys(commentary).length > 0) {
       setParallelMetaData(commentary.versionModels[0].metaData[0]);
       setParallelLanguage({
@@ -218,7 +214,6 @@ const DrawerCommentary = (props) => {
   const updateData = () => {
     errorMessage();
   };
-
   const renderItem = ({ item }) => {
     return (
       <View style={{ padding: 10 }}>
@@ -232,13 +227,31 @@ const DrawerCommentary = (props) => {
           ))}
         <HTML
           baseFontStyle={style.textString}
-          tagsStyles={{ p: style.textString }}
-          html={item.text}
+          tagsStyles={{ p: style.textString, img: style.imageCard }}
+          html={formatCommentary(item.text)}
         />
       </View>
     );
   };
 
+  const formatCommentary = (str) => {
+    str = replaceString(str, "base_url", baseUrl);
+    return replaceString(
+      str,
+      "img  style='object-fit: contain; width: 50%; height: 100px; align-self: center; '"
+    );
+  };
+  const replaceString = (str, keyword, value) => {
+    const regex = new RegExp(keyword, "g");
+    if (typeof str === "string" && str != undefined) {
+      return str.replace(regex, value);
+    }
+  };
+  useEffect(() => {
+    if (parallelMetaData?.baseUrl != undefined) {
+      setBaseUrl(parallelMetaData.baseUrl);
+    }
+  }, [parallelMetaData]);
   const ListHeaderComponent = () => {
     return (
       <View>
@@ -247,10 +260,8 @@ const DrawerCommentary = (props) => {
             <Text style={style.commentaryHeading}>Book Intro</Text>
             <HTML
               baseFontStyle={style.textString}
-              tagsStyles={{ p: style.textString }}
-              html={
-                props.commentaryContent && props.commentaryContent.bookIntro
-              }
+              tagsStyles={{ p: style.textString, img: style.imageCard }}
+              html={formatCommentary(props?.commentaryContent?.bookIntro)}
             />
           </View>
         ) : null}
@@ -271,17 +282,17 @@ const DrawerCommentary = (props) => {
                   <Text>Copyright:</Text> {metadata?.revision}
                 </Text>
               )}
-              {metadata?.license !== null &&
-                metadata?.license !== "" && (
-                  <Text textBreakStrategy={"simple"} style={style.metaDataText}>
-                    <Text>License:</Text> {metadata?.license}
-                  </Text>
-                )}
-              {metadata?.copyrightHolder !== null && metadata?.copyrightHolder !== "" && (
+              {metadata?.license !== null && metadata?.license !== "" && (
                 <Text textBreakStrategy={"simple"} style={style.metaDataText}>
-                  <Text>Technology partner:</Text> {metadata?.copyrightHolder}
+                  <Text>License:</Text> {metadata?.license}
                 </Text>
               )}
+              {metadata?.copyrightHolder !== null &&
+                metadata?.copyrightHolder !== "" && (
+                  <Text textBreakStrategy={"simple"} style={style.metaDataText}>
+                    <Text>Technology partner:</Text> {metadata?.copyrightHolder}
+                  </Text>
+                )}
             </View>
           )}
       </View>
@@ -311,10 +322,11 @@ const DrawerCommentary = (props) => {
       ),
     });
   }, []);
+
   useEffect(() => {
     setParallelLanguage(props.parallelLanguage);
     setParallelMetaData(props.parallelMetaData);
-    commentaryUpdate()
+    commentaryUpdate();
     props.navigation.setOptions({
       headerRight: () => (
         <View style={style.headerView}>
@@ -333,7 +345,7 @@ const DrawerCommentary = (props) => {
     props.parallelLanguage.languageName,
     commentaryLanguage.sourceId,
     commentaryLanguage.languageName,
-  ])
+  ]);
   useEffect(() => {
     commentaryUpdate();
     updateBookName();
@@ -347,18 +359,17 @@ const DrawerCommentary = (props) => {
     if (selectedBookIndex == -1) {
       dropDownList.forEach((b, index) => {
         if (bookName == b) {
-          onSelectBook(index, b)
+          onSelectBook(index, b);
         }
-      })
-    }
-    else {
+      });
+    } else {
       _dropdown_1.select(selectedBookIndex);
     }
-  }, [dropDownList, selectedBookIndex])
+  }, [dropDownList, selectedBookIndex, bookName]);
   useEffect(() => {
-    onSelectBook(selectedBookIndex, bookName)
-    commentaryUpdate()
-  }, [chapterNumber, bookId])
+    onSelectBook(selectedBookIndex, bookName);
+    commentaryUpdate();
+  }, [chapterNumber, bookId, commentaryLanguage.sourceId]);
 
   return (
     <View style={style.container}>
@@ -422,7 +433,9 @@ const DrawerCommentary = (props) => {
             </TouchableOpacity>
           </View>
           <FlatList
-            data={props.commentaryContent && props.commentaryContent.commentaries}
+            data={
+              props.commentaryContent && props.commentaryContent.commentaries
+            }
             ref={scrollRef}
             // showsVerticalScrollIndicator={false}
             contentContainerStyle={{ flexGrow: 1, margin: 16 }}

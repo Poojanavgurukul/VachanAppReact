@@ -24,6 +24,10 @@ export const styles = (colorFile, sizeFile) => {
       backgroundColor: colorFile.backgroundColor,
       padding: 10,
     },
+    imageCard: {
+      width: 160,
+      height: 160,
+    },
     commentaryText: {
       fontSize: sizeFile.contentText,
       color: colorFile.textColor,
