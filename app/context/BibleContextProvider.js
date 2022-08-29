@@ -109,7 +109,14 @@ const BibleContextProvider = (props) => {
     audioComponentUpdate();
     if (item) {
       setCurrentVisibleChapter(item.chapterNumber);
-      // updateBookChapterRef()
+      // updateBookChapterRef();
+
+      props.updateVersionBook({
+        bookId: item.bookId,
+        bookName: item.bookName,
+        chapterNumber: parseInt(item.chapterNumber),
+        totalChapters: item.totalChapters,
+      });
       var time = new Date();
       DbQueries.addHistory(
         sourceId,
@@ -124,12 +131,7 @@ const BibleContextProvider = (props) => {
       );
       //it is calling on book,chapter,verse selection screens also, so redux action payload is passing from this screen, if we set it in reference selection it will do changes which is not required for parallel bible(reusing in parallel bible )
       props.updateVerseNumber({ selectedVerse: item.selectedVerse });
-      props.updateVersionBook({
-        bookId: item.bookId,
-        bookName: item.bookName,
-        chapterNumber: parseInt(item.chapterNumber),
-        totalChapters: item.totalChapters,
-      });
+
       setVerseNum(item.selectedVerse);
     } else {
       return;
@@ -179,9 +181,9 @@ const BibleContextProvider = (props) => {
   };
   const _handleAppStateChange = (currentAppState) => {
     let status =
-      currentAppState == "background"
+      currentAppState == "background" || currentAppState == "inactive"
         ? false
-        : (currentAppState = "inactive" ? false : true);
+        : true;
     setStatus(status);
   };
 
@@ -338,7 +340,6 @@ const mapStateToProps = (state) => {
     parallelLanguage: state.selectContent.parallelLanguage,
     parallelMetaData: state.selectContent.parallelMetaData,
     audio: state.audio.audio,
-    status: state.audio.status,
   };
 };
 const mapDispatchToProps = (dispatch) => {

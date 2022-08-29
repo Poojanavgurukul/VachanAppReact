@@ -22,6 +22,8 @@ target 'VachanGo' do
 
   pod 'RealmJS', :path => '../node_modules/realm'
 
+  pod 'react-native-slider', :path => '../node_modules/@react-native-community/slider'
+
   target 'VachanGoTests' do
     inherit! :complete
     # Pods for testing

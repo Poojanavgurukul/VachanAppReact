@@ -17,6 +17,11 @@ import { Alert, Linking } from "react-native";
 import NetInfo from "@react-native-community/netinfo";
 import database from "@react-native-firebase/database";
 import { Root } from "native-base";
+import { LogBox } from "react-native";
+
+LogBox.ignoreLogs([
+  "Non-serializable values were found in the navigation state",
+]);
 const App = (props) => {
   const sourceId = props.sourceId;
   let isConnected;

@@ -57,8 +57,6 @@ const Bible = (props) => {
   const [isLoading, setIsLoading] = useState(false);
   const [reloadMessage, setReloadMessage] = useState("Loading...");
   const [bookNames, setBookNames] = useState([]);
-
-  const [initializing, setInitializing] = useState(true);
   const [unAvailableContent, setUnAvailableContent] = useState("");
   const prevSourceId = useRef(sourceId).current;
   const prevBookId = useRef(bookId).current;
@@ -67,6 +65,7 @@ const Bible = (props) => {
     currentVisibleChapter,
     setCurrentVisibleChapter,
     setSelectedReferenceSet,
+    connection_Status,
     setConnection_Status,
     setEmail,
     setUid,
@@ -105,7 +104,7 @@ const Bible = (props) => {
   const styles = style(colorFile, sizeFile);
 
   const _handleConnectivityChange = (state) => {
-    setConnection_Status(state.isConnected == true ? true : false);
+    setConnection_Status(state.isConnected);
     if (state.isConnected === true) {
       queryBookFromAPI(null);
       Toast.show({
@@ -226,7 +225,6 @@ const Bible = (props) => {
         chapterInfo && chapterInfo.bibleBookCode
           ? chapterInfo.bibleBookCode
           : bookId;
-
       let bkName = null;
 
       let bookItem = bookList.filter((val) => val.bookId == bId);
@@ -242,9 +240,22 @@ const Bible = (props) => {
       setShowBottomBar(false);
       setCurrentVisibleChapter(cNum);
       getChapter(cNum, sId);
+      console.log(
+        {
+          bookId: bookId,
+          bookName: bName,
+          chapterNumber:
+            parseInt(cNum) > getBookChaptersFromMapping(bId)
+              ? 1
+              : parseInt(cNum),
+          totalChapters: getBookChaptersFromMapping(bId),
+        },
+        "update props",
+        chapterInfo
+      );
       updateVersionBook({
-        bookId: bId,
-        bookName: bName,
+        bookId: bookId,
+        bookName: bookName,
         chapterNumber:
           parseInt(cNum) > getBookChaptersFromMapping(bId) ? 1 : parseInt(cNum),
         totalChapters: getBookChaptersFromMapping(bId),
@@ -259,24 +270,31 @@ const Bible = (props) => {
 
   useEffect(() => {
     var time = new Date();
-    if (initializing) {
-      setInitializing(false);
-    }
-    const appstate = AppState.addEventListener("change", _handleAppStateChange);
-    const netInfo = NetInfo.addEventListener(_handleConnectivityChange);
-    const scrollListner = scrollAnim.addListener(({ value }) => {
-      const diff = value - _scrollValue;
-      _scrollValue = value;
-      _clampedScrollValue = Math.min(
-        Math.max(_clampedScrollValue + diff, 0),
-        NAVBAR_HEIGHT - STATUS_BAR_HEIGHT
+    //save history to realm db
+    return () => {
+      DbQueries.addHistory(
+        sourceId,
+        language,
+        languageCode,
+        versionCode,
+        bookId,
+        bookName,
+        currentVisibleChapter,
+        downloaded,
+        time
       );
-    });
-    const offsetAnimListner = offsetAnim.addListener(({ value }) => {
-      _offsetValue = value;
-    });
-
+    };
+  }, [
+    connection_Status,
+    bookId,
+    bookName,
+    currentVisibleChapter,
+    language,
+    sourceId,
+  ]);
+  useEffect(() => {
     const unsubscriber = auth().onAuthStateChanged((user) => {
+      //on login/logout update user data in redux ,state
       if (user) {
         setEmail(user._user.email);
         setUid(user._user.uid);
@@ -299,6 +317,45 @@ const Bible = (props) => {
         setUid(null);
       }
     });
+    return () => {
+      unsubscriber;
+    };
+  }, []);
+
+  useEffect(() => {
+    const appstate = AppState.addEventListener("change", _handleAppStateChange);
+    return () => {
+      appstate;
+    };
+  }, []);
+  useEffect(() => {
+    const netInfo = NetInfo.addEventListener(_handleConnectivityChange);
+    return () => {
+      netInfo;
+    };
+  }, [connection_Status]);
+  useEffect(() => {
+    const offsetAnimListner = offsetAnim.addListener(({ value }) => {
+      _offsetValue = value;
+    });
+    return () => {
+      offsetAnimListner;
+    };
+  }, []);
+  useEffect(() => {
+    const scrollListner = scrollAnim.addListener(({ value }) => {
+      const diff = value - _scrollValue;
+      _scrollValue = value;
+      _clampedScrollValue = Math.min(
+        Math.max(_clampedScrollValue + diff, 0),
+        NAVBAR_HEIGHT - STATUS_BAR_HEIGHT
+      );
+    });
+    return () => {
+      scrollListner;
+    };
+  }, []);
+  useEffect(() => {
     const subs = props.navigation.addListener("focus", () => {
       console.log(" FOCUS ");
       setSelectedReferenceSet([]);
@@ -321,26 +378,9 @@ const Bible = (props) => {
       }
     });
     return () => {
-      DbQueries.addHistory(
-        sourceId,
-        language,
-        languageCode,
-        versionCode,
-        bookId,
-        bookName,
-        currentVisibleChapter,
-        downloaded,
-        time
-      );
-      appstate;
-      netInfo;
-      offsetAnimListner;
       subs;
-      scrollListner;
-      unsubscriber;
     };
   }, []);
-
   useEffect(() => {
     getChapter(null, null);
     audioComponentUpdate();

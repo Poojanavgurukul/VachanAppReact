@@ -1,5 +1,6 @@
 import React from "react";
-import { Text, View, Slider, TouchableOpacity, ScrollView } from "react-native";
+import { Text, View, TouchableOpacity, ScrollView } from "react-native";
+import Slider from "@react-native-community/slider";
 import { List, ListItem, Right, Left } from "native-base";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { styles } from "./styles.js";

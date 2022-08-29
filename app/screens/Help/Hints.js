@@ -114,6 +114,7 @@ const Help = (props) => {
     setIndex(index);
     Animated.spring(animatedValue, {
       toValue: 0,
+      useNativeDriver: true,
     }).start();
   };
   const showHints = (icon, index) => {
@@ -124,6 +125,7 @@ const Help = (props) => {
   const handlePressOut = () => {
     Animated.spring(animatedValue, {
       toValue: 1,
+      useNativeDriver: true,
     }).start();
   };
   const renderItem = ({ item, index }) => {
@@ -178,7 +180,11 @@ const Help = (props) => {
 
   return (
     <View style={styleFile.container}>
-      <FlatList data={iconName} renderItem={renderItem} keyExtractor={(item) => item.hint} />
+      <FlatList
+        data={iconName}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.hint}
+      />
     </View>
   );
 };

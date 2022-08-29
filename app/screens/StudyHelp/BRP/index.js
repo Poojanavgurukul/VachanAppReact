@@ -29,11 +29,18 @@ const BRP = (props) => {
   const [calendarOpened, setCalendarOpened] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
   const [currentMonth, setCurrentMonth] = useState("");
-  var today = new Date()
+  var today = new Date();
   var dd = String(today.getDate()).padStart(2, "0");
   var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
   var currentMonths;
-  const { languageName, versionCode, downloaded, colorFile, sizeFile, sourceId } = props
+  const {
+    languageName,
+    versionCode,
+    downloaded,
+    colorFile,
+    sizeFile,
+    sourceId,
+  } = props;
   const { bookList } = useContext(MainContext);
   const style = styles(colorFile, sizeFile);
   let agenda = useRef().current;
@@ -56,23 +63,11 @@ const BRP = (props) => {
       for (var i = 0; i < readingPlans.length; i++) {
         let planDate = currentYear + "-" + readingPlans[i].date;
         if (!item[planDate]) {
-          item[planDate] = []
-          // readingPlan[i].reading.forEach((val) => {
-          //   var words = val.ref.split(" ")
-          //   var regmatch = val.text.split(" ")
-          //   if (bookList) {
-          //     var book = bookList.find((book) => words[0] == book.bookId)
-          //     if (book) {
-          //       if (regmatch) {
-          //         val['native_name'] = book.bookName + " " + regmatch[regmatch.length - 1]
-          //       }
-          //     }
-          //   }
-          // })
+          item[planDate] = [];
           item[planDate].push({
             reading: readingPlans[i].reading,
             height: Math.max(50, Math.floor(Math.random() * 80)),
-          })
+          });
         }
       }
     }
@@ -111,8 +106,7 @@ const BRP = (props) => {
     } else {
       let language =
         languageName &&
-        languageName.charAt(0).toUpperCase() +
-        languageName.slice(1);
+        languageName.charAt(0).toUpperCase() + languageName.slice(1);
       Alert.alert("", "Book is unvailable in " + language);
     }
   };
@@ -226,11 +220,7 @@ const BRP = (props) => {
 
   const renderKnob = () => {
     return (
-      <Icon
-        name="keyboard-arrow-down"
-        size={24}
-        color={colorFile.blueText}
-      />
+      <Icon name="keyboard-arrow-down" size={24} color={colorFile.blueText} />
     );
   };
   const renderEmptyData = () => {

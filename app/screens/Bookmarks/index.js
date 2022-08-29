@@ -128,7 +128,6 @@ const BookMarks = (props) => {
       props.navigation.navigate("Login");
     }
   };
-
   useEffect(() => {
     fecthBookmarks();
   }, [email, bookmarksList]);
@@ -146,6 +145,7 @@ const BookMarks = (props) => {
           listData={bookmarksList}
           listStyle={style.centerEmptySet}
           renderItem={renderItem}
+          keyExtractor={(item) => item.bookId}
           icon="collections-bookmark"
           containerStyle={style.emptyMessageContainer}
           iconStyle={style.emptyMessageIcon}
