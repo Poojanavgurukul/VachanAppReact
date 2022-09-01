@@ -81,7 +81,6 @@ const BookMarks = (props) => {
     }
   };
   const renderItem = ({ item }) => {
-    console.log(item, 'renderbook')
     var bookName = null;
     if (bookList) {
       for (var i = 0; i <= bookList.length - 1; i++) {
@@ -107,7 +106,7 @@ const BookMarks = (props) => {
           <Text style={style.bookmarksText}>
             {props.languageName &&
               props.languageName.charAt(0).toUpperCase() +
-              props.languageName.slice(1)}{" "}
+                props.languageName.slice(1)}{" "}
             {props.versionCode && props.versionCode.toUpperCase()} {bookName}{" "}
             {e}
           </Text>
@@ -132,7 +131,7 @@ const BookMarks = (props) => {
 
   useEffect(() => {
     fecthBookmarks();
-  }, [email])
+  }, [email, bookmarksList]);
   return (
     <View style={style.container}>
       {isLoading ? (
@@ -171,7 +170,6 @@ const mapStateToProps = (state) => {
     bookId: state.updateVersion.bookId,
     sizeFile: state.updateStyling.sizeFile,
     colorFile: state.updateStyling.colorFile,
-
   };
 };
 const mapDispatchToProps = (dispatch) => {

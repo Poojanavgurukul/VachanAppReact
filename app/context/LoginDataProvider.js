@@ -26,7 +26,6 @@ const LoginDataProvider = (props) => {
   const [bottomHighlightText, setBottomHighlightText] = useState(false);
   const [showColorGrid, setShowColorGrid] = useState("");
 
-  // const [isLoading, setIsLoading] = useState(false);
   // check internet connection to fetch api's accordingly
 
   const getNotes = () => {
@@ -323,10 +322,10 @@ const LoginDataProvider = (props) => {
     getHighlights();
     getNotes();
     getBookMarks();
-  }, [email, currentVisibleChapter, uid, language, sourceId]);
+  }, [email, currentVisibleChapter, language, sourceId]);
   useEffect(() => {
     bookmarkedChap();
-  }, [bookmarksList, currentVisibleChapter]);
+  }, [email, bookmarksList, currentVisibleChapter]);
 
   return (
     <LoginData.Provider
@@ -382,7 +381,6 @@ const mapStateToProps = (state) => {
     language: state.updateVersion.language,
     languageCode: state.updateVersion.languageCode,
     versionCode: state.updateVersion.versionCode,
-    sourceId: state.updateVersion.sourceId,
   };
 };
 

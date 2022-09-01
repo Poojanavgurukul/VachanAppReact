@@ -17,6 +17,9 @@ export const styles = (colorFile, sizeFile) => {
       color: colorFile.textColor,
       justifyContent: "center",
     },
+    footerText: {
+      fontWeight: "bold",
+    },
     cardItemBackground: {
       backgroundColor: colorFile.backgroundColor,
       padding: 10,
@@ -72,8 +75,12 @@ export const styles = (colorFile, sizeFile) => {
       color: colorFile.iconColor,
       alignSelf: "center",
     },
-    metadataText:{ textAlign: "center",color:colorFile.textColor },
-    reloadButtonPos:{ flex: 1, justifyContent: "center", alignItems: "center" },
-    listFooter:{ height: 40, marginBottom: 40 }
+    metadataText: { textAlign: "center", color: colorFile.textColor },
+    reloadButtonPos: {
+      flex: 1,
+      justifyContent: "center",
+      alignItems: "center",
+    },
+    listFooter: { height: 40, marginBottom: 40 },
   });
 };
