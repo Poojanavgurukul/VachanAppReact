@@ -117,11 +117,11 @@ const Commentary = (props) => {
       <View style={{ paddingVertical: 20 }}>
         {props.commentaryContent && props.commentaryContent.commentaries && (
           <View style={{ justifyContent: "center", alignItems: "center" }}>
-            {props.parallelMetaData?.revision !== null &&
-              props.parallelMetaData?.revision !== "" && (
+            {props.parallelMetaData?.publishingYear !== null &&
+              props.parallelMetaData?.publishingYear !== "" && (
                 <Text textBreakStrategy={"simple"} style={style.metadataText}>
-                  <Text style={style.footerText}>Copyright:</Text>{" "}
-                  {props.parallelMetaData?.revision}
+                  <Text style={style.footerText}>Publishing Year:</Text>{" "}
+                  {props.parallelMetaData?.publishingYear}
                 </Text>
               )}
             {props.parallelMetaData?.license !== null &&
@@ -134,7 +134,7 @@ const Commentary = (props) => {
             {props.parallelMetaData?.copyrightHolder !== null &&
               props.parallelMetaData?.copyrightHolder !== "" && (
                 <Text textBreakStrategy={"simple"} style={style.metadataText}>
-                  <Text style={style.footerText}>Technology partner:</Text>{" "}
+                  <Text style={style.footerText}>Copyright Holder:</Text>{" "}
                   {props.parallelMetaData?.copyrightHolder}
                 </Text>
               )}
