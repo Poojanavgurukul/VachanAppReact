@@ -37,7 +37,7 @@ const EditNote = (props) => {
   const noteIndex = params ? params.noteIndex : null;
   const noteObject = params ? params.notesList : null;
   const bcvRef = params ? params.bcvRef : null;
-  let bodyData = params ? params.contentBody : "";
+  let bodyData = params ? params.contentBody : "Write your notes";
   const [contentBody, setContentBody] = useState(bodyData);
   const style = styles(colorFile, sizeFile);
   const saveNote = () => {
@@ -183,6 +183,9 @@ const EditNote = (props) => {
           actions.setItalic,
           actions.setUnderline,
           actions.heading1,
+          actions.insertBulletsList,
+          actions.insertOrderedList,
+          actions.setStrikethrough,
         ]}
         iconMap={{
           [actions.heading1]: ({ tintColor }) => (

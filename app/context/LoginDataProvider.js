@@ -190,7 +190,7 @@ const LoginDataProvider = (props) => {
             chapterNumber: currentVisibleChapter,
             verses: verses,
           },
-          contentBody: "",
+          contentBody: "Write your notes",
           onbackNote: onbackNote,
           noteIndex: -1,
         });
