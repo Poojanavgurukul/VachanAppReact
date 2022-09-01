@@ -48,7 +48,6 @@ const Bible = (props) => {
     sizeFile,
     colorFile,
     books,
-    selectedVerse,
     visibleParallelView,
   } = props;
   const [downloadedBook, setDownloadedBook] = useState([]);
@@ -56,7 +55,7 @@ const Bible = (props) => {
   const [chapterContent, setChapterContent] = useState([]);
   const [chapterHeader, setChapterHeader] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [reloadMessage, setReloadMessage] = useState("Loading...123");
+  const [reloadMessage, setReloadMessage] = useState("Loading...");
   const [bookNames, setBookNames] = useState([]);
 
   const [initializing, setInitializing] = useState(true);
@@ -81,7 +80,6 @@ const Bible = (props) => {
     _handleAppStateChange,
     setAudio,
     setNextContent,
-    scrollToVerse,
     audioComponentUpdate,
   } = useContext(BibleContext);
   const prevChapter = useRef(currentVisibleChapter).current;
@@ -377,7 +375,6 @@ const Bible = (props) => {
   }, [language, sourceId, baseAPI]);
   useEffect(() => {
     getChapter(null, null);
-    scrollToVerse();
     audioComponentUpdate();
   }, []);
   return (

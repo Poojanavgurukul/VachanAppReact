@@ -54,16 +54,11 @@ const AnimatedVerseList = (props) => {
     bottomHighlightText,
   } = useContext(LoginData);
   const { verseScroll, onScrollLayout } = useContext(BibleContext);
-  const [gestureVa, setGestureState] = useState("");
   const [left, setLeft] = useState("");
   const [top, setTop] = useState("");
   const [thumbSize, setThumbSize] = useState("");
   let pinchDiff = null;
   let pinchTime = new Date().getTime();
-
-  // const onLayout = (event, index, verseNumber) => {
-  //   onScrollLayout(event, index, verseNumber)
-  // };
 
   const _keyExtractor = (item, index) => {
     return index?.toString();
@@ -172,15 +167,12 @@ const AnimatedVerseList = (props) => {
         let tp = top;
         lf += gestureState.moveX - gestureState.previousMoveX;
         tp += gestureState.moveY - gestureState.previousMoveY;
-        setGestureState({ ...gestureState });
         setLeft(lf);
         setTop(tp);
         setThumbSize(thumbS);
       },
       onResponderTerminationRequest: () => true,
-      onResponderRelease: (gestureState) => {
-        setGestureState({ ...gestureState });
-      },
+
       onResponderTerminate: () => {},
       onResponderSingleTapConfirmed: () => {},
       moveThreshold: 2,
