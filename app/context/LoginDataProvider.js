@@ -11,7 +11,6 @@ export const LoginData = createContext();
 const LoginDataProvider = (props) => {
   const { bookName, bookId, sourceId, versionCode, language, chapterNumber } =
     props;
-
   const [connection_Status, setConnection_Status] = useState(true);
   const [notesList, setNotesList] = useState([]);
   const [bookmarksList, setBookmarksList] = useState([]);
@@ -159,7 +158,7 @@ const LoginDataProvider = (props) => {
       Alert.alert("Please check your internet connecion");
     }
   };
-
+  const onbackNote = () => {};
   const addToNotes = () => {
     if (connection_Status) {
       if (email) {
@@ -191,7 +190,7 @@ const LoginDataProvider = (props) => {
             chapterNumber: currentVisibleChapter,
             verses: verses,
           },
-          contentBody: "",
+          contentBody: "Write your notes",
           onbackNote: onbackNote,
           noteIndex: -1,
         });
@@ -205,7 +204,6 @@ const LoginDataProvider = (props) => {
     setShowBottomBar(false);
     setShowColorGrid(false);
   };
-  const onbackNote = () => {};
   const doHighlight = (color) => {
     if (connection_Status) {
       if (email) {
@@ -322,7 +320,7 @@ const LoginDataProvider = (props) => {
     getHighlights();
     getNotes();
     getBookMarks();
-  }, [email, currentVisibleChapter, language, sourceId]);
+  }, [email, currentVisibleChapter, bookId, language, sourceId]);
   useEffect(() => {
     bookmarkedChap();
   }, [email, bookmarksList, currentVisibleChapter]);
