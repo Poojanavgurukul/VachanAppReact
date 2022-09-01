@@ -179,13 +179,14 @@ const EditNote = (props) => {
       <RichToolbar
         editor={richText}
         actions={[
+          actions.heading1,
           actions.setBold,
           actions.setItalic,
           actions.setUnderline,
-          actions.heading1,
+          actions.setStrikethrough,
           actions.insertBulletsList,
           actions.insertOrderedList,
-          actions.setStrikethrough,
+          actions.insertLine,
         ]}
         iconMap={{
           [actions.heading1]: ({ tintColor }) => (
