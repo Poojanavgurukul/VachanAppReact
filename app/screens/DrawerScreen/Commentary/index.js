@@ -17,13 +17,14 @@ import Icon from "react-native-vector-icons/MaterialIcons";
 import { styles } from "./styles";
 import Color from "../../../utils/colorConstants";
 import ReloadButton from "../../../components/ReloadButton";
-import HTML from "react-native-render-html";
+import RenderHTML from "react-native-render-html";
 import vApi from "../../../utils/APIFetch";
 import securityVaraibles from "../../../../securityVaraibles";
 import SelectContent from "../../../components/Bible/SelectContent";
 import constants from "../../../utils/constants";
 import ModalDropdown from "react-native-modal-dropdown";
 import { getBookChaptersFromMapping } from "../../../utils/UtilFunctions";
+import { useWindowDimensions } from "react-native";
 
 const commentaryKey = securityVaraibles.COMMENTARY_KEY
   ? "?key=" + securityVaraibles.COMMENTARY_KEY
@@ -40,7 +41,7 @@ const DrawerCommentary = (props) => {
   const scroll = () => {
     scrollRef?.current?.scrollToOffset({ animated: true, offset: 0 });
   };
-
+  const { width } = useWindowDimensions();
   const [chapterNumber, setChapterNumber] = useState(props.chapterNumber);
   const [error, setError] = useState(null);
   const [bookName, setBookName] = useState(props.bookName);
@@ -211,35 +212,32 @@ const DrawerCommentary = (props) => {
       }
     }
   };
+  const tagsStyles = {
+    body: {
+      fontSize: props.sizeFile.contentText,
+      color: props.colorFile.textColor,
+      fontWeight: "normal",
+      lineHeight: props.sizeFile.lineHeight,
+    },
+  };
+  const renderersProps = {
+    img: {
+      enableExperimentalPercentWidth: true,
+    },
+  };
   const updateData = () => {
     errorMessage();
-  };
-  const renderItem = ({ item }) => {
-    return (
-      <View style={{ padding: 10 }}>
-        {item.verse &&
-          (item.verse == 0 ? (
-            <Text style={style.commentaryHeading}>Chapter Intro</Text>
-          ) : (
-            <Text style={style.commentaryHeading}>
-              Verse Number : {item.verse}
-            </Text>
-          ))}
-        <HTML
-          baseFontStyle={style.textString}
-          tagsStyles={{ p: style.textString, img: style.imageCard }}
-          html={formatCommentary(item.text)}
-        />
-      </View>
-    );
   };
 
   const formatCommentary = (str) => {
     str = replaceString(str, "base_url", baseUrl);
-    return replaceString(
-      str,
-      "img  style='object-fit: contain; width: 50%; height: 100px; align-self: center; '"
-    );
+    return {
+      html: replaceString(
+        str,
+        "src",
+        "width='1200' height='800' style='width: 90%;object-fit: contain; height: 300px; align-self: center;' src"
+      ),
+    };
   };
   const replaceString = (str, keyword, value) => {
     const regex = new RegExp(keyword, "g");
@@ -252,17 +250,43 @@ const DrawerCommentary = (props) => {
       setBaseUrl(parallelMetaData.baseUrl);
     }
   }, [parallelMetaData]);
+  const renderItem = ({ item }) => {
+    return (
+      <View style={{ padding: 10 }}>
+        {item.verse &&
+          (item.verse == 0 ? (
+            <Text style={style.commentaryHeading}>Chapter Intro</Text>
+          ) : (
+            <Text style={style.commentaryHeading}>
+              Verse Number : {item.verse}
+            </Text>
+          ))}
+        {item.text != "" && (
+          <RenderHTML
+            contentWidth={width}
+            renderersProps={renderersProps}
+            tagsStyles={tagsStyles}
+            source={formatCommentary(item.text)}
+          />
+        )}
+      </View>
+    );
+  };
+
   const ListHeaderComponent = () => {
     return (
       <View>
         {props.commentaryContent && props.commentaryContent.bookIntro ? (
           <View style={style.cardItemBackground}>
             <Text style={style.commentaryHeading}>Book Intro</Text>
-            <HTML
-              baseFontStyle={style.textString}
-              tagsStyles={{ p: style.textString, img: style.imageCard }}
-              html={formatCommentary(props?.commentaryContent?.bookIntro)}
-            />
+            {props?.commentaryContent?.bookIntro != "" && (
+              <RenderHTML
+                contentWidth={width}
+                renderersProps={renderersProps}
+                tagsStyles={tagsStyles}
+                source={formatCommentary(props?.commentaryContent?.bookIntro)}
+              />
+            )}
           </View>
         ) : null}
       </View>
@@ -277,11 +301,12 @@ const DrawerCommentary = (props) => {
           props.commentaryContent.commentaries &&
           metadata && (
             <View style={style.centerContainer}>
-              {metadata?.revision !== null && metadata?.revision !== "" && (
-                <Text textBreakStrategy={"simple"} style={style.metaDataText}>
-                  <Text>Copyright:</Text> {metadata?.revision}
-                </Text>
-              )}
+              {metadata?.publishingYear !== null &&
+                metadata?.publishingYear !== "" && (
+                  <Text textBreakStrategy={"simple"} style={style.metaDataText}>
+                    <Text>Publishing Year:</Text> {metadata?.publishingYear}
+                  </Text>
+                )}
               {metadata?.license !== null && metadata?.license !== "" && (
                 <Text textBreakStrategy={"simple"} style={style.metaDataText}>
                   <Text>License:</Text> {metadata?.license}
@@ -290,7 +315,7 @@ const DrawerCommentary = (props) => {
               {metadata?.copyrightHolder !== null &&
                 metadata?.copyrightHolder !== "" && (
                   <Text textBreakStrategy={"simple"} style={style.metaDataText}>
-                    <Text>Technology partner:</Text> {metadata?.copyrightHolder}
+                    <Text>Copyright Holder:</Text> {metadata?.copyrightHolder}
                   </Text>
                 )}
             </View>

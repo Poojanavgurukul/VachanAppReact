@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
-import { FlatList, Alert, Text, View } from "react-native";
+import { FlatList, Alert, Text, View, useWindowDimensions } from "react-native";
 import { connect } from "react-redux";
 import { Body, Header, Right, Title, Button } from "native-base";
 import {
@@ -11,7 +11,7 @@ import Icon from "react-native-vector-icons/MaterialIcons";
 import { styles } from "./styles";
 import Color from "../../../utils/colorConstants";
 import ReloadButton from "../../../components/ReloadButton";
-import HTML from "react-native-render-html";
+import RenderHTML from "react-native-render-html";
 import vApi from "../../../utils/APIFetch";
 import securityVaraibles from "../../../../securityVaraibles";
 import { LoginData } from "../../../context/LoginDataProvider";
@@ -22,6 +22,8 @@ const commentaryKey = securityVaraibles.COMMENTARY_KEY
   : "";
 
 const Commentary = (props) => {
+  const { width } = useWindowDimensions();
+
   const { currentVisibleChapter } = useContext(LoginData);
   const [error, setError] = useState(null);
   const [baseUrl, setBaseUrl] = useState("");
@@ -76,6 +78,40 @@ const Commentary = (props) => {
   const updateData = () => {
     errorMessage();
   };
+  const tagsStyles = {
+    body: {
+      fontSize: props.sizeFile.contentText,
+      color: props.colorFile.textColor,
+      fontWeight: "normal",
+      lineHeight: props.sizeFile.lineHeight,
+    },
+  };
+  const renderersProps = {
+    img: {
+      enableExperimentalPercentWidth: true,
+    },
+  };
+  const formatCommentary = (str) => {
+    str = replaceString(str, "base_url", baseUrl);
+    return {
+      html: replaceString(
+        str,
+        "src",
+        "width='1000' height='600' style='width: 40%;object-fit: contain; height: 200px; align-self: center;' src"
+      ),
+    };
+  };
+  const replaceString = (str, keyword, value) => {
+    const regex = new RegExp(keyword, "g");
+    if (typeof str === "string" && str != undefined) {
+      return str.replace(regex, value);
+    }
+  };
+  useEffect(() => {
+    if (parallelMetaData?.baseUrl != undefined) {
+      setBaseUrl(parallelMetaData.baseUrl);
+    }
+  }, [parallelMetaData]);
   const renderItem = ({ item }) => {
     return (
       <View style={{ padding: 10 }}>
@@ -87,25 +123,18 @@ const Commentary = (props) => {
               Verse Number : {item.verse}
             </Text>
           ))}
-        <HTML
-          baseFontStyle={style.textString}
-          tagsStyles={{ p: style.textString, img: style.imageCard }}
-          html={replaceBaseUrl(item.text)}
-        />
+        {item?.text != "" && (
+          <RenderHTML
+            contentWidth={width}
+            renderersProps={renderersProps}
+            tagsStyles={tagsStyles}
+            source={formatCommentary(item.text)}
+          />
+        )}
       </View>
     );
   };
-  const replaceBaseUrl = (str) => {
-    const regex = new RegExp("base_url", "g");
-    if (typeof str === "string" && str != undefined) {
-      return str.replace(regex, baseUrl);
-    }
-  };
-  useEffect(() => {
-    if (parallelMetaData?.baseUrl != undefined) {
-      setBaseUrl(parallelMetaData.baseUrl);
-    }
-  }, [parallelMetaData]);
+
   const ListHeaderComponent = () => {
     return (
       <View>
@@ -113,11 +142,14 @@ const Commentary = (props) => {
         props?.commentaryContent?.bookIntro == "" ? null : (
           <View style={style.cardItemBackground}>
             <Text style={style.commentaryHeading}>Book Intro</Text>
-            <HTML
-              baseFontStyle={style.textString}
-              tagsStyles={{ p: style.textString, img: style.imageCard }}
-              html={replaceBaseUrl(props?.commentaryContent?.bookIntro)}
-            />
+            {props?.commentaryContent?.bookIntro != "" && (
+              <RenderHTML
+                contentWidth={width}
+                renderersProps={renderersProps}
+                tagsStyles={tagsStyles}
+                source={formatCommentary(props?.commentaryContent?.bookIntro)}
+              />
+            )}
           </View>
         )}
       </View>

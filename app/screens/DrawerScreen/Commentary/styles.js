@@ -21,9 +21,6 @@ export const styles = (colorFile, sizeFile) => {
     cardItemBackground: {
       backgroundColor: colorFile.backgroundColor,
     },
-    imageCard: {
-      maxWidth: "100%",
-    },
     commentaryText: {
       fontSize: sizeFile.contentText,
       color: colorFile.textColor,
