@@ -14,7 +14,7 @@ const Infographics = (props) => {
   const [url, setUrl] = useState(null);
   const [message, setMessage] = useState("");
   const { bookList } = useContext(MainContext);
-  const { languageCode, languageName } = props
+  const { languageCode, languageName } = props;
   const style = styles(props.colorFile, props.sizeFile);
   const fetchInfographics = async () => {
     const apiData = await vApi.get("infographics/" + languageCode);
@@ -92,7 +92,6 @@ const Infographics = (props) => {
   }, [bookId, languageCode]);
   return (
     <View style={style.container}>
-      {console.log('info')}
       <ListContainer
         listData={infographics}
         listStyle={style.centerEmptySet}

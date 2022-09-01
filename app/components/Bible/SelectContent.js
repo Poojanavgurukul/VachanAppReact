@@ -61,7 +61,7 @@ const SelectContent = (props) => {
                 {" "}
                 {item.contentType == props.displayContent &&
                   item.contentType.charAt(0).toUpperCase() +
-                  item.contentType.slice(1)}
+                    item.contentType.slice(1)}
               </Text>
               <Icon
                 style={style.iconStyleSelection}
@@ -120,25 +120,29 @@ const SelectContent = (props) => {
   };
 
   const _renderContentInner = (item) => {
-    return item.versionModels.map((v,) =>
+    return item.versionModels.map((v, i) =>
       props.displayContent == "commentary" ? (
         contentType == props.displayContent && (
+          <View key={i}>
+            <TouchableOpacity
+              style={style.selectionInnerContent}
+              onPress={() => innerContent(item, v, false)}
+            >
+              <Text style={style.selectionHeaderModal}>{v.versionName}</Text>
+              <Text style={style.selectionHeaderModal}>{v.versionCode}</Text>
+            </TouchableOpacity>
+          </View>
+        )
+      ) : (
+        <View key={i}>
           <TouchableOpacity
             style={style.selectionInnerContent}
-            onPress={() => innerContent(item, v, false)}
+            onPress={() => innerContent(item, v, true)}
           >
             <Text style={style.selectionHeaderModal}>{v.versionName}</Text>
             <Text style={style.selectionHeaderModal}>{v.versionCode}</Text>
           </TouchableOpacity>
-        )
-      ) : (
-        <TouchableOpacity
-          style={style.selectionInnerContent}
-          onPress={() => innerContent(item, v, true)}
-        >
-          <Text style={style.selectionHeaderModal}>{v.versionName}</Text>
-          <Text style={style.selectionHeaderModal}>{v.versionCode}</Text>
-        </TouchableOpacity>
+        </View>
       )
     );
   };

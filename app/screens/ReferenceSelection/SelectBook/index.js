@@ -96,16 +96,6 @@ const SelectBook = (props) => {
     }
     setNTSize(count);
   };
-  useEffect(() => {
-    getOTSize();
-    getNTSize();
-    selectTab();
-  }, []);
-  useEffect(() => {
-    getOTSize();
-    getNTSize();
-    selectTab();
-  }, [books]);
   const selectTab = () => {
     let bookData = null;
     let bookIndex = -1;
@@ -122,20 +112,17 @@ const SelectBook = (props) => {
         } else {
           setActiveTab(true);
         }
-        let wait = new Promise((resolve) => setTimeout(resolve, 500));
-        wait.then(() => {
-          if (flatlistRef.current) {
-            flatlistRef.current.scrollToIndex({
-              index: bookIndex,
-              viewPosition: 0,
-              animated: false,
-              viewOffset: 0,
-            });
-          }
-        });
       }
     }
   };
+  useEffect(() => {
+    getOTSize();
+    console.log("ot");
+    getNTSize();
+    console.log("nt");
+    selectTab();
+    console.log("st");
+  }, []);
 
   const renderItem = ({ item }) => {
     return (

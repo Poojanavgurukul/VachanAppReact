@@ -19,6 +19,7 @@ const HighlightColorGrid = () => {
         <FlatList
           data={["#fffe00", "#5dff79", "#56f3ff", "#ffcaf7", "#ffc66f"]}
           numColumns={5}
+          keyExtractor={(item, index) => index.toString()}
           renderItem={({ item }) => (
             <TouchableOpacity onPress={() => doHighlight(item)}>
               <View

@@ -141,7 +141,7 @@ const Bible = (props) => {
     );
     if (content != null) {
       setChapterHeader(
-        content[0].chapters[currentVisibleChapter - 1].chapterHeading
+        content[0].chapters[currentVisibleChapter - 1]?.chapterHeading
       );
       setDownloadedBook(content[0].chapters);
       setChapterContent(content[0].chapters[currentVisibleChapter - 1].verses);
@@ -240,22 +240,10 @@ const Bible = (props) => {
       setShowBottomBar(false);
       setCurrentVisibleChapter(cNum);
       getChapter(cNum, sId);
-      console.log(
-        {
-          bookId: bookId,
-          bookName: bName,
-          chapterNumber:
-            parseInt(cNum) > getBookChaptersFromMapping(bId)
-              ? 1
-              : parseInt(cNum),
-          totalChapters: getBookChaptersFromMapping(bId),
-        },
-        "update props",
-        chapterInfo
-      );
+
       updateVersionBook({
-        bookId: bookId,
-        bookName: bookName,
+        bookId: bId,
+        bookName: bName,
         chapterNumber:
           parseInt(cNum) > getBookChaptersFromMapping(bId) ? 1 : parseInt(cNum),
         totalChapters: getBookChaptersFromMapping(bId),
@@ -279,7 +267,7 @@ const Bible = (props) => {
         versionCode,
         bookId,
         bookName,
-        currentVisibleChapter,
+        parseInt(currentVisibleChapter),
         downloaded,
         time
       );
@@ -400,6 +388,7 @@ const Bible = (props) => {
       setBookNames(response);
     };
     getBookNames();
+    setStatus(!props.status);
   }, [visibleParallelView]);
   useEffect(() => {
     setAudio(props.audio);

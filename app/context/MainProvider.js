@@ -31,7 +31,6 @@ const MainProvider = (props) => {
           }
         }
       } else {
-        let found = false;
         let response = await vApi.get("booknames");
         for (var k = 0; k < response.length; k++) {
           if (language.toLowerCase() == response[k].language.name) {
@@ -49,25 +48,8 @@ const MainProvider = (props) => {
               };
               bookListData.push(books);
             }
-            found = true;
           }
         }
-        // if (!found) {
-        //   //can exit app to refresh the data or give alert
-        //   Alert.alert(
-        //     "Check for update in languageList screen",
-        //     [
-        //       {
-        //         text: "OK",
-        //         onPress: () => {
-        //           return;
-        //         },
-        //       },
-        //     ],
-        //     { cancelable: false }
-        //   );
-        //   // BackHandler.exitApp();
-        // }
       }
       var res =
         bookListData.length == 0
@@ -99,7 +81,6 @@ const MainProvider = (props) => {
           }
         }
       } else {
-        let found = false;
         let response = await vApi.get("booknames");
         for (var k = 0; k < response.length; k++) {
           if (parallelLanguage.toLowerCase() == response[k].language.name) {
@@ -117,25 +98,8 @@ const MainProvider = (props) => {
               };
               bookListData.push(books);
             }
-            found = true;
           }
         }
-        // if (!found) {
-        //   //can exit app to refresh the data or give alert
-        //   Alert.alert(
-        //     "Check for update in languageList screen",
-        //     [
-        //       {
-        //         text: "OK",
-        //         onPress: () => {
-        //           return;
-        //         },
-        //       },
-        //     ],
-        //     { cancelable: false }
-        //   );
-        //   // BackHandler.exitApp();
-        // }
       }
       var res =
         bookListData.length == 0

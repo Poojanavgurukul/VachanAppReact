@@ -37,7 +37,6 @@ const Infographics = (props) => {
     }
     setIsLoading(false);
   };
-  console.log(props.languageName, "langua");
   useEffect(() => {
     dictionaryData();
   }, []);

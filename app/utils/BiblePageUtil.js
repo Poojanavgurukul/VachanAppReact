@@ -37,7 +37,7 @@ export function updateLangVersion(currentVisibleChapter, item, bId) {
       item.versionCode,
       bookId,
       bookName,
-      chapterNum,
+      parseInt(chapterNum),
       item.downloaded,
       time
     );

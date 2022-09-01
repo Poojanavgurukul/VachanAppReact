@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, useContext } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Text, View, ActivityIndicator, TouchableOpacity } from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { getBookChaptersFromMapping } from "../../utils/UtilFunctions";
@@ -30,13 +30,13 @@ const HighLights = (props) => {
               database()
                 .ref(
                   "users/" +
-                  props.uid +
-                  "/highlights/" +
-                  props.sourceId +
-                  "/" +
-                  id +
-                  "/" +
-                  chapterNum
+                    props.uid +
+                    "/highlights/" +
+                    props.sourceId +
+                    "/" +
+                    id +
+                    "/" +
+                    chapterNum
                 )
                 .remove();
               data.splice(i, 1);
@@ -47,11 +47,11 @@ const HighLights = (props) => {
               database()
                 .ref(
                   "users/" +
-                  props.uid +
-                  "/highlights/" +
-                  props.sourceId +
-                  "/" +
-                  id
+                    props.uid +
+                    "/highlights/" +
+                    props.sourceId +
+                    "/" +
+                    id
                 )
                 .update(updates);
             }
@@ -150,7 +150,7 @@ const HighLights = (props) => {
             <Text style={style.bookmarksText}>
               {props.languageName &&
                 props.languageName.charAt(0).toUpperCase() +
-                props.languageName.slice(1)}{" "}
+                  props.languageName.slice(1)}{" "}
               {props.versionCode && props.versionCode.toUpperCase()} {bookName}{" "}
               {item.chapterNumber} {":"} {verse}
             </Text>

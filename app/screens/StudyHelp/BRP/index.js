@@ -23,7 +23,7 @@ const BRP = (props) => {
   const [items, setItems] = useState({});
   const [planSelected, setPlanSelected] = useState(null);
   const [planList, setPlanList] = useState([]);
-  const [monthItems, setMonthItems] = useState([]);
+  const [monthItems, setMonthItems] = useState({});
   const [manifestData, setManifestData] = useState([]);
   const [readingPlan, setReadingPlan] = useState([]);
   const [calendarOpened, setCalendarOpened] = useState(false);
