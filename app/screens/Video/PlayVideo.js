@@ -13,6 +13,7 @@ const PlayVideo = (props) => {
     : null;
   const theme = props.route.params ? props.route.params.theme : null;
   const [playing, setPlaying] = useState(false);
+  const [vimeoUrl, setVimeoUrl] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const style = styles(props.colorFile, props.sizeFile);
   const textRef = useRef("playerRef");
@@ -51,14 +52,13 @@ const PlayVideo = (props) => {
       AppState.removeEventListener("change", handleYoutubePlay);
     };
   }, []);
-  if (url.includes("youtu.be")) {
-    var videoUrl = url.replace("https://youtu.be/", "");
-  } else {
+  useEffect(() => {
     if (url.includes("https://vimeo.com")) {
       let rep = url.replace("https://vimeo.com/", "");
-      var vimeoUrl = `https://player.vimeo.com/video/${rep}`;
+      setVimeoUrl(`https://player.vimeo.com/video/${rep}`);
     }
-  }
+  }, [url]);
+
   return (
     <View style={style.container}>
       <Text style={style.title}>{title}</Text>
@@ -72,7 +72,7 @@ const PlayVideo = (props) => {
           ref={textRef}
           height={"36%"}
           width={"100%"}
-          videoId={videoUrl}
+          videoId={url.replace("https://youtu.be/", "")}
           play={playing}
           onChangeState={(event) => onChangeState(event)}
           onReady={() => onReady}
@@ -87,7 +87,6 @@ const PlayVideo = (props) => {
           source={{
             html: `<iframe width='100%' height='80%' src=${vimeoUrl} frameborder='0' allow='autoplay' allowfullscreen></iframe>`,
           }}
-          style={{ marginHorizontal: 0 }}
         />
       )}
       <Text style={style.description}>{description}</Text>
