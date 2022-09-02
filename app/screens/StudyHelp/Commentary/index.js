@@ -4,7 +4,6 @@ import { connect } from "react-redux";
 import { Body, Header, Right, Title, Button } from "native-base";
 import {
   vachanAPIFetch,
-  fetchVersionBooks,
   parallelVisibleView,
 } from "../../../store/action/index";
 import Icon from "react-native-vector-icons/MaterialIcons";
@@ -23,13 +22,18 @@ const commentaryKey = securityVaraibles.COMMENTARY_KEY
 
 const Commentary = (props) => {
   const { width } = useWindowDimensions();
-
+  const {
+    bookName: pBookName,
+    parallelMetaData,
+    colorFile,
+    sizeFile,
+    commentaryContent,
+  } = props;
   const { currentVisibleChapter } = useContext(LoginData);
   const [error, setError] = useState(null);
   const [baseUrl, setBaseUrl] = useState("");
-  const { parallelMetaData } = props;
   const [bookNameList, setBookNameList] = useState([]);
-  const [bookName, setBookName] = useState(props.bookName);
+  const [bookName, setBookName] = useState(pBookName);
   const { bookList } = useContext(MainContext);
   const style = styles(props.colorFile, props.sizeFile);
   let alertPresent = false;
@@ -78,34 +82,35 @@ const Commentary = (props) => {
   const updateData = () => {
     errorMessage();
   };
-  const tagsStyles = {
-    body: {
-      fontSize: props.sizeFile.contentText,
-      color: props.colorFile.textColor,
-      fontWeight: "normal",
-      lineHeight: props.sizeFile.lineHeight,
-    },
-  };
-  const renderersProps = {
-    img: {
-      enableExperimentalPercentWidth: true,
-    },
-  };
-  const formatCommentary = (str) => {
-    str = replaceString(str, "base_url", baseUrl);
-    return {
-      html: replaceString(
-        str,
-        "src",
-        "width='1000' height='600' style='width: 40%;object-fit: contain; height: 200px; align-self: center;' src"
-      ),
+  const getHTML = (html) => {
+    const tagsStyles = {
+      body: {
+        fontSize: sizeFile.contentText,
+        color: colorFile.textColor,
+        fontWeight: "normal",
+        lineHeight: sizeFile.lineHeight,
+      },
+      img: {
+        width: "40%",
+        objectFit: "contain",
+        alignSelf: "center",
+      },
     };
-  };
-  const replaceString = (str, keyword, value) => {
-    const regex = new RegExp(keyword, "g");
-    if (typeof str === "string" && str != undefined) {
-      return str.replace(regex, value);
-    }
+    const renderersProps = {
+      img: {
+        enableExperimentalPercentWidth: true,
+      },
+    };
+    const regex = new RegExp("base_url", "g");
+    const source = { html: html?.replace(regex, baseUrl) };
+    return (
+      <RenderHTML
+        contentWidth={width}
+        renderersProps={renderersProps}
+        tagsStyles={tagsStyles}
+        source={source}
+      />
+    );
   };
   useEffect(() => {
     if (parallelMetaData?.baseUrl != undefined) {
@@ -123,14 +128,7 @@ const Commentary = (props) => {
               Verse Number : {item.verse}
             </Text>
           ))}
-        {item?.text != "" && (
-          <RenderHTML
-            contentWidth={width}
-            renderersProps={renderersProps}
-            tagsStyles={tagsStyles}
-            source={formatCommentary(item.text)}
-          />
-        )}
+        {item.text != "" && getHTML(item.text)}
       </View>
     );
   };
@@ -142,14 +140,8 @@ const Commentary = (props) => {
         props?.commentaryContent?.bookIntro == "" ? null : (
           <View style={style.cardItemBackground}>
             <Text style={style.commentaryHeading}>Book Intro</Text>
-            {props?.commentaryContent?.bookIntro != "" && (
-              <RenderHTML
-                contentWidth={width}
-                renderersProps={renderersProps}
-                tagsStyles={tagsStyles}
-                source={formatCommentary(props?.commentaryContent?.bookIntro)}
-              />
-            )}
+            {props?.commentaryContent?.bookIntro != "" &&
+              getHTML(commentaryContent?.bookIntro)}
           </View>
         )}
       </View>
@@ -316,7 +308,6 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     vachanAPIFetch: (payload) => dispatch(vachanAPIFetch(payload)),
-    fetchVersionBooks: (payload) => dispatch(fetchVersionBooks(payload)),
     parallelVisibleView: (payload) => dispatch(parallelVisibleView(payload)),
   };
 };

@@ -83,6 +83,7 @@ const PlayVideo = (props) => {
         />
       ) : (
         <WebView
+          onError={onError}
           source={{
             html: `<iframe width='100%' height='80%' src=${vimeoUrl} frameborder='0' allow='autoplay' allowfullscreen></iframe>`,
           }}
