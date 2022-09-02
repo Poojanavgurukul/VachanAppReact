@@ -240,6 +240,7 @@ function* fetchAllContent() {
               (metaD.hasOwnProperty("Version Name (in GL)")
                 ? metaD["Version Name (in GL)"]
                 : ""),
+            baseUrl: metaD?.baseUrl,
           },
         ];
         versions.push({
