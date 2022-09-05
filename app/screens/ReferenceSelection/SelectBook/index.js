@@ -117,11 +117,8 @@ const SelectBook = (props) => {
   };
   useEffect(() => {
     getOTSize();
-    console.log("ot");
     getNTSize();
-    console.log("nt");
     selectTab();
-    console.log("st");
   }, []);
 
   const renderItem = ({ item }) => {

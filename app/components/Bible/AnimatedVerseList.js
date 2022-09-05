@@ -181,7 +181,7 @@ const AnimatedVerseList = (props) => {
   ).current;
 
   const renderFooter = () => {
-    if (chapterContent.length === 0) {
+    if (chapterContent?.length === 0) {
       return null;
     } else {
       return (
@@ -229,7 +229,7 @@ const AnimatedVerseList = (props) => {
       data={chapterContent}
       ref={verseScroll}
       contentContainerStyle={
-        chapterContent.length === 0
+        chapterContent?.length === 0
           ? styles.centerEmptySet
           : {
               paddingHorizontal: 16,

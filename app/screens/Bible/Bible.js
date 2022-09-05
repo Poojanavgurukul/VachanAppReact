@@ -166,8 +166,8 @@ const Bible = (props) => {
       setChapterContent([]);
       if (downloaded) {
         if (downloadedBook.length > 0) {
-          setChapterHeader(downloadedBook[curChap - 1].chapterHeading);
-          setChapterContent(downloadedBook[curChap - 1].verses);
+          setChapterHeader(downloadedBook[curChap - 1]?.chapterHeading);
+          setChapterContent(downloadedBook[curChap - 1]?.verses);
           setPreviousContent(null);
           setNextContent(null);
         } else {
