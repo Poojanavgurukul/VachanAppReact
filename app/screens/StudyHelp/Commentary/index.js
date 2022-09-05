@@ -1,17 +1,16 @@
 import React, { useEffect, useState, useContext } from "react";
-import { FlatList, Alert, Text, View } from "react-native";
+import { FlatList, Alert, Text, View, useWindowDimensions } from "react-native";
 import { connect } from "react-redux";
 import { Body, Header, Right, Title, Button } from "native-base";
 import {
   vachanAPIFetch,
-  fetchVersionBooks,
   parallelVisibleView,
 } from "../../../store/action/index";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { styles } from "./styles";
 import Color from "../../../utils/colorConstants";
 import ReloadButton from "../../../components/ReloadButton";
-import HTML from "react-native-render-html";
+import RenderHTML from "react-native-render-html";
 import vApi from "../../../utils/APIFetch";
 import securityVaraibles from "../../../../securityVaraibles";
 import { LoginData } from "../../../context/LoginDataProvider";
@@ -22,14 +21,26 @@ const commentaryKey = securityVaraibles.COMMENTARY_KEY
   : "";
 
 const Commentary = (props) => {
+  const { width } = useWindowDimensions();
+  const {
+    bookName: pBookName,
+    bookId,
+    parallelMetaData,
+    colorFile,
+    sizeFile,
+    commentaryContent,
+    pError,
+    parallelLanguage,
+    vachanAPIFetch,
+    parallelVisibleView,
+  } = props;
   const { currentVisibleChapter } = useContext(LoginData);
   const [error, setError] = useState(null);
   const [baseUrl, setBaseUrl] = useState("");
-  const { parallelMetaData } = props;
   const [bookNameList, setBookNameList] = useState([]);
-  const [bookName, setBookName] = useState(props.bookName);
+  const [bookName, setBookName] = useState(pBookName);
   const { bookList } = useContext(MainContext);
-  const style = styles(props.colorFile, props.sizeFile);
+  const style = styles(colorFile, sizeFile);
   let alertPresent = false;
   const fetchBookName = async () => {
     try {
@@ -43,7 +54,7 @@ const Commentary = (props) => {
   const errorMessage = () => {
     if (!alertPresent) {
       alertPresent = true;
-      if (props.error || error) {
+      if (pError || error) {
         Alert.alert(
           "",
           "Check your internet connection",
@@ -57,16 +68,16 @@ const Commentary = (props) => {
           ],
           { cancelable: false }
         );
-        if (props.parallelLanguage) {
+        if (parallelLanguage) {
           const url =
             "commentaries/" +
-            props.parallelLanguage.sourceId +
+            parallelLanguage.sourceId +
             "/" +
-            props.bookId +
+            bookId +
             "/" +
             currentVisibleChapter +
             commentaryKey;
-          props.vachanAPIFetch(url);
+          vachanAPIFetch(url);
         }
       } else {
         alertPresent = false;
@@ -76,6 +87,41 @@ const Commentary = (props) => {
   const updateData = () => {
     errorMessage();
   };
+  const getHTML = (html) => {
+    const tagsStyles = {
+      body: {
+        fontSize: sizeFile.contentText,
+        color: colorFile.textColor,
+        fontWeight: "normal",
+        lineHeight: sizeFile.lineHeight,
+      },
+      img: {
+        width: "40%",
+        objectFit: "contain",
+        alignSelf: "center",
+      },
+    };
+    const renderersProps = {
+      img: {
+        enableExperimentalPercentWidth: true,
+      },
+    };
+    const regex = new RegExp("base_url", "g");
+    const source = { html: html?.replace(regex, baseUrl) };
+    return (
+      <RenderHTML
+        contentWidth={width}
+        renderersProps={renderersProps}
+        tagsStyles={tagsStyles}
+        source={source}
+      />
+    );
+  };
+  useEffect(() => {
+    if (parallelMetaData?.baseUrl != undefined) {
+      setBaseUrl(parallelMetaData.baseUrl);
+    }
+  }, [parallelMetaData]);
   const renderItem = ({ item }) => {
     return (
       <View style={{ padding: 10 }}>
@@ -87,37 +133,19 @@ const Commentary = (props) => {
               Verse Number : {item.verse}
             </Text>
           ))}
-        <HTML
-          baseFontStyle={style.textString}
-          tagsStyles={{ p: style.textString, img: style.imageCard }}
-          html={replaceBaseUrl(item.text)}
-        />
+        {item.text != "" && getHTML(item.text)}
       </View>
     );
   };
-  const replaceBaseUrl = (str) => {
-    const regex = new RegExp("base_url", "g");
-    if (typeof str === "string" && str != undefined) {
-      return str.replace(regex, baseUrl);
-    }
-  };
-  useEffect(() => {
-    if (parallelMetaData?.baseUrl != undefined) {
-      setBaseUrl(parallelMetaData.baseUrl);
-    }
-  }, [parallelMetaData]);
+
   const ListHeaderComponent = () => {
     return (
       <View>
-        {props?.commentaryContent &&
-        props?.commentaryContent?.bookIntro == "" ? null : (
+        {commentaryContent && commentaryContent?.bookIntro == "" ? null : (
           <View style={style.cardItemBackground}>
             <Text style={style.commentaryHeading}>Book Intro</Text>
-            <HTML
-              baseFontStyle={style.textString}
-              tagsStyles={{ p: style.textString, img: style.imageCard }}
-              html={replaceBaseUrl(props?.commentaryContent?.bookIntro)}
-            />
+            {commentaryContent?.bookIntro != "" &&
+              getHTML(commentaryContent?.bookIntro)}
           </View>
         )}
       </View>
@@ -126,27 +154,27 @@ const Commentary = (props) => {
   const renderFooter = () => {
     return (
       <View style={{ paddingVertical: 20 }}>
-        {props.commentaryContent && props.commentaryContent.commentaries && (
+        {commentaryContent?.commentaries && (
           <View style={{ justifyContent: "center", alignItems: "center" }}>
-            {props.parallelMetaData?.revision !== null &&
-              props.parallelMetaData?.revision !== "" && (
+            {parallelMetaData?.publishingYear !== null &&
+              parallelMetaData?.publishingYear !== "" && (
                 <Text textBreakStrategy={"simple"} style={style.metadataText}>
-                  <Text style={style.footerText}>Copyright:</Text>{" "}
-                  {props.parallelMetaData?.revision}
+                  <Text style={style.footerText}>Publishing Year:</Text>{" "}
+                  {parallelMetaData?.publishingYear}
                 </Text>
               )}
-            {props.parallelMetaData?.license !== null &&
-              props.parallelMetaData?.license !== "" && (
+            {parallelMetaData?.license !== null &&
+              parallelMetaData?.license !== "" && (
                 <Text textBreakStrategy={"simple"} style={style.metadataText}>
                   <Text style={style.footerText}>License:</Text>{" "}
-                  {props.parallelMetaData?.license}
+                  {parallelMetaData?.license}
                 </Text>
               )}
-            {props.parallelMetaData?.copyrightHolder !== null &&
-              props.parallelMetaData?.copyrightHolder !== "" && (
+            {parallelMetaData?.copyrightHolder !== null &&
+              parallelMetaData?.copyrightHolder !== "" && (
                 <Text textBreakStrategy={"simple"} style={style.metadataText}>
-                  <Text style={style.footerText}>Technology partner:</Text>{" "}
-                  {props.parallelMetaData?.copyrightHolder}
+                  <Text style={style.footerText}>Copyright Holder:</Text>{" "}
+                  {parallelMetaData?.copyrightHolder}
                 </Text>
               )}
           </View>
@@ -158,12 +186,11 @@ const Commentary = (props) => {
     if (bookNameList) {
       for (var i = 0; i <= bookNameList.length - 1; i++) {
         let parallelLanguage =
-          props.parallelLanguage &&
-          props.parallelLanguage.languageName.toLowerCase();
+          parallelLanguage && parallelLanguage.languageName.toLowerCase();
         if (bookNameList[i].language.name === parallelLanguage) {
           for (var j = 0; j <= bookNameList[i].bookNames.length - 1; j++) {
             var bId = bookNameList[i].bookNames[j].book_code;
-            if (bId == props.bookId) {
+            if (bId == bookId) {
               let bookName = bookNameList[i].bookNames[j].short;
               setBookName(bookName);
             }
@@ -175,22 +202,22 @@ const Commentary = (props) => {
     }
   };
   const fetchCommentary = () => {
-    if (props.parallelLanguage) {
+    if (parallelLanguage) {
       let url =
         "commentaries/" +
-        props.parallelLanguage.sourceId +
+        parallelLanguage.sourceId +
         "/" +
-        props.bookId +
+        bookId +
         "/" +
         currentVisibleChapter +
         commentaryKey;
-      props.vachanAPIFetch(url);
+      vachanAPIFetch(url);
       updateBookName();
     }
   };
 
   const closeParallelView = (value) => {
-    props.parallelVisibleView({
+    parallelVisibleView({
       modalVisible: false,
       visibleParallelView: value,
     });
@@ -202,11 +229,11 @@ const Commentary = (props) => {
   useEffect(() => {
     fetchCommentary();
   }, [
-    props.bookId,
+    bookId,
     bookList,
     currentVisibleChapter,
-    props.parallelLanguage.sourceId,
-    props.commentaryContent,
+    parallelLanguage.sourceId,
+    commentaryContent,
   ]);
   useEffect(() => {
     fetchBookName();
@@ -224,7 +251,7 @@ const Commentary = (props) => {
       >
         <Body>
           <Title style={{ fontSize: 16, alignSelf: "center" }}>
-            {props.parallelLanguage && props.parallelLanguage.versionCode}
+            {parallelLanguage && parallelLanguage.versionCode}
           </Title>
         </Body>
         <Right>
@@ -234,7 +261,7 @@ const Commentary = (props) => {
         </Right>
       </Header>
 
-      {props.error ? (
+      {pError ? (
         <View style={style.reloadButtonPos}>
           <ReloadButton
             style={style}
@@ -245,13 +272,10 @@ const Commentary = (props) => {
       ) : (
         <View style={{ flex: 1 }}>
           <Text style={[style.commentaryHeading, { margin: 10 }]}>
-            {bookName != null && bookName} {}{" "}
-            {props.commentaryContent && props.commentaryContent.chapter}
+            {bookName != null && bookName} {} {commentaryContent?.chapter}
           </Text>
           <FlatList
-            data={
-              props.commentaryContent && props.commentaryContent.commentaries
-            }
+            data={commentaryContent?.commentaries}
             showsVerticalScrollIndicator={false}
             contentContainerStyle={{ flexGrow: 1, margin: 16 }}
             renderItem={renderItem}
@@ -284,7 +308,6 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     vachanAPIFetch: (payload) => dispatch(vachanAPIFetch(payload)),
-    fetchVersionBooks: (payload) => dispatch(fetchVersionBooks(payload)),
     parallelVisibleView: (payload) => dispatch(parallelVisibleView(payload)),
   };
 };

@@ -112,6 +112,11 @@ function* fetchAllContent() {
               (metaD.hasOwnProperty("Version Name (in Eng)")
                 ? metaD["Version Name (in Eng)"]
                 : ""),
+            publishingYear:
+              metaD &&
+              (metaD.hasOwnProperty("Publishing Year")
+                ? metaD["Publishing Year"]
+                : ""),
             versionNameGL:
               metaD &&
               (metaD.hasOwnProperty("Version Name (in GL)")
@@ -209,6 +214,11 @@ function* fetchAllContent() {
               metaD &&
               (metaD.hasOwnProperty("Revision (Name & Year)")
                 ? metaD["Revision (Name & Year)"]
+                : ""),
+            publishingYear:
+              metaD &&
+              (metaD.hasOwnProperty("Publishing Year")
+                ? metaD["Publishing Year"]
                 : ""),
             source:
               metaD &&
