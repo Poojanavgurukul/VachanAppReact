@@ -133,7 +133,7 @@ const Commentary = (props) => {
               Verse Number : {item.verse}
             </Text>
           ))}
-        {item.text != "" && getHTML(item.text)}
+        {item?.text != "" && getHTML(item.text)}
       </View>
     );
   };

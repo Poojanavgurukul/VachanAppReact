@@ -49,6 +49,8 @@ const Bible = (props) => {
     colorFile,
     books,
     visibleParallelView,
+    audio,
+    status,
   } = props;
   const [downloadedBook, setDownloadedBook] = useState([]);
 
@@ -74,7 +76,6 @@ const Bible = (props) => {
   } = useContext(LoginData);
   const {
     setStatus,
-    status,
     setPreviousContent,
     _handleAppStateChange,
     setAudio,
@@ -160,7 +161,6 @@ const Bible = (props) => {
     try {
       let curChap = cNum == null ? currentVisibleChapter : cNum;
       let srcId = sId == null ? sourceId : sId;
-      console.log("GET CHAPTER ");
       setIsLoading(true);
       setChapterHeader([]);
       setChapterContent([]);
@@ -345,7 +345,6 @@ const Bible = (props) => {
   }, []);
   useEffect(() => {
     const subs = props.navigation.addListener("focus", () => {
-      console.log(" FOCUS ");
       setSelectedReferenceSet([]);
       setShowBottomBar(false);
       setShowColorGrid(false);
@@ -372,7 +371,6 @@ const Bible = (props) => {
   useEffect(() => {
     getChapter(null, null);
     audioComponentUpdate();
-    console.log(" USEFFECT GET REF CHECk");
     if (books.length == 0) {
       props.fetchVersionBooks({
         language: language,
@@ -388,12 +386,12 @@ const Bible = (props) => {
       setBookNames(response);
     };
     getBookNames();
-    setStatus(!props.status);
+    setStatus(!status);
   }, [visibleParallelView]);
   useEffect(() => {
-    setAudio(props.audio);
-    setStatus(props.status);
-  }, [props.audio, props.status, language]);
+    setAudio(audio);
+    setStatus(status);
+  }, [audio, status, language]);
   useEffect(() => {
     props.fetchVersionBooks({
       language: language,
@@ -441,17 +439,12 @@ const mapStateToProps = (state) => {
     versionCode: state.updateVersion.versionCode,
     sourceId: state.updateVersion.sourceId,
     downloaded: state.updateVersion.downloaded,
-    contentType: state.updateVersion.parallelContentType,
     baseAPI: state.updateVersion.baseAPI,
     chapterNumber: state.updateVersion.chapterNumber,
-    totalChapters: state.updateVersion.totalChapters,
     bookName: state.updateVersion.bookName,
     bookId: state.updateVersion.bookId,
-    selectedVerse: state.updateVersion.selectedVerse,
     sizeFile: state.updateStyling.sizeFile,
     colorFile: state.updateStyling.colorFile,
-    email: state.userInfo.email,
-    userId: state.userInfo.uid,
     books: state.versionFetch.versionBooks,
     visibleParallelView: state.selectContent.visibleParallelView,
     audio: state.audio.audio,
