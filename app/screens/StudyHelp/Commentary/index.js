@@ -108,21 +108,10 @@ const Commentary = (props) => {
     [sizeFile, colorFile]
   );
   const formatCommentary = (str) => {
-    str = replaceString(str, "base_url", baseUrl);
-    return {
-      html: replaceString(
-        str,
-        "src",
-        "width='1000' height='600' style='width: 40%;object-fit: contain; height: 200px; align-self: center;' src"
-      ),
-    };
+    const regex = new RegExp("base_url", "g");
+    return { html: str?.replace(regex, baseUrl) };
   };
-  const replaceString = (str, keyword, value) => {
-    const regex = new RegExp(keyword, "g");
-    if (typeof str === "string" && str != undefined) {
-      return str.replace(regex, value);
-    }
-  };
+
   useEffect(() => {
     if (parallelMetaData?.baseUrl != undefined) {
       setBaseUrl(parallelMetaData.baseUrl);

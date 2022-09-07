@@ -392,9 +392,6 @@ const Bible = (props) => {
   }, [audio, props.status, language]);
   useEffect(() => {
     setStatus(false);
-    return () => {
-      setStatus(false);
-    };
   }, [visibleParallelView]);
   useEffect(() => {
     props.fetchVersionBooks({

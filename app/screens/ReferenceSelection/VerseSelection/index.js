@@ -36,7 +36,7 @@ const SelectVerse = (props) => {
       selectedChapterNumber +
       "/verses";
     let verses = await vApi.get(url);
-    verses.map((item) => versesArray.push(item.verse.number));
+    verses?.map((item) => versesArray.push(item.verse.number));
     setVersesData(versesArray);
   };
   const onNumPress = (item) => {
