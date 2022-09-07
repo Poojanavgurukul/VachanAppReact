@@ -238,7 +238,7 @@ const DrawerCommentary = (props) => {
         lineHeight: sizeFile.lineHeight,
       },
       img: {
-        width: "40%",
+        width: "90%",
         objectFit: "contain",
         alignSelf: "center",
       },
