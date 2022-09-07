@@ -25,7 +25,11 @@ import { useWindowDimensions } from "react-native";
 const commentaryKey = securityVaraibles.COMMENTARY_KEY
   ? "?key=" + securityVaraibles.COMMENTARY_KEY
   : "";
-
+const renderersProps = {
+  img: {
+    enableExperimentalPercentWidth: true,
+  },
+};
 const DrawerCommentary = (props) => {
   const {
     bookId: pBookId,
@@ -225,8 +229,8 @@ const DrawerCommentary = (props) => {
     errorMessage();
   };
 
-  const getHTML = (html) => {
-    const tagsStyles = {
+  const tagsStyles = React.useMemo(
+    () => ({
       body: {
         fontSize: sizeFile.contentText,
         color: colorFile.textColor,
@@ -234,26 +238,16 @@ const DrawerCommentary = (props) => {
         lineHeight: sizeFile.lineHeight,
       },
       img: {
-        width: "90%",
+        width: "40%",
         objectFit: "contain",
         alignSelf: "center",
       },
-    };
-    const renderersProps = {
-      img: {
-        enableExperimentalPercentWidth: true,
-      },
-    };
+    }),
+    [sizeFile, colorFile]
+  );
+  const formatCommentary = (str) => {
     const regex = new RegExp("base_url", "g");
-    const source = { html: html?.replace(regex, baseUrl) };
-    return (
-      <RenderHTML
-        contentWidth={width}
-        renderersProps={renderersProps}
-        tagsStyles={tagsStyles}
-        source={source}
-      />
-    );
+    return { html: str?.replace(regex, baseUrl) };
   };
   useEffect(() => {
     if (parallelMetaData?.baseUrl != undefined) {
@@ -271,7 +265,14 @@ const DrawerCommentary = (props) => {
               Verse Number : {item.verse}
             </Text>
           ))}
-        {item.text != "" && getHTML(item.text)}
+        {item.text != "" && (
+          <RenderHTML
+            contentWidth={width}
+            renderersProps={renderersProps}
+            tagsStyles={tagsStyles}
+            source={formatCommentary(item.text)}
+          />
+        )}
       </View>
     );
   };
@@ -282,8 +283,14 @@ const DrawerCommentary = (props) => {
         {commentaryContent?.bookIntro != "" ? (
           <View style={style.cardItemBackground}>
             <Text style={style.commentaryHeading}>Book Intro</Text>
-            {props?.commentaryContent?.bookIntro != "" &&
-              getHTML(commentaryContent?.bookIntro)}
+            {commentaryContent?.bookIntro != "" && (
+              <RenderHTML
+                contentWidth={width}
+                renderersProps={renderersProps}
+                tagsStyles={tagsStyles}
+                source={formatCommentary(commentaryContent?.bookIntro)}
+              />
+            )}
           </View>
         ) : null}
       </View>
