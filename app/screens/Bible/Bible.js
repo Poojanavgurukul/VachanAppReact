@@ -47,10 +47,8 @@ const Bible = (props) => {
     bookId,
     sizeFile,
     colorFile,
-    books,
     visibleParallelView,
     audio,
-    status,
   } = props;
   const [downloadedBook, setDownloadedBook] = useState([]);
 
@@ -75,6 +73,7 @@ const Bible = (props) => {
     setShowColorGrid,
   } = useContext(LoginData);
   const {
+    status,
     setStatus,
     setPreviousContent,
     _handleAppStateChange,
@@ -113,7 +112,7 @@ const Bible = (props) => {
         type: "success",
         duration: 5000,
       });
-      if (books.length == 0) {
+      if (props.books.length == 0) {
         props.fetchVersionBooks({
           language: language,
           versionCode: versionCode,
@@ -192,9 +191,9 @@ const Bible = (props) => {
             bookName
               ? setReloadMessage("Loading ......")
               : setReloadMessage("This will be available soon");
-            let header = getHeading(content.chapterContent.contents);
+            let header = getHeading(content?.chapterContent?.contents);
             setChapterHeader(header);
-            setChapterContent(content.chapterContent.contents);
+            setChapterContent(content?.chapterContent?.contents);
             setNextContent(content.next);
             setPreviousContent(content.previous);
           }
@@ -348,7 +347,7 @@ const Bible = (props) => {
       setSelectedReferenceSet([]);
       setShowBottomBar(false);
       setShowColorGrid(false);
-      if (books.length == 0) {
+      if (props.books.length == 0) {
         props.fetchVersionBooks({
           language: language,
           versionCode: versionCode,
@@ -371,7 +370,7 @@ const Bible = (props) => {
   useEffect(() => {
     getChapter(null, null);
     audioComponentUpdate();
-    if (books.length == 0) {
+    if (props.books.length == 0) {
       props.fetchVersionBooks({
         language: language,
         versionCode: versionCode,
@@ -386,12 +385,17 @@ const Bible = (props) => {
       setBookNames(response);
     };
     getBookNames();
-    setStatus(!status);
   }, [visibleParallelView]);
   useEffect(() => {
     setAudio(audio);
-    setStatus(status);
-  }, [audio, status, language]);
+    setStatus(props.status);
+  }, [audio, props.status, language]);
+  useEffect(() => {
+    setStatus(false);
+    return () => {
+      setStatus(false);
+    };
+  }, [visibleParallelView]);
   useEffect(() => {
     props.fetchVersionBooks({
       language: language,

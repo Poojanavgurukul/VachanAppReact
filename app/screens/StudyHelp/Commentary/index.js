@@ -20,10 +20,14 @@ const commentaryKey = securityVaraibles.COMMENTARY_KEY
   ? "?key=" + securityVaraibles.COMMENTARY_KEY
   : "";
 
+const renderersProps = {
+  img: {
+    enableExperimentalPercentWidth: true,
+  },
+};
 const Commentary = (props) => {
   const { width } = useWindowDimensions();
   const {
-    bookName: pBookName,
     bookId,
     parallelMetaData,
     colorFile,
@@ -31,17 +35,17 @@ const Commentary = (props) => {
     commentaryContent,
     pError,
     parallelLanguage,
-    vachanAPIFetch,
     parallelVisibleView,
   } = props;
   const { currentVisibleChapter } = useContext(LoginData);
   const [error, setError] = useState(null);
   const [baseUrl, setBaseUrl] = useState("");
   const [bookNameList, setBookNameList] = useState([]);
-  const [bookName, setBookName] = useState(pBookName);
+  const [bookName, setBookName] = useState(props.bookName);
   const { bookList } = useContext(MainContext);
   const style = styles(colorFile, sizeFile);
   let alertPresent = false;
+
   const fetchBookName = async () => {
     try {
       let response = await vApi.get("booknames");
@@ -77,7 +81,7 @@ const Commentary = (props) => {
             "/" +
             currentVisibleChapter +
             commentaryKey;
-          vachanAPIFetch(url);
+          props.vachanAPIFetch(url);
         }
       } else {
         alertPresent = false;
@@ -87,8 +91,8 @@ const Commentary = (props) => {
   const updateData = () => {
     errorMessage();
   };
-  const getHTML = (html) => {
-    const tagsStyles = {
+  const tagsStyles = React.useMemo(
+    () => ({
       body: {
         fontSize: sizeFile.contentText,
         color: colorFile.textColor,
@@ -100,28 +104,31 @@ const Commentary = (props) => {
         objectFit: "contain",
         alignSelf: "center",
       },
+    }),
+    [sizeFile, colorFile]
+  );
+  const formatCommentary = (str) => {
+    str = replaceString(str, "base_url", baseUrl);
+    return {
+      html: replaceString(
+        str,
+        "src",
+        "width='1000' height='600' style='width: 40%;object-fit: contain; height: 200px; align-self: center;' src"
+      ),
     };
-    const renderersProps = {
-      img: {
-        enableExperimentalPercentWidth: true,
-      },
-    };
-    const regex = new RegExp("base_url", "g");
-    const source = { html: html?.replace(regex, baseUrl) };
-    return (
-      <RenderHTML
-        contentWidth={width}
-        renderersProps={renderersProps}
-        tagsStyles={tagsStyles}
-        source={source}
-      />
-    );
+  };
+  const replaceString = (str, keyword, value) => {
+    const regex = new RegExp(keyword, "g");
+    if (typeof str === "string" && str != undefined) {
+      return str.replace(regex, value);
+    }
   };
   useEffect(() => {
     if (parallelMetaData?.baseUrl != undefined) {
       setBaseUrl(parallelMetaData.baseUrl);
     }
   }, [parallelMetaData]);
+
   const renderItem = ({ item }) => {
     return (
       <View style={{ padding: 10 }}>
@@ -133,7 +140,14 @@ const Commentary = (props) => {
               Verse Number : {item.verse}
             </Text>
           ))}
-        {item?.text != "" && getHTML(item.text)}
+        {item?.text != "" && (
+          <RenderHTML
+            contentWidth={width}
+            renderersProps={renderersProps}
+            tagsStyles={tagsStyles}
+            source={formatCommentary(item.text)}
+          />
+        )}
       </View>
     );
   };
@@ -144,8 +158,14 @@ const Commentary = (props) => {
         {commentaryContent && commentaryContent?.bookIntro == "" ? null : (
           <View style={style.cardItemBackground}>
             <Text style={style.commentaryHeading}>Book Intro</Text>
-            {commentaryContent?.bookIntro != "" &&
-              getHTML(commentaryContent?.bookIntro)}
+            {props?.commentaryContent?.bookIntro != "" && (
+              <RenderHTML
+                contentWidth={width}
+                renderersProps={renderersProps}
+                tagsStyles={tagsStyles}
+                source={formatCommentary(props?.commentaryContent?.bookIntro)}
+              />
+            )}
           </View>
         )}
       </View>
@@ -184,13 +204,12 @@ const Commentary = (props) => {
   };
   const updateBookName = () => {
     if (bookNameList) {
+      let lang = parallelLanguage?.languageName?.toLowerCase();
       for (var i = 0; i <= bookNameList.length - 1; i++) {
-        let parallelLanguage =
-          parallelLanguage && parallelLanguage.languageName.toLowerCase();
-        if (bookNameList[i].language.name === parallelLanguage) {
+        if (bookNameList[i].language.name === lang) {
           for (var j = 0; j <= bookNameList[i].bookNames.length - 1; j++) {
             var bId = bookNameList[i].bookNames[j].book_code;
-            if (bId == bookId) {
+            if (bId == props.bookId) {
               let bookName = bookNameList[i].bookNames[j].short;
               setBookName(bookName);
             }
@@ -211,7 +230,7 @@ const Commentary = (props) => {
         "/" +
         currentVisibleChapter +
         commentaryKey;
-      vachanAPIFetch(url);
+      props.vachanAPIFetch(url);
       updateBookName();
     }
   };
@@ -239,6 +258,7 @@ const Commentary = (props) => {
     fetchBookName();
     updateBookName();
   }, [bookNameList]);
+
   return (
     <View style={style.container}>
       <Header
