@@ -73,7 +73,6 @@ const Bible = (props) => {
     setShowColorGrid,
   } = useContext(LoginData);
   const {
-    status,
     setStatus,
     setPreviousContent,
     _handleAppStateChange,
@@ -417,7 +416,6 @@ const Bible = (props) => {
           IconFloatingStyle: styles.IconFloatingStyle,
           reloadMessage,
           styles,
-          status,
           bookNames,
           chapterHeader,
           scrollAnim,

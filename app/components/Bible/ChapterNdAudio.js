@@ -11,8 +11,8 @@ import { LoginData } from "../../context/LoginDataProvider";
 const ChapterNdAudio = (props) => {
   const [{ styles, queryBookFromAPI }] = useContext(BibleMainContext);
   const { currentVisibleChapter, showBottomBar } = useContext(LoginData);
-  const { status, previousContent, audio, nextContent } =
-    useContext(BibleContext);
+  const { previousContent, nextContent } = useContext(BibleContext);
+  const { audio, status, visibleParallelView } = props;
   return (
     <View
       style={{
@@ -49,7 +49,7 @@ const ChapterNdAudio = (props) => {
           />
         </View>
       )}
-      {audio && status && (
+      {audio && status && !visibleParallelView && (
         <View
           style={[
             styles.bottomBarAudioCenter,
@@ -91,6 +91,8 @@ const mapStateToProps = (state) => {
     totalChapters: state.updateVersion.totalChapters,
     downloaded: state.updateVersion.downloaded,
     visibleParallelView: state.selectContent.visibleParallelView,
+    audio: state.audio.audio,
+    status: state.audio.status,
   };
 };
 

@@ -13,7 +13,7 @@ const HighLights = (props) => {
   const [HightlightedVerseArray, setHightlightedVerseArray] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState("");
-  const email = props.email;
+  const { email, bookName } = props;
   const style = styles(props.colorFile, props.sizeFile);
 
   const { bookList } = useContext(MainContext);
@@ -169,7 +169,7 @@ const HighLights = (props) => {
 
   useEffect(() => {
     fetchHighlights();
-  }, [HightlightedVerseArray]);
+  }, [email, HightlightedVerseArray, bookName, bookList]);
   return (
     <View style={style.container}>
       {isLoading ? (
