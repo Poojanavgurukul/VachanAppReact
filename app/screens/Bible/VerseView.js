@@ -122,7 +122,7 @@ const VerseView = (props) => {
       verseNumber: verse_num,
     });
   };
-  if (verseNumber == 1 && typeof verseNumber !== "undefined") {
+  if (verseNumber == "" && typeof verseNumber !== "undefined") {
     return (
       <Text
         style={styles.textStyle}

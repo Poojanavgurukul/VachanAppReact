@@ -120,7 +120,7 @@ const Note = (props) => {
   };
   useEffect(() => {
     fetchNotes();
-  }, []);
+  }, [email]);
   const renderItem = ({ item, index }) => {
     var bookName = null;
     if (bookList) {

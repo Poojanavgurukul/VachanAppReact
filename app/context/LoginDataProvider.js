@@ -320,10 +320,10 @@ const LoginDataProvider = (props) => {
     getHighlights();
     getNotes();
     getBookMarks();
-  }, [email, currentVisibleChapter, bookId, uid, language, sourceId]);
+  }, [email, currentVisibleChapter, bookId, uid, bookName, language, sourceId]);
   useEffect(() => {
     bookmarkedChap();
-  }, [email, bookmarksList, currentVisibleChapter]);
+  }, [email, bookmarksList, bookName, currentVisibleChapter]);
 
   return (
     <LoginData.Provider

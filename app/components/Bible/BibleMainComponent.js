@@ -68,7 +68,7 @@ const BibleMainComponent = (props) => {
               { width: visibleParallelView ? "50%" : width },
             ]}
           >
-            {unAvailableContent && chapterContent?.length == 0 ? (
+            {unAvailableContent && chapterContent?.length === 0 ? (
               <View style={styles.reloadButtonCenter}>
                 <ReloadButton
                   styles={styles}

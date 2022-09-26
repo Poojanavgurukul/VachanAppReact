@@ -140,10 +140,12 @@ const Bible = (props) => {
     );
     if (content != null) {
       setChapterHeader(
-        content[0].chapters[currentVisibleChapter - 1]?.chapterHeading
+        content[0]?.chapters[currentVisibleChapter - 1]?.chapterHeading
       );
       setDownloadedBook(content[0].chapters);
-      setChapterContent(content[0].chapters[currentVisibleChapter - 1].verses);
+      setChapterContent(
+        content[0]?.chapters[currentVisibleChapter - 1]?.verses
+      );
       setIsLoading(false);
       setPreviousContent(null);
       setNextContent(null);
@@ -157,15 +159,15 @@ const Bible = (props) => {
   // fetch chapter on didmount call
   const getChapter = async (cNum, sId) => {
     try {
-      let curChap = cNum == null ? currentVisibleChapter : cNum;
+      let curChap = cNum == null ? chapterNumber : cNum;
       let srcId = sId == null ? sourceId : sId;
       setIsLoading(true);
       setChapterHeader([]);
       setChapterContent([]);
       if (downloaded) {
         if (downloadedBook.length > 0) {
-          setChapterHeader(downloadedBook[curChap - 1]?.chapterHeading);
-          setChapterContent(downloadedBook[curChap - 1]?.verses);
+          setChapterHeader(downloadedBook[curChap]?.chapterHeading);
+          setChapterContent(downloadedBook[curChap]?.verses);
           setPreviousContent(null);
           setNextContent(null);
         } else {
@@ -237,8 +239,6 @@ const Bible = (props) => {
       setShowColorGrid(false);
       setShowBottomBar(false);
       setCurrentVisibleChapter(cNum);
-      getChapter(cNum, sId);
-
       updateVersionBook({
         bookId: bId,
         bookName: bName,
@@ -246,6 +246,7 @@ const Bible = (props) => {
           parseInt(cNum) > getBookChaptersFromMapping(bId) ? 1 : parseInt(cNum),
         totalChapters: getBookChaptersFromMapping(bId),
       });
+      getChapter(cNum, sId);
       setIsLoading(false);
     } catch (error) {
       setChapterContent([]);
@@ -401,9 +402,11 @@ const Bible = (props) => {
     });
   }, [language, sourceId, baseAPI]);
   useEffect(() => {
-    getChapter(null, null);
     audioComponentUpdate();
   }, []);
+  useEffect(() => {
+    getChapter(null, null);
+  }, [chapterNumber, bookId, sourceId]);
   return (
     <BibleMainContext.Provider
       value={[
