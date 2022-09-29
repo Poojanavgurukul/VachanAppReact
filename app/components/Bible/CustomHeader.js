@@ -8,6 +8,8 @@ import {
   Text,
 } from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
+import IconFont from "react-native-vector-icons/FontAwesome";
+
 import Color from "../../utils/colorConstants";
 import SelectContent from "./SelectContent";
 import RNHTMLtoPDF from "react-native-html-to-pdf";
@@ -57,7 +59,7 @@ const CustomHeader = (props) => {
   };
   const navigateToSettings = () => {
     setStatus(false);
-    navigation.navigate("Settings");
+    navigation.navigate("IslVideo", { bookId, bookName });
   };
   const downloadPDF = async () => {
     // setIsLoading(true);
@@ -166,9 +168,9 @@ const CustomHeader = (props) => {
           iconName={"auto-stories"}
         />
         <TouchableOpacity style={navStyles.touchableStyleRight}>
-          <Icon
+          <IconFont
             onPress={navigateToSettings}
-            name="settings"
+            name="sign-language"
             color={Color.White}
             size={24}
           />

@@ -8,6 +8,8 @@ import {
   Image,
 } from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
+import IconFont from "react-native-vector-icons/FontAwesome";
+
 import { styles } from "./styles.js";
 import { connect } from "react-redux";
 import { fetchVersionBooks } from "../../store/action/";
@@ -42,6 +44,12 @@ const DrawerScreen = (props) => {
     { icon: "border-color", pressIcon: "Highlights", text: "Highlights" },
     { icon: "note", pressIcon: "Notes", text: "Notes" },
     { icon: "videocam", pressIcon: "Video", text: "Videos" },
+    {
+      icon: "sign-language",
+      pressIcon: "IslVideo",
+      text: "ISL Videos",
+      fontIcon: true,
+    },
     { icon: "volume-up", pressIcon: "Audio", text: "Audios" },
     { icon: "book", pressIcon: "Dictionary", text: "Dictionary" },
     { icon: "image", pressIcon: "Infographics", text: "Infographics" },
@@ -89,19 +97,21 @@ const DrawerScreen = (props) => {
                 flexDirection: "row",
               }}
             >
-              <Icon
-                name={iconName.icon}
-                size={20}
-                style={style.iconStyleDrawer}
-              />
+              {iconName?.fontIcon ? (
+                <IconFont
+                  name={iconName.icon}
+                  size={20}
+                  style={style.iconStyleDrawer}
+                />
+              ) : (
+                <Icon
+                  name={iconName.icon}
+                  size={20}
+                  style={style.iconStyleDrawer}
+                />
+              )}
+
               <Text style={style.textStyle}>{iconName.text}</Text>
-              {/* <DrawerItem
-                      label={iconName.text}
-                      labelStyle={style.textStyle}
-                      onPress={() => {
-                        this.props.navigation.navigate(iconName.pressIcon)
-                      }}
-                    /> */}
             </View>
             <Icon
               name="chevron-right"

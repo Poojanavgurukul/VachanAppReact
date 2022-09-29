@@ -33,6 +33,7 @@ import LanguageList from "../screens/LanguageList";
 import ReferenceSelection from "../screens/ReferenceSelection/";
 import Bookmarks from "../screens/Bookmarks/";
 import Video from "../screens/Video";
+import IslVideo from "../screens/Video/IslVideo";
 import PlayVideo from "../screens/Video/PlayVideo";
 import Help from "../screens/Help";
 import Feedback from "../screens/Help/Feedback";
@@ -256,6 +257,14 @@ function NavStackScreen() {
           headerBackTitle: "Videos",
           headerTitle: Platform.OS === "android" ? "Videos" : null,
         }}
+      />
+      <NavStack.Screen
+        name="IslVideo"
+        options={{
+          headerBackTitle: "Isl Video",
+          headerTitle: Platform.OS === "android" ? "ISL Videos" : null,
+        }}
+        component={IslVideo}
       />
       <DrawerStack.Screen
         name="BRP"
