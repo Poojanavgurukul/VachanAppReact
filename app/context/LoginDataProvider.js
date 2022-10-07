@@ -320,7 +320,16 @@ const LoginDataProvider = (props) => {
     getHighlights();
     getNotes();
     getBookMarks();
-  }, [email, currentVisibleChapter, bookId, uid, bookName, language, sourceId]);
+  }, [
+    email,
+    connection_Status,
+    currentVisibleChapter,
+    bookId,
+    uid,
+    bookName,
+    language,
+    sourceId,
+  ]);
   useEffect(() => {
     bookmarkedChap();
   }, [email, bookmarksList, bookName, currentVisibleChapter]);

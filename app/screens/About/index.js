@@ -208,7 +208,7 @@ const About = (props) => {
           <Text style={style.heading}>Backend Services:</Text>
           <ListView data={releaseNotes["1.0.BS"]} />
           <Text style={style.titleText}>Contact Us</Text>
-          <Text style={style.textStyle}>thevachanproject@gmail.com</Text>
+          <Text style={style.textStyle}>thevachanproject@bridgeconn.com</Text>
         </View>
       </ScrollView>
     </View>

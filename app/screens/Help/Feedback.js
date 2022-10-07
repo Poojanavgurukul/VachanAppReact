@@ -20,7 +20,7 @@ const Feedback = (props) => {
       startInLoadingState={true}
       style={styleFile.container}
       source={{
-        uri: "https://docs.google.com/forms/d/e/1FAIpQLSd75swOEtsvWrzcQrynmCsu-ZZYktWbeeJXVxH7zNz-JIlEdA/viewform",
+        uri: "https://forms.office.com/r/qiV0Ym335M",
       }}
       renderLoading={() => {
         return displaySpinner();
