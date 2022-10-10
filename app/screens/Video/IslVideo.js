@@ -5,7 +5,6 @@ import { Card, CardItem } from "native-base";
 import { styles } from "./styles";
 import ListContainer from "../../components/Common/FlatList";
 import { connect } from "react-redux";
-import { GIT_BASE_API } from "../../utils/APIConstant";
 
 const IslVideo = (props) => {
   const bookId = props.route.params ? props.route.params.bookId : null;
@@ -13,9 +12,9 @@ const IslVideo = (props) => {
   const [videos, setVideos] = useState([]);
   const [message, setMessage] = useState("");
   const style = styles(props.colorFile, props.sizeFile);
-
+  const { islBaseAPI } = props;
   const fetchVideo = () => {
-    fetch(`${GIT_BASE_API}video/signbible/ISL.json`)
+    fetch(islBaseAPI)
       .then((res) => res.json())
       .then((response) => {
         Object.values(response.books);
@@ -125,6 +124,7 @@ const mapStateToProps = (state) => {
     languageName: state.updateVersion.language,
     sizeFile: state.updateStyling.sizeFile,
     colorFile: state.updateStyling.colorFile,
+    islBaseAPI: state.updateVersion.islBaseAPI,
   };
 };
 export default connect(mapStateToProps, null)(IslVideo);
