@@ -117,6 +117,22 @@ const CustomHeader = (props) => {
         >
           <Icon name="menu" color={Color.White} size={28} />
         </TouchableOpacity>
+        {props.islBaseAPI != null ? (
+          <TouchableOpacity style={navStyles.touchableStyleRight}>
+            <IconFont
+              onPress={navigateToSettings}
+              name="sign-language"
+              color={Color.White}
+              size={24}
+            />
+          </TouchableOpacity>
+        ) : null}
+        <TouchableOpacity
+          onPress={navigateToImage}
+          style={navStyles.touchableStyleRight}
+        >
+          <Icon name="image" size={24} color={Color.White} />
+        </TouchableOpacity>
         {audio ? (
           <TouchableOpacity
             onPress={toggleAudio}
@@ -138,12 +154,7 @@ const CustomHeader = (props) => {
         >
           <Icon name="videocam" size={24} color={Color.White} />
         </TouchableOpacity>
-        <TouchableOpacity
-          onPress={navigateToImage}
-          style={navStyles.touchableStyleRight}
-        >
-          <Icon name="image" size={24} color={Color.White} />
-        </TouchableOpacity>
+
         <TouchableOpacity style={navStyles.touchableStyleRight}>
           <Icon
             onPress={() => {
@@ -167,16 +178,6 @@ const CustomHeader = (props) => {
           navStyles={navStyles}
           iconName={"auto-stories"}
         />
-        {props.islBaseAPI != null ? (
-          <TouchableOpacity style={navStyles.touchableStyleRight}>
-            <IconFont
-              onPress={navigateToSettings}
-              name="sign-language"
-              color={Color.White}
-              size={24}
-            />
-          </TouchableOpacity>
-        ) : null}
       </View>
       <Animated.View style={[navStyles.title]}>
         <TouchableOpacity

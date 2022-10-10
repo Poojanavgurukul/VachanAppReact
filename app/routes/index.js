@@ -262,7 +262,7 @@ function NavStackScreen() {
         name="IslVideo"
         options={{
           headerBackTitle: "Isl Video",
-          headerTitle: Platform.OS === "android" ? "ISL Videos" : null,
+          headerTitle: Platform.OS === "android" ? "ISL Bible" : null,
         }}
         component={IslVideo}
       />
