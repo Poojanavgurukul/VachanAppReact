@@ -18,6 +18,7 @@ import NetInfo from "@react-native-community/netinfo";
 import database from "@react-native-firebase/database";
 import { Root } from "native-base";
 import { LogBox } from "react-native";
+import { ISLBaseURL } from "./app/store/action/updateVersion";
 
 LogBox.ignoreLogs([
   "Non-serializable values were found in the navigation state",
@@ -66,6 +67,7 @@ const App = (props) => {
             props.APIBaseURL(snapshot.val());
           });
       }
+
       if (props.allBooks.length == 0 || props.books.length == 0) {
         props.fetchAllBooks();
         props.fetchVersionBooks({
@@ -103,6 +105,13 @@ const App = (props) => {
           sourceId: sourceId,
         });
       });
+    props.ISLBaseURL(null);
+    database()
+      .ref("/islBaseUrl/")
+      .on("value", (snapshot) => {
+        props.ISLBaseURL(snapshot.val());
+      });
+
     checkUpdateNeeded();
     unsubscribenetinfo = NetInfo.addEventListener(_handleConnectionChange);
     return () => {
@@ -133,6 +142,7 @@ const mapStateToProps = (state) => {
     allLanguages: state.contents.allLanguages,
     contentLanguages: state.contents.contentLanguages,
     baseAPI: state.updateVersion.baseAPI,
+    islBaseAPI: state.updateVersion.islBaseAPI,
   };
 };
 
@@ -141,6 +151,7 @@ const mapDispatchToProps = (dispatch) => {
     fetchAllContent: () => dispatch(fetchAllContent()),
     fetchVersionLanguage: () => dispatch(fetchVersionLanguage()),
     APIBaseURL: (payload) => dispatch(APIBaseURL(payload)),
+    ISLBaseURL: (payload) => dispatch(ISLBaseURL(payload)),
     updateVersion: (payload) => dispatch(updateVersion(payload)),
     fetchAllBooks: (payload) => dispatch(fetchAllBooks(payload)),
     fetchVersionBooks: (payload) => dispatch(fetchVersionBooks(payload)),

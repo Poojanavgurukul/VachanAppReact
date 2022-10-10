@@ -84,42 +84,45 @@ const DrawerScreen = (props) => {
             </View>
           </ImageBackground>
         </View>
-        {iconName.map((iconName, index) => (
-          <TouchableOpacity
-            key={index}
-            onPress={() => {
-              props.navigation.navigate(iconName.pressIcon);
-            }}
-            style={style.drawerItem}
-          >
-            <View
-              style={{
-                flexDirection: "row",
+        {iconName.map((iconName, index) =>
+          props.islBaseAPI == null &&
+          iconName.icon == "sign-language" ? null : (
+            <TouchableOpacity
+              key={index}
+              onPress={() => {
+                props.navigation.navigate(iconName.pressIcon);
               }}
+              style={style.drawerItem}
             >
-              {iconName?.fontIcon ? (
-                <IconFont
-                  name={iconName.icon}
-                  size={20}
-                  style={style.iconStyleDrawer}
-                />
-              ) : (
-                <Icon
-                  name={iconName.icon}
-                  size={20}
-                  style={style.iconStyleDrawer}
-                />
-              )}
+              <View
+                style={{
+                  flexDirection: "row",
+                }}
+              >
+                {iconName?.fontIcon ? (
+                  <IconFont
+                    name={iconName.icon}
+                    size={20}
+                    style={style.iconStyleDrawer}
+                  />
+                ) : (
+                  <Icon
+                    name={iconName.icon}
+                    size={20}
+                    style={style.iconStyleDrawer}
+                  />
+                )}
 
-              <Text style={style.textStyle}>{iconName.text}</Text>
-            </View>
-            <Icon
-              name="chevron-right"
-              size={20}
-              style={style.iconStyleDrawer}
-            />
-          </TouchableOpacity>
-        ))}
+                <Text style={style.textStyle}>{iconName.text}</Text>
+              </View>
+              <Icon
+                name="chevron-right"
+                size={20}
+                style={style.iconStyleDrawer}
+              />
+            </TouchableOpacity>
+          )
+        )}
         {/*for appstore app*/}
         {/* <Text style={style.versionText}>
           APP VERSION {currentVersion}
@@ -141,6 +144,7 @@ const mapStateToProps = (state) => {
     versionCode: state.updateVersion.versionCode,
     sourceId: state.updateVersion.sourceId,
     downloaded: state.updateVersion.downloaded,
+    islBaseAPI: state.updateVersion.islBaseAPI,
   };
 };
 

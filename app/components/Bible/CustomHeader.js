@@ -167,14 +167,16 @@ const CustomHeader = (props) => {
           navStyles={navStyles}
           iconName={"auto-stories"}
         />
-        <TouchableOpacity style={navStyles.touchableStyleRight}>
-          <IconFont
-            onPress={navigateToSettings}
-            name="sign-language"
-            color={Color.White}
-            size={24}
-          />
-        </TouchableOpacity>
+        {props.islBaseAPI != null ? (
+          <TouchableOpacity style={navStyles.touchableStyleRight}>
+            <IconFont
+              onPress={navigateToSettings}
+              name="sign-language"
+              color={Color.White}
+              size={24}
+            />
+          </TouchableOpacity>
+        ) : null}
       </View>
       <Animated.View style={[navStyles.title]}>
         <TouchableOpacity
@@ -277,7 +279,7 @@ const mapStateToProps = (state) => {
     language: state.updateVersion.language,
     languageCode: state.updateVersion.languageCode,
     versionCode: state.updateVersion.versionCode,
-
+    islBaseAPI: state.updateVersion.islBaseAPI,
     totalChapters: state.updateVersion.totalChapters,
     bookName: state.updateVersion.bookName,
     bookId: state.updateVersion.bookId,

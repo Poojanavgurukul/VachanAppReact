@@ -3,6 +3,7 @@ import {
   UPDATE_CONTENT_TYPE,
   UPDATE_LANGUAGELIST,
   API_BASE_URL,
+  ISL_BASE_URL,
   UPDATE_VERSE_NUMBER,
   AUDIO_URL,
   PARALLEL_METADATA,
@@ -53,6 +54,12 @@ export const APIBaseURL = (baseAPI) => {
   return {
     type: API_BASE_URL,
     baseAPI,
+  };
+};
+export const ISLBaseURL = (islBaseAPI) => {
+  return {
+    type: ISL_BASE_URL,
+    islBaseAPI,
   };
 };
 export const APIAudioURL = (payload) => {

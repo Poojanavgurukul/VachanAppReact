@@ -6,6 +6,7 @@ import {
   UPDATE_MATA_DATA,
   UPDATE_VERSE_NUMBER,
   API_BASE_URL,
+  ISL_BASE_URL,
   AUDIO_URL,
 } from "../action/actionsType";
 
@@ -35,6 +36,7 @@ const initialState = {
 
   parallelContentType: "bible",
   baseAPI: null,
+  islBaseAPI: null,
   audioURL: null,
   audioFormat: "mp3",
   audioList: [],
@@ -85,6 +87,11 @@ function updateVersionReducer(state = initialState, action) {
       return {
         ...state,
         baseAPI: action.baseAPI,
+      };
+    case ISL_BASE_URL:
+      return {
+        ...state,
+        islBaseAPI: action.islBaseAPI,
       };
     case AUDIO_URL:
       return {

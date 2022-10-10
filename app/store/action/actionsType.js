@@ -5,6 +5,7 @@ export const PARALLEL_METADATA = "parallel_metadata";
 export const UPDATE_VERSION_BOOK = "update_version_book";
 export const UPDATE_BOOK = "update_book";
 export const API_BASE_URL = "api_base_url";
+export const ISL_BASE_URL = "isl_base_url";
 
 export const UPDATE_CONTENT_TYPE = "update_content_type";
 
