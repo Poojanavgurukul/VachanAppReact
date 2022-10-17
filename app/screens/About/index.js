@@ -153,10 +153,10 @@ const About = (props) => {
             GitHub Release Notes
           </Text>
           <Text style={style.titleText}>Release Notes 16/10/2022 v1.3.6</Text>
-          <Text style={style.heading}>Bug Fixes:</Text>
-          <ListView data={releaseNotes["1.3.6.B"]} />
           <Text style={style.heading}>Feature Additions:</Text>
           <ListView data={releaseNotes["1.3.6.F"]} />
+          <Text style={style.heading}>Bug Fixes:</Text>
+          <ListView data={releaseNotes["1.3.6.B"]} />
           <Text style={style.titleText}>Release Notes 15/07/2022 v1.3.5</Text>
           <Text style={style.heading}>Bug Fixes:</Text>
           <ListView data={releaseNotes["1.3.5"]} />
